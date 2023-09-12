@@ -6,12 +6,12 @@
 ██║███████╗╚██████╔╝██║  ██╗╚██████╔╝    ██║ ╚═╝ ██║██████╔╝
 ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═════╝ 
 
- Copyright (C) 2022.
+ Copyright (C) 2023.
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
  It is supplied in the hope that it may be useful.
- * @project_name : Secktor-Md
- * @author : SamPandey001 <https://github.com/SamPandey001>
+ * @project_name : IZUKU-Md
+ * @author : excel <https://github.com/excelottah6>
  * @description : Secktor,A Multi-functional whatsapp bot.
  * @version 0.0.6
  **/
@@ -175,13 +175,13 @@ cmd({
         if (!isAdmins) return citel.reply(tlang().admin);
 
         let textt = `
-══✪〘   *Tag All*   〙✪══
+◐╤╤╤╤✪〘   *Tag All*   〙✪╤╤╤╤◑
 
 ➲ *Message :* ${text ? text : "blank"}\n\n
-➲ *Author:* ${citel.pushName} 🔖
+➲ *Author:* ${citel.pushName} 👾
 `
         for (let mem of participants) {
-            textt += `📍 @${mem.id.split("@")[0]}\n`;
+            textt += ` ⚡️ @${mem.id.split("@")[0]}\n`;
         }
         Void.sendMessage(citel.chat, {
             text: textt,
@@ -208,7 +208,7 @@ cmd({
             teks1 = `\n\n*User* : @${
     citel.sender.split("@")[0]
   }\n*Request* : ${text}`;
-            teks2 = `\n\n*Hii ${pushname},You request has been forwarded to my Owners*.\n*Please wait.......*`;
+            teks2 = `\n\n*Hii ${pushname},You request has been forwarded to my Owners*.\n*Please wait..*`;
             for (let i of owner) {
                 Void.sendMessage(i + "@s.whatsapp.net", {
                     text: textt + teks1,
@@ -309,7 +309,7 @@ cmd({
             if (lvpoints <= 2) {
                 var role = "🏳Citizen";
             } else if (lvpoints <= 4) {
-                var role = "👼Baby Wizard";
+                var role = "👼Baby wizard";
             } else if (lvpoints <= 6) {
                 var role = "🧙‍♀️Wizard";
             } else if (lvpoints <= 8) {
@@ -321,7 +321,7 @@ cmd({
             } else if (lvpoints <= 14) {
                 var role = "🧜‍♂️Master of Mage";
             } else if (lvpoints <= 16) {
-                var role = "🌬Child of Nobel";
+                var role = "😇Child of the Nobel";
             } else if (lvpoints <= 18) {
                 var role = "❄Nobel";
             } else if (lvpoints <= 20) {
@@ -353,7 +353,7 @@ cmd({
             } else if (lvpoints <= 46) {
                 var role = "⚔Legend";
             } else if (lvpoints <= 55) {
-                var role = "🐉Immortal";
+                var role = "🥷Immortal";
             }
             let ttms = `${userq.xp}` / 8;
             const timenow = moment(moment())
@@ -371,7 +371,7 @@ cmd({
 *👾Username:* ${citel.pushName}
 *⚡️Bio:* ${bioo}
 *🤺Role:* ${role}
-*🍁Level:* ${userq.level}
+*🎚Level:* ${userq.level}
 *🗂 Total Messages* ${ttms}
 *Powered by ${tlang().title}*
 `;
@@ -415,7 +415,7 @@ cmd({
             } else if (lvpoints <= 14) {
                 var role = "🧜‍♂️Master of Mage";
             } else if (lvpoints <= 16) {
-                var role = "🌬Child of Nobel";
+                var role = "😇Child of Nobel";
             } else if (lvpoints <= 18) {
                 var role = "❄Nobel";
             } else if (lvpoints <= 20) {
@@ -439,23 +439,23 @@ cmd({
             } else if (lvpoints <= 38) {
                 var role = "💎Supreme Ii";
             } else if (lvpoints <= 40) {
-                var role = "🔮Supreme Master";
+                var role = "🦸‍♂️Supreme Master";
             } else if (lvpoints <= 42) {
-                var role = "🛡Legend III";
+                var role = "🤺Legend III";
             } else if (lvpoints <= 44) {
                 var role = "🏹Legend II";
             } else if (lvpoints <= 46) {
                 var role = "⚔Legend";
             } else if (lvpoints <= 55) {
-                var role = "🐉Immortal";
+                var role = "🥷Immortal";
             }
             let disc = citel.sender.substring(3, 7);
             let textr = '';
-            textr += `*Hii ${tlang().greet} ,🌟 ${citel.pushName}∆${disc}'s* Exp\n\n`;
+            textr += `*Hey ${tlang().greet} ,🌟 ${citel.pushName}∆${disc}'s* Exp\n\n`;
             let ttms = `${userq.xp}` / 8;
-            textr += `*🌟Role*: ${role}\n*🟢Exp*: ${userq.xp} / ${Levels.xpFor(
+            textr += `*😇Role*: ${role}\n*🟢Exp*: ${userq.xp} / ${Levels.xpFor(
     userq.level + 1
-  )}\n*🏡Level*: ${userq.level}\n*Total Messages:*- ${ttms}`;
+  )}\n*🎚Level*: ${userq.level}\n*Total Messages:*- ${ttms}`;
             try {
                 ppuser = await Void.profilePictureUrl(citel.sender, "image");
             } catch {
@@ -481,12 +481,12 @@ cmd({
             const fetchlb = await Levels.fetchLeaderboard("RandomXP", 5);
             let leadtext = `
 *-------------------------------*
-*----● LeaderBoard ● -----*
+*------« LeaderBoard »-------*
 *-------------------------------*
 \n\n`
             for (let i = 0; i < fetchlb.length; i++) {
                 const lvpoints = fetchlb[i].level
-                var role = "GOD✨";
+                var role = "OMEGA✨";
                 if (lvpoints <= 2) {
                     var role = "🏳Citizen";
                 } else if (lvpoints <= 4) {
@@ -502,7 +502,7 @@ cmd({
                 } else if (lvpoints <= 14) {
                     var role = "🧜‍♂️Master of Mage";
                 } else if (lvpoints <= 16) {
-                    var role = "🌬Child of Nobel";
+                    var role = "😇Child of Nobel";
                 } else if (lvpoints <= 18) {
                     var role = "❄Nobel";
                 } else if (lvpoints <= 20) {
@@ -526,7 +526,7 @@ cmd({
                 } else if (lvpoints <= 38) {
                     var role = "💎Supreme Ii";
                 } else if (lvpoints <= 40) {
-                    var role = "🔮Supreme Master";
+                    var role = "🦸‍♂️Supreme Master";
                 } else if (lvpoints <= 42) {
                     var role = "🛡Legend III";
                 } else if (lvpoints <= 44) {
@@ -534,7 +534,7 @@ cmd({
                 } else if (lvpoints <= 46) {
                     var role = "⚔Legend";
                 } else if (lvpoints <= 55) {
-                    var role = "🐉Immortal";
+                    var role = "🥷Immortal";
                 }
                 let data = await sck1.findOne({ id: fetchlb[i].userID })
                 let namew = fetchlb[i].userID
@@ -614,7 +614,7 @@ cmd({
             meme = await getBuffer(`https://api.memegen.link/images/custom/-/${text}.png?background=${mem}`)
             let buttonMessage = {
                 image: meme,
-                caption: "Here we go",
+                caption: "Here you go",
                 footer: tlang().footer,
                 headerType: 4,
             };
@@ -820,7 +820,7 @@ cmd({
                 const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
                 if (!isAdmins) return citel.reply('Only Admins are allowed to delete other persons message.')
                 if (!isBotAdmins) return citel.reply('I can\'t delete anyones message without getting Admin Role.')
-                if (!citel.quoted) return citel.reply(`Please reply to any message. ${tlang().greet}`);
+                if (!citel.quoted) return citel.reply(`Please reply to the message. ${tlang().greet}`);
                 let { chat, fromMe, id } = citel.quoted;
                 const key = {
                     remoteJid: citel.chat,
@@ -849,7 +849,7 @@ cmd({
             teskd += `*There are total ${h.length}  warnings.*\n`
             for (let i = 0; i < h.length; i++) {
                 teskd += `*${i+1}*\n•°•═════ஓ๑♡๑ஓ═════•°•◆\n│ *📡In Group:-* ${h[i].group}\n`
-                teskd += `│ *📡Time:-* ${h[i].date}\n`
+                teskd += `│ *⏱Time:-* ${h[i].date}\n`
                 teskd += `│ *⚠️Warned by:-* ${h[i].warnedby}\n`
                 teskd += `│ _📍Reason: ${h[i].reason}_\n•°•═════ஓ๑♡๑ஓ═════•°•\n\n`
             }
@@ -898,7 +898,7 @@ cmd({
         } second`);
         for (let i of anu) {
             await sleep(1500);
-            let txt = `*--❗${tlang().title} Broadcast❗--*\n\n *🍀Author:* ${citel.pushName}\n\n${text}`;
+            let txt = `*--❗${tlang().title} Broadcast❗--*\n\n *👾Author:* ${citel.pushName}\n\n${text}`;
             let buttonMessaged = {
                 image: log0,
                 caption: txt,
@@ -922,7 +922,7 @@ cmd({
                 quoted: citel,
             });
         }
-        citel.reply(`*Successful Sending Broadcast To ${anu.length} Group(s)*`);
+        citel.reply(`*Successful Sent Broadcast To ${anu.length} Group(s)*`);
     }
 )
 
@@ -951,7 +951,7 @@ cmd({ on: "text" }, async(Void, citel) => {
         } else if (lvpoints <= 14) {
             var role = "🧜‍♂️Master of Mage";
         } else if (lvpoints <= 16) {
-            var role = "🌬Child of Nobel";
+            var role = "😇Child of Nobel";
         } else if (lvpoints <= 18) {
             var role = "❄Nobel";
         } else if (lvpoints <= 20) {
@@ -975,7 +975,7 @@ cmd({ on: "text" }, async(Void, citel) => {
         } else if (lvpoints <= 38) {
             var role = "💎Supreme Ii";
         } else if (lvpoints <= 40) {
-            var role = "🔮Supreme Master";
+            var role = "🦸‍♂️Supreme Master";
         } else if (lvpoints <= 42) {
             var role = "🛡Legend III";
         } else if (lvpoints <= 44) {
@@ -983,9 +983,9 @@ cmd({ on: "text" }, async(Void, citel) => {
         } else if (lvpoints <= 46) {
             var role = "⚔Legend";
         } else if (lvpoints <= 55) {
-            var role = "🐉Immortal";
+            var role = "🥷Immortal";
         } else {
-            var role = "Kiddo";
+            var role = "mate";
         }
         if (Config.levelupmessage !== 'false') {
             await Void.sendMessage(citel.chat, {
@@ -994,13 +994,13 @@ cmd({ on: "text" }, async(Void, citel) => {
                 },
                 caption: `
 ━━━━━༺❃༻━━━━━◇
-║ *hey Someone had just*
-║ *leveled Up huh⭐*
-║ *👤Name*: ${citel.pushName}
-║ *🎐Level*: ${sck1.level}
-║ *🛑Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
-║ *📍Role*: *${role}*
-║ *Enjoy😁*━━━━━༺❃༻━━━━━
+☱ *hey Someone had just*
+☱ *leveled Up ayy✨*
+☱ *👤Name*: ${citel.pushName}
+☱ *🎚Level*: ${sck1.level}
+☱ *🛑Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
+☱ *📍Role*: *${role}*
+☱ *Enjoy😁*━━━━━༺❃༻━━━━━
 `,
             }, {
                 quoted: citel,
