@@ -154,43 +154,45 @@ cmd({
         }
     )
     //---------------------------------------------------------------------------
-cmd({
-            pattern: "play",
-            desc: "Sends info about the query(of youtube video/audio).",
-            category: "downloader",
-            filename: __filename,
-            use: '<faded-Alan walker.>',
-        },
-        async(Void, citel, text) => {
-            if (!text) return citel.reply(`Use ${command} Back in Black`);
-            let yts = require("secktor-pack");
-            let search = await yts(text);
-            let anu = search.videos[0];
-            let buttonMessage = {
-                image: {
-                    url: anu.thumbnail,
-                },
-                caption: `
-╭───────────────◆
-│⿻ ${tlang().title} 
-│  *Youtube Player* ✨
-│⿻ *Title:* ${anu.title}
-│⿻ *Duration:* ${anu.timestamp}
-│⿻ *Viewers:* ${anu.views}
-│⿻ *Uploaded:* ${anu.ago}
-│⿻ *Author:* ${anu.author.name}
-╰────────────────◆
-⦿ *Url* : ${anu.url}
-`,
-                footer: tlang().footer,
-                headerType: 4,
-            };
-            return Void.sendMessage(citel.chat, buttonMessage, {
-                quoted: citel,
-            });
+const { cmd } = require('../lib');
 
-        }
-    )
+cmd({
+    pattern: "play",
+    desc: "Sends info about the query (YouTube video/audio).",
+    category: "downloader",
+    filename: __filename,
+    use: '<faded-Alan walker.>',
+},
+async (Void, citel, text) => {
+    if (!text) return citel.reply(`Use ${command} Back in Black`);
+    let yts = require("secktor-pack");
+    let search = await yts(text);
+    let anu = search.videos[0];
+    let buttonMessage = {
+        image: {
+            url: anu.thumbnail,
+        },
+        caption: `
+┏━━━✦❘༻ *${tlang().title}* *ʏᴏᴜᴛᴜʙᴇ Player* ༺❘✦━━━┓
+╋
+╋ *Title:* ${anu.title}
+╋ *Duration:* ${anu.timestamp}
+╋ *Viewers:* ${anu.views}
+╋ *Uploaded:* ${anu.ago}
+╋ *Author:* ${anu.author.name}
+╋
+┗━━━✦❘༻༺❘✦━━━┛
+*URL*: ${anu.url}
+`,
+        footer: tlang().footer,
+        headerType: 4,
+    };
+    return Void.sendMessage(citel.chat, buttonMessage, {
+        quoted: citel,
+    });
+
+});
+
     //---------------------------------------------------------------------------
 cmd({
             pattern: "ringtone",
