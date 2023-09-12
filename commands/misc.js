@@ -1,4 +1,11 @@
 /**
+██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
+██║╚══███╔╝██║   ██║██║ ██╔╝██║   ██║    ████╗ ████║██╔══██╗
+██║  ███╔╝ ██║   ██║█████╔╝ ██║   ██║    ██╔████╔██║██║  ██║
+██║ ███╔╝  ██║   ██║██╔═██╗ ██║   ██║    ██║╚██╔╝██║██║  ██║
+██║███████╗╚██████╔╝██║  ██╗╚██████╔╝    ██║ ╚═╝ ██║██████╔╝
+╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═════╝ 
+                                                            
  Copyright (C) 2022.
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
@@ -28,7 +35,7 @@ async(Void, citel, text,{ isCreator }) => {
                 return citel.reply('Welcome added added for this group.')
             } else {
                 await await sck.updateOne({ id: citel.chat }, { welcome:text ,events:'true'})
-                return citel.reply('Welcome updated successfully.')
+                return citel.reply('Welcome msg has been updated successfully.')
                 
             }      
 }
@@ -47,7 +54,7 @@ async(Void, citel, text,{ isCreator }) => {
                 return citel.reply('Goodbye added for this group.');
             } else {
                 await await sck.updateOne({ id: citel.chat }, { goodbye:text,events:'true' })
-                return citel.reply('Goodbye updated successfully.');     
+                return citel.reply('Goodbye msg has been updated successfully.');     
             }      
 }
 )
@@ -60,7 +67,7 @@ async(Void, citel, text,{ isCreator }) => {
          },
          async(Void, citel, text) => {
 let a = await getBuffer(`https://citel-x.herokuapp.com/attp/${text}`)
- return citel.reply(a,{packname:'Secktor',author:'ATTP'},"sticker") 
+ return citel.reply(a,{packname:'IZUKU',author:'ATTP'},"sticker") 
          }
      )
  cmd({
@@ -71,7 +78,7 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/attp/${text}`)
          },
          async(Void, citel, text) => {
 let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
- return citel.reply(a,{packname:'Secktor',author:'TTP'},"sticker") 
+ return citel.reply(a,{packname:'IZUKU',author:'TTP'},"sticker") 
          }
      )
      //---------------------------------------------------------------------------
@@ -123,17 +130,17 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
              filename: __filename,
          },
          async(Void, citel, text) => {
-             if (!citel.quoted) return citel.reply(`*Mention any Image or video Sir.*`);
+             if (!citel.quoted) return citel.reply(`*Mention the Image or video Sir.*`);
              let mime = citel.quoted.mtype
              var pack;
              var author;
              if (text) {
                  anu = text.split("|");
-                 pack = anu[0] !== "" ? anu[0] : citel.pushName + '♥️';
+                 pack = anu[0] !== "" ? anu[0] : citel.pushName + '✨';
                  author = anu[1] !== "" ? anu[1] : Config.author;
              } else {
                  pack = citel.pushName;
-                 author = "♥️";
+                 author = "✨";
              }
                  let media = await citel.quoted.download();
                  citel.reply("*Processing Your request*");
@@ -302,7 +309,7 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
                          await new chatbot({ id: 'chatbot', worktype: "true" }).save()
                          return citel.reply('Chatbot activated successfully.')
                      } else {
-                         if (chatbott.worktype == "true") return citel.reply("Chatbot was already enabled.")
+                         if (chatbott.worktype == "true") return citel.reply("Chatbot has already been enabled.")
                          await chatbot.updateOne({ id: 'chatbot' }, { worktype: "true" })
                          citel.reply('Enabled chatbot successfully.')
                          return
@@ -316,7 +323,7 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
                          await new chatbot({ id: 'chatbot', worktype: "false" }).save()
                          return citel.reply('Chatbot deactivated successfully.')
                      } else {
-                         if (chatbott.worktype == "false") return citel.reply("Chatbot was already disabled.")
+                         if (chatbott.worktype == "false") return citel.reply("Chatbot has  already been disabled.")
                          await chatbot.updateOne({ id: 'chatbot' }, { worktype: "false" })
                          citel.reply('Disabled chatbot successfully.')
                          return
@@ -341,7 +348,7 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
                              },
                          ];
                          let chatbott= await chatbot.findOne({ id: 'chatbot' })
-                         await Void.sendButtonText(citel.chat, buttons, `Chatbot Status: ${chatbott.worktype} `, 'Secktor-Md', citel);
+                         await Void.sendButtonText(citel.chat, buttons, `Chatbot Status: ${chatbott.worktype} `, 'Izuku-Md', citel);
                         citel.reply(`Chatbot Status: ${chatbott.worktype} \n*Use:* ${prefix}chatbot on\n${prefix}chatbot off`)
                         }
              }
