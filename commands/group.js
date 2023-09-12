@@ -1,4 +1,11 @@
 /**
+██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
+██║╚══███╔╝██║   ██║██║ ██╔╝██║   ██║    ████╗ ████║██╔══██╗
+██║  ███╔╝ ██║   ██║█████╔╝ ██║   ██║    ██╔████╔██║██║  ██║
+██║ ███╔╝  ██║   ██║██╔═██╗ ██║   ██║    ██║╚██╔╝██║██║  ██║
+██║███████╗╚██████╔╝██║  ██╗╚██████╔╝    ██║ ╚═╝ ██║██████╔╝
+╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═════╝ 
+
  Copyright (C) 2022.
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
@@ -28,7 +35,7 @@ cmd({
                 citel.reply("Link Invalid, Please Send a valid whatsapp Group Link!");
             let result = text.split(" ")[0].split("https://chat.whatsapp.com/")[1];
             await Void.groupAcceptInvite(result)
-                .then((res) => citel.reply("🟩Joined Group"))
+                .then((res) => citel.reply("😁Joined Group"))
                 .catch((err) => citel.reply("Error in Joining Group"));
 
         }
@@ -76,7 +83,7 @@ cmd({
                 const stikk = await sticker.toBuffer();
                 return Void.sendMessage(citel.chat, {  sticker: stikk   }, {    quoted: citel });
             } else {
-                citel.reply("*Uhh,Please reply to any image or video*");
+                citel.reply("*Please reply to any image or video*");
             }
         }
     )
@@ -88,10 +95,10 @@ cmd({
         filename: __filename,
     },
     async(Void, citel, text) => {
-        citel.reply(`*Check your Pm ${tlang().greet}*`);
+        citel.reply(`*Check your dm master ${tlang().greet}*`);
         await Void.sendMessage(`${citel.sender}`, {
             image: log0,
-            caption: `*Group Name: Secktor-Support*\n*Group Link:* https://chat.whatsapp.com/Bl2F9UTVU4CBfZU6eVnrbC`,
+            caption: `*Group Name: IZUKU-Support*\n*Group Link:* https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL`,
         });
 
     }
@@ -361,11 +368,11 @@ cmd({
             const profile = `
 *Hii ${citel.pushName},*
 *Here is your profile information*
-*👤Username:* ${citel.pushName}
-*⚡Bio:* ${bioo}
-*🧩Role:* ${role}
+*👾Username:* ${citel.pushName}
+*⚡️Bio:* ${bioo}
+*🤺Role:* ${role}
 *🍁Level:* ${userq.level}
-*📥 Total Messages* ${ttms}
+*🗂 Total Messages* ${ttms}
 *Powered by ${tlang().title}*
 `;
             let buttonMessage = {
@@ -841,10 +848,10 @@ cmd({
             console.log(h)
             teskd += `*There are total ${h.length}  warnings.*\n`
             for (let i = 0; i < h.length; i++) {
-                teskd += `*${i+1}*\n╭─────────────◆\n│ *🍁In Group:-* ${h[i].group}\n`
-                teskd += `│ *🔰Time:-* ${h[i].date}\n`
+                teskd += `*${i+1}*\n•°•═════ஓ๑♡๑ஓ═════•°•◆\n│ *📡In Group:-* ${h[i].group}\n`
+                teskd += `│ *📡Time:-* ${h[i].date}\n`
                 teskd += `│ *⚠️Warned by:-* ${h[i].warnedby}\n`
-                teskd += `│ _📍Reason: ${h[i].reason}_\n╰─────────────◆\n\n`
+                teskd += `│ _📍Reason: ${h[i].reason}_\n•°•═════ஓ๑♡๑ஓ═════•°•\n\n`
             }
             citel.reply(teskd)
         }
@@ -986,15 +993,14 @@ cmd({ on: "text" }, async(Void, citel) => {
                     url: await botpic(),
                 },
                 caption: `
-╔════◇
-║ *Wow,Someone just*
+━━━━━༺❃༻━━━━━◇
+║ *hey Someone had just*
 ║ *leveled Up huh⭐*
 ║ *👤Name*: ${citel.pushName}
-║ *🎐Level*: ${sck1.level}🍭
+║ *🎐Level*: ${sck1.level}
 ║ *🛑Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
 ║ *📍Role*: *${role}*
-║ *Enjoy🥳*
-╚════════════╝
+║ *Enjoy😁*━━━━━༺❃༻━━━━━
 `,
             }, {
                 quoted: citel,
