@@ -1,18 +1,11 @@
 /**
-██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
-██║╚══███╔╝██║   ██║██║ ██╔╝██║   ██║    ████╗ ████║██╔══██╗
-██║  ███╔╝ ██║   ██║█████╔╝ ██║   ██║    ██╔████╔██║██║  ██║
-██║ ███╔╝  ██║   ██║██╔═██╗ ██║   ██║    ██║╚██╔╝██║██║  ██║
-██║███████╗╚██████╔╝██║  ██╗╚██████╔╝    ██║ ╚═╝ ██║██████╔╝
-╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═════╝ 
-
  Copyright (C) 2022.
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
  It is supplied in the hope that it may be useful.
- * @project_name : IZUKU-Md
- * @author : excotttah6 <https://github.com/SamPandey001>
- * @description : IZUKU,A Multi-functional whatsapp bot.
+ * @project_name : Secktor-Md
+ * @author : SamPandey001 <https://github.com/SamPandey001>
+ * @description : Secktor,A Multi-functional whatsapp bot.
  * @version 0.0.6
  **/
 
@@ -82,7 +75,7 @@ cmd({
         for (let i of search.all) {
             textt += `⚡ No : ${no++}\n ❤Title : ${i.title}\n♫ Type : ${
       i.type
-    }\n😪Views : ${i.views}\n⏱Duration : ${
+    }\n🙈Views : ${i.views}\n⌛Duration : ${
       i.timestamp
     }\n🌟Upload At : ${i.ago}\n👑Author : ${i.author.name}\n🎵Url : ${
       i.url
@@ -153,7 +146,7 @@ cmd({
                  Void.sendMessage(citel.chat, buttonMessage, { quoted: citel })
                  return fs.unlinkSync(`./${randomName}`);
                 } else {
-                    citel.reply(`😔 Fileh size bigger than 100mb.`);
+                    citel.reply(`❌ File size bigger than 100mb.`);
                 }
                 return fs.unlinkSync(`./${randomName}`);      
 
@@ -161,45 +154,43 @@ cmd({
         }
     )
     //---------------------------------------------------------------------------
-const { cmd } = require('../lib');
-
 cmd({
-    pattern: "play",
-    desc: "Sends info about the query (YouTube video/audio).",
-    category: "downloader",
-    filename: __filename,
-    use: '<faded-Alan walker.>',
-},
-async (Void, citel, text) => {
-    if (!text) return citel.reply(`Use ${command} Back in Black`);
-    let yts = require("secktor-pack");
-    let search = await yts(text);
-    let anu = search.videos[0];
-    let buttonMessage = {
-        image: {
-            url: anu.thumbnail,
+            pattern: "play",
+            desc: "Sends info about the query(of youtube video/audio).",
+            category: "downloader",
+            filename: __filename,
+            use: '<faded-Alan walker.>',
         },
-        caption: `
-┏━━━✦❘༻ *${tlang().title}* *ʏᴏᴜᴛᴜʙᴇ Player* ༺❘✦━━━┓
-╋
-╋ *Title:* ${anu.title}
-╋ *Duration:* ${anu.timestamp}
-╋ *Viewers:* ${anu.views}
-╋ *Uploaded:* ${anu.ago}
-╋ *Author:* ${anu.author.name}
-╋
-┗━━━✦❘༻༺❘✦━━━┛
-*URL*: ${anu.url}
+        async(Void, citel, text) => {
+            if (!text) return citel.reply(`Use ${command} Back in Black`);
+            let yts = require("secktor-pack");
+            let search = await yts(text);
+            let anu = search.videos[0];
+            let buttonMessage = {
+                image: {
+                    url: anu.thumbnail,
+                },
+                caption: `
+╭───────────────◆
+│⿻ ${tlang().title} 
+│  *Youtube Player* ✨
+│⿻ *Title:* ${anu.title}
+│⿻ *Duration:* ${anu.timestamp}
+│⿻ *Viewers:* ${anu.views}
+│⿻ *Uploaded:* ${anu.ago}
+│⿻ *Author:* ${anu.author.name}
+╰────────────────◆
+⦿ *Url* : ${anu.url}
 `,
-        footer: tlang().footer,
-        headerType: 4,
-    };
-    return Void.sendMessage(citel.chat, buttonMessage, {
-        quoted: citel,
-    });
+                footer: tlang().footer,
+                headerType: 4,
+            };
+            return Void.sendMessage(citel.chat, buttonMessage, {
+                quoted: citel,
+            });
 
-});
-
+        }
+    )
     //---------------------------------------------------------------------------
 cmd({
             pattern: "ringtone",
