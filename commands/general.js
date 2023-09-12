@@ -116,12 +116,13 @@ cmd({
     async(Void, citel) => {
         let { data } = await axios.get('https://api.github.com/repos/excelottah6/IZUKU-MD')
         let cap = `Hey ${citel.pushName}\n
+	┍━━━━━━━━━━━━━━━━━━━┑
 *⭐ Total Stars:* ${data.stargazers_count} stars
 *🍴 Forks:* ${data.forks_count} forks
 *📡 Repo:* https://github.com/excelottah6/IZUKU-MD
-*Group:* https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL
-*Deploy Your Own:*-
-citel-x.herokuapp.com`
+*🏘Group:* https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL
+*🧑‍💻Deploy Your Own:*-
+https://github.com/excelottah6/IZUKU-MD`
         let buttonMessaged = {
             image: { url: await botpic() },
             caption: cap,
@@ -129,7 +130,7 @@ citel-x.herokuapp.com`
             headerType: 4,
             contextInfo: {
                 externalAdReply: {
-                    title: "Secktor-Repo",
+                    title: "IZUKU-Repo",
                     body: "Easy to Use",
                     thumbnail: log0,
                     mediaType: 4,
@@ -201,7 +202,7 @@ async(Void, citel,text,{isCreator}) => {
 
 if(!isCreator) return citel.reply(tlang().owner);
 let str="*All available themes in IZUKU *"
-str+=`1. IZUKU\n2. ADAM\n3. AYANOKOJI\n4. EDITH\n5. FRIDAY\n6. GENOS\n7. GIDEON\n8. GOKU\n9. LUFFY\n10. NARUTO\n11. NEZUKO\n12. PARKER\n13. GARENA\n14. Eren Jeager\n\n these are the themes of IZUKU Userbot.\_Reply ${prefix}setvar THEME:GARENA`
+str+=`1. IZUKU\n2. ADAM\n3. AYANOKOJI\n4. EDITH\n5. FRIDAY\n6. GENOS\n7. GIDEON\n8. GOKU\n9. LUFFY\n10. NARUTO\n11. NEZUKO\n12. PARKER\n13. GARENA\n14. SECKTOR\n15 Eren Jeager\n\n these are the themes of IZUKU Userbot.\_Reply ${prefix}setvar THEME:GARENA`
 return citel.reply(str)
     
 }
