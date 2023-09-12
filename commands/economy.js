@@ -1,4 +1,11 @@
 /**
+██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
+██║╚══███╔╝██║   ██║██║ ██╔╝██║   ██║    ████╗ ████║██╔══██╗
+██║  ███╔╝ ██║   ██║█████╔╝ ██║   ██║    ██╔████╔██║██║  ██║
+██║ ███╔╝  ██║   ██║██╔═██╗ ██║   ██║    ██║╚██╔╝██║██║  ██║
+██║███████╗╚██████╔╝██║  ██╗╚██████╔╝    ██║ ╚═╝ ██║██████╔╝
+╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═════╝ 
+                                                            
  Copyright (C) 2022.
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
@@ -27,7 +34,7 @@
          desc: "daily gold.",
          category: "economy",
          filename: __filename,
-         react: "💷"
+         react: "💸"
      },
      async(Void, citel, text,{ isCreator }) => {
         let zerogroup = (await sck.findOne({
@@ -44,7 +51,7 @@
 	 if (daily.cd) { //cdL is already formatted cooldown Left
         return await  citel.reply(`🧧 You already claimed daily for today, come back in ${daily.cdL}🫡`)
 	 } else {
-	 citel.reply(`you claimed daily ${daily.amount} 🪙 for today🎉.`);   
+	 citel.reply(`you claimed daily ${daily.amount} 🪙 for today✨.`);   
 	 }
  }
  )
@@ -54,7 +61,7 @@
          desc: "reset wallet of quoted user.",
          category: "economy",
          filename: __filename,
-         react: "💷"
+         react: "💸"
      },
      async(Void, citel, text,{ isCreator }) => {
         let zerogroup = (await sck.findOne({
@@ -79,7 +86,7 @@
     desc: "update capacity.",
     category: "economy",
     filename: __filename,
-    react: "💷"
+    react: "💸"
 },
 async(Void, citel, text,{ isCreator }) => {
     let zerogroup = (await sck.findOne({
@@ -89,9 +96,9 @@ async(Void, citel, text,{ isCreator }) => {
         })
         .save());
     let mongoschemas = zerogroup.economy || "false";
-    if (mongoschemas == "false") return citel.reply("*🚦Economy* is not active in current group.");
+    if (mongoschemas == "false") return citel.reply("* 🏧 Economy* is not active in current group.");
     if (!citel.isGroup) return citel.reply(tlang().group);
-    if (!text) return citel.reply(`💴 *Bank-capacity* 💳\n\n1 | *1000 sp* = 🪙100\n\n2 | *100000 sp* = 🪙1000\n\n3 | *10000000 sp* = 🪙10000000\n\nExample- ${prefix}capacity 1 OR ${prefix}bankupgrade 1000`)
+    if (!text) return citel.reply(`💷 *Bank-capacity* 💳\n\n1 | *1000 sp* = 🪙100\n\n2 | *100000 sp* = 🪙1000\n\n3 | *10000000 sp* = 🪙10000000\n\nExample- ${prefix}capacity 1 OR ${prefix}bankupgrade 1000`)
     let user = citel.mentionedJid ? citel.mentionedJid[0] : citel.msg.contextInfo.participant || false;
     const secktor = "secktor"
 	let value = text.trim();
@@ -135,7 +142,7 @@ default:
         desc: "deposit gold.",
         category: "economy",
         filename: __filename,
-        react: "💷"
+        react: "💎"
     },
     async(Void, citel, text,{ isCreator }) => {
         let zerogroup = (await sck.findOne({
@@ -160,7 +167,7 @@ return await citel.reply(`⛩️ Sender: ${citel.pushName}\n🍀Successfully �
         desc: "check leaderboard.",
         category: "economy",
         filename: __filename,
-        react: "💷"
+        react: "🤑"
     },
     async(Void, citel, text,{ isCreator }) => {
 	let h = await eco.lb('secktor',10);
@@ -175,7 +182,7 @@ return await citel.reply(`⛩️ Sender: ${citel.pushName}\n🍀Successfully �
             } else {
                 tname = Void.getName(h[i].userID)
             }
-str+= `*${i+1}*\n╭─────────────◆\n│ *Name:-* _${tname}_\n│ *User:-* _@${h[i].userID.split('@')[0]}_\n│ *Wallet:-* _${h[i].wallet}_\n│ *Bank Amount:-* _${h[i].bank}_\n│ *Bank Capacity:-* _${h[i].bankCapacity}_\n╰─────────────◆\n\n`  	 
+str+= `*${i+1}*\n┌─────── ⋆\n│ *Name:-* _${tname}_\n│ *User:-* _@${h[i].userID.split('@')[0]}_\n│ *Wallet:-* _${h[i].wallet}_\n│ *Bank Amount:-* _${h[i].bank}_\n│ *Bank Capacity:-* _${h[i].bankCapacity}_\n╰─────────────◆\n\n`  	 
 	 arr.push(h[i].userID)
 	 }
 	     citel.reply(str,{mentions:arr})
@@ -187,7 +194,7 @@ cmd({
     desc: "transfer gold.",
     category: "economy",
     filename: __filename,
-    react: "💷"
+    react: "💸"
 },
 async(Void, citel, text,{ isCreator }) => {
     let zerogroup = (await sck.findOne({
@@ -197,11 +204,11 @@ async(Void, citel, text,{ isCreator }) => {
         })
         .save());
     let mongoschemas = zerogroup.economy || "false";
-    if (mongoschemas == "false") return citel.reply("*🚦Economy* is not active in current group.");
+    if (mongoschemas == "false") return citel.reply("*🏧Economy* is not active in current group.");
     let value = text.trim().split(" ");
     if (value[0] === "") return citel.reply(`Use ${prefix}transfer 100 @user`);
     let user = citel.mentionedJid ? citel.mentionedJid[0] : citel.msg.contextInfo.participant || false;
-    if(!user) return citel.reply('Please give me any user🤦‍♂️.');
+    if(!user) return citel.reply('Please give me any user.');
     const secktor = "secktor"
         const user1 = citel.sender
         const user2 = user
