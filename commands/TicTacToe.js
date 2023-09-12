@@ -14,7 +14,7 @@
  const ty = eco.connect(mongodb);
 cmd(
   {
-    pattern: "delttt",
+    pattern: "deltic",
     desc: "deletes TicTacToe running session.",
     filename: __filename,
     category: "game",
@@ -36,14 +36,14 @@ cmd(
         delete this.game
         return citel.reply(`_Successfully Deleted running TicTacToe game._`);
         } else {
-              return citel.reply(`No TicTacToe game🎮 is running.`)
+              return citel.reply(`there No TicTacToe game👾 is running.`)
                     
         }
   })
   
 cmd(
   {
-    pattern: "ttt",
+    pattern: "tic",
     desc: "Play TicTacToe",
     filename: __filename,
     category: "game",
@@ -190,7 +190,7 @@ ${
   isWin
     ? `@${winner.split("@")[0]} Won ! and got 2000💎 in wallet🤑`
     : isTie
-    ? `Game Tied,well done to both of you players.`
+    ? `Game Tied,well done to both of players.`
     : `Current Turn ${["❌", "⭕"][1 * room.game._currentTurn]} @${
         room.game.currentTurn.split("@")[0]
       }`
@@ -231,9 +231,9 @@ cmd({ pattern: "ship" , category: "fun" }, async(Void, citel, text) => {
     async function couple(percent) {
          var text;
         if (percent < 25) {
-            text = `\t\t\t\t\t*ShipCent : ${percentage}%* \n\t\tThere's still time to reconsider your choices`
+            text = `\t\t\t\t\t*ShipCent : ${percentage}%* \n\t\tThere's still time to reconsider your choices 😂`
         } else if (percent < 50) {
-            text = `\t\t\t\t\t*ShipCent : ${percentage}%* \n\t\t Good enough, I guess! 💫`
+            text = `\t\t\t\t\t*ShipCent : ${percentage}%* \n\t\t Good enough, I guess! 🤥`
         } else if (percent < 75) {
             text = `\t\t\t\t\t*ShipCent : ${percentage}%* \n\t\t\tStay together and you'll find a way ⭐️`
         } else if (percent < 90) {
@@ -250,12 +250,12 @@ cmd({ pattern: "ship" , category: "fun" }, async(Void, citel, text) => {
        } else {
        shiper = members[Math.floor(Math.random() * members.length)]
        }
-       let caption = `\t❣️ *Matchmaking...* ❣️ \n`
-        caption += `\t\t✯────────────────────✯\n`
+       let caption = `\t😇 *Matchmaking.*😇 \n`
+        caption += `\t\t✯✶⊶⊷⊶⊷❍⊶⊷⊶⊷✶✯\n`
         caption += `@${citel.sender.split('@')[0]}  x  @${shiper.split('@')[0]}\n`
-        caption += `\t\t✯────────────────────✯\n`
+        caption += `\t\t✯✶⊶⊷⊶⊷❍⊶⊷⊶⊷✶✯\n`
         caption += await couple(percentage)
-        if(citel.sender.split('@')[0]===shiper.split('@')[0]) return citel.reply('```'+'Wait... What!!!,You wanna do matchmaking with yourself'+'```')
+        if(citel.sender.split('@')[0]===shiper.split('@')[0]) return citel.reply('```'+'Wait... do!,You wanna do matchmaking with yourself'+'```')
         await Void.sendMessage(citel.chat,{text: caption,mentions: [citel.sender,shiper]},{quoted:citel})
    }
 )
