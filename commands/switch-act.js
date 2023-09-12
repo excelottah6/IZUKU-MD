@@ -1,11 +1,18 @@
 /**
+██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
+██║╚══███╔╝██║   ██║██║ ██╔╝██║   ██║    ████╗ ████║██╔══██╗
+██║  ███╔╝ ██║   ██║█████╔╝ ██║   ██║    ██╔████╔██║██║  ██║
+██║ ███╔╝  ██║   ██║██╔═██╗ ██║   ██║    ██║╚██╔╝██║██║  ██║
+██║███████╗╚██████╔╝██║  ██╗╚██████╔╝    ██║ ╚═╝ ██║██████╔╝
+╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═════╝ 
+                                                            
  Copyright (C) 2022.
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
  It is supplied in the hope that it may be useful.
- * @project_name : Secktor-Md
- * @author : SamPandey001 <https://github.com/SamPandey001>
- * @description : Secktor,A Multi-functional whatsapp bot.
+ * @project_name : IZUKU-Md
+ * @author : excel <https://github.com/excelottah>
+ * @description : IZUKU ,A Multi-functional whatsapp bot.
  * @version 0.0.6
  **/
 
@@ -27,8 +34,8 @@ cmd({
         const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
         //-----------------------------------------
         if (!citel.isGroup) return citel.reply("This command is only for group")
-        if (!text) return citel.reply(`❌ Please provide me term like like\n1-events\n2-antilink\n3-nsfw\n4-cardgame\n5-bot`)
-        if (!isAdmins) return citel.reply("❌ This command is only for admin")
+        if (!text) return citel.reply(`⚡️ Please provide me term like like\n1-events\n2-antilink\n3-nsfw\n4-cardgame\n5-bot`)
+        if (!isAdmins) return citel.reply("⚡️ This command is only for admin")
         switch (text.split(" ")[0]) {
             case 'antilink':
                 {
@@ -106,7 +113,7 @@ cmd({
                 break
             default:
                 {
-                    citel.reply("Please provide me term like.\n1-events\n2-antilink\n3-nsfw\n4-economy")
+                    citel.reply("Please provide me with terms like.\n1-events\n2-antilink\n3-nsfw\n4-economy")
                 }
         }
     }
