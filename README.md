@@ -1,7 +1,7 @@
 </p>
 <p align="center">
   <a href="https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL">
-    <img alt=Support height="550" src="https://telegra.ph/file/2071bf8f71cc1794a517a.jpg"> 
+    <img alt=Support height="550" src="https://whvn.cc/o3gyrm"> 
     </p>
 <h1 align="center"> 𝙸𝚉𝚄𝙺𝚄-𝙼𝙳 𝙼𝚄𝙻𝚃𝙸 𝙳𝙴𝚅𝙸𝙲𝙴 𝙱𝙾𝚃
 </h1>
