@@ -1,7 +1,7 @@
 </p>
 <p align="center">
   <a href="https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL">
-    <img alt=Support height="550" src="https://whvn.cc/o3gyrm"> 
+    <img alt=Support height="550" src="https://telegra.ph/file/be4fad9b026c96936cbfe.jpg"> 
     </p>
 <h1 align="center"> 𝙸𝚉𝚄𝙺𝚄-𝙼𝙳 𝙼𝚄𝙻𝚃𝙸 𝙳𝙴𝚅𝙸𝙲𝙴 𝙱𝙾𝚃
 </h1>
@@ -9,7 +9,7 @@
  ! ᴵ ᴬᵐ ᴬ ᵂʰᵃᵗˢᵃᵖᵖ ᴮᵒᵗ ᶜʳᵉᵃᵗᵉᵈ ᴮʸ ˢᵃᵐ ᵖᵃⁿᵈᵉʸ ᵃⁿᵈ ʳᵉᶜᵒᵈᵉᵈ ᵇʸ ᴱˣᶜᴱᴸ  ᵀᵒ ᴰᵒ ᴱᵛᵉʳʸᵗʰⁱⁿᵍ ᵀʰᵃᵗ ᴵˢ ᴾᵒˢˢⁱᵇˡᵉ ᴼⁿ ᵂʰᵃᵗˢᴬᵖᵖ ᴮᵃˢᵉᵈ ᴼⁿ ᵂʰᵃᵗˢᴬᵖᵖ ᴹᵘˡᵗⁱ ᴰᵉᵛⁱᶜᵉ⁽ᴹᴰ⁾ ˢᵘᵖᵖᵒʳᵗ.
 
   <div align="center">
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BBFDAFF&center=true&width=910&height=100&lines=THIS IS+𝙸𝚉𝚄𝙺𝚄-𝙼𝙳;MULTI+DEVICE+WHATSAPP+BOT;CREATED+BY+EXCEL;PUBLIC+RELESED; ...;TEAM 𝙸𝚉𝚄𝙺𝚄-𝙼𝙳." alt="Typing SVG" /></a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=THIS IS+𝙸𝚉𝚄𝙺𝚄-𝙼𝙳;MULTI+DEVICE+WHATSAPP+BOT;CREATED+BY+EXCEL;PUBLIC+RELESED; ...;TEAM 𝙸𝚉𝚄𝙺𝚄-𝙼𝙳." alt="Typing SVG" /></a>
   </p>
   <br>
 
