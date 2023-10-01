@@ -13,14 +13,13 @@ const quizQuestions = [
         options: ["A. Earth", "B. Mars", "C. Venus"],
         correctAnswer: "B"
     },
-
     {
-        question: "the iphone was made in what year ?",
+        question: "The iPhone was made in what year?",
         options: ["A. 2004", "B. 2007", "C. 2012"],
         correctAnswer: "B"
+    }
     // Add more questions here
-    },
-
+];
 
 let currentQuestionIndex = 0;
 let userScore = 0;
@@ -50,18 +49,18 @@ function sendQuestion(citel) {
 
 // Create a command for answering quiz questions
 cmd({
-    pattern: "answer",
-    desc: "Answer a quiz question.",
+    pattern: "answer (.+)",
+    desc: "Answer a quiz question (e.g., !answer A).",
     category: "games",
     filename: __filename,
 }, async (Void, citel, text) => {
     const userAnswer = text.trim().toUpperCase();
     const currentQuestion = quizQuestions[currentQuestionIndex];
-    
+
     if (currentQuestion && userAnswer === currentQuestion.correctAnswer) {
         userScore++;
     }
-    
+
     currentQuestionIndex++;
     sendQuestion(citel);
 });
