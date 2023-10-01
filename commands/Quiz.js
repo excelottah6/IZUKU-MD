@@ -13,10 +13,15 @@ const quizQuestions = [
         options: ["A. Earth", "B. Mars", "C. Venus"],
         correctAnswer: "B"
     },
+
+    {
+        question: "the iphone was made in what year ?",
+        options: ["A. 2004", "B. 2007", "C. 2012"],
+        correctAbswer: "B"
     // Add more questions here
 ];
 
-// Initialize variables to keep track of the quiz state
+
 let currentQuestionIndex = 0;
 let userScore = 0;
 
@@ -45,7 +50,7 @@ function sendQuestion(citel) {
 
 // Create a command for answering quiz questions
 cmd({
-    pattern: /^answer (.+)/i,
+    pattern: "answer",
     desc: "Answer a quiz question.",
     category: "games",
     filename: __filename,
