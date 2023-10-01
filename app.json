@@ -22,10 +22,10 @@
     "description": "Put HEROKU API KEY",
      "required" :false
     },
-  "HEROKU_APP_NAME": {
-    "description": "Put HEROKU APP NAME same as above.",
-     "required" :false
-    },
+ "HEROKU_APP_NAME": {
+    "description": "This field will be ignored. Heroku will generate a random app name.",
+    "generator": "hidden"
+},
    "THUMB_IMAGE": {
     "description": "THUMBNAIL for bot.",
      "value": "https://telegra.ph/file/3845ab217fafcab86ddf5.jpg"
