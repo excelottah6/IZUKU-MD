@@ -1,3 +1,4 @@
+// Import required modules
 const { cmd } = require('../lib');
 
 // Initialize an object to store recorded text
@@ -5,16 +6,16 @@ const recordedText = {};
 
 // Command to record text
 cmd({
-  pattern: "record",
+  pattern: "setaza",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
-  const recorded = text.match[1]; // Get the recorded text from the command.
+  const recorded = text.trim(); // Get the recorded text from the command.
   const userId = citel.sender; // Use the sender's ID as the key.
 
   recordedText[userId] = recorded; // Store the recorded text for this user.
 
-  await citel.reply(`text has been recorded : "${recorded}"`);
+  await citel.reply(`aza has been recorded : "${recorded}"`);
 });
 
 // Listen for incoming messages
