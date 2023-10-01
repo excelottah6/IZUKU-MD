@@ -5,7 +5,7 @@ const recordedText = {};
 
 // Command to record text
 cmd({
-  pattern: "record (.+)",
+  pattern: "record",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
