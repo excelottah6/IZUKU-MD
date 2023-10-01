@@ -49,7 +49,7 @@ function sendQuestion(citel) {
 
 // Create a command for answering quiz questions
 cmd({
-    pattern: "answer (.+)",
+    pattern: "answer",
     desc: "Answer a quiz question (e.g., !answer A).",
     category: "games",
     filename: __filename,
