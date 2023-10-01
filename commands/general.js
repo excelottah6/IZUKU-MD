@@ -116,13 +116,13 @@ cmd({
     async(Void, citel) => {
         let { data } = await axios.get('https://api.github.com/repos/excelottah6/IZUKU-MD')
         let cap = `Hey ${citel.pushName}\n
-	┍━━━━━━━━━━━━━━━━━━━┑
-*⭐ Total Stars:* ${data.stargazers_count} stars
-*🍴 Forks:* ${data.forks_count} forks
-*📡 Repo:* https://github.com/excelottah6/IZUKU-MD
-*🏘Group:* https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL
-*🧑‍💻Deploy Your Own:*-
-https://github.com/excelottah6/IZUKU-MD`
+╭┈─────────────────────    .· * • ˚
+│*⭐ Total Stars:* ${data.stargazers_count} stars
+│*🍴 Forks:* ${data.forks_count} forks
+│*📡 Repo:* https://github.com/excelottah6/IZUKU-MD
+│*🏘Group:* https://chat.whatsapp.com/BEhEne7RdGBC3y5vYltuxL
+│*🧑‍💻Deploy IZUKU MD*:https://github.com/excelottah6/IZUKU-MD
+╰──────────────────────✬      * ˚  ✶`
         let buttonMessaged = {
             image: { url: await botpic() },
             caption: cap,
@@ -158,14 +158,15 @@ cmd({
         timestampe = speed();
         latensie = speed() - timestampe;
         let ter = `
-👾 *${tlang().title}* 👾
-*🌟Description:* A WhatsApp bot with rich features, build in NodeJs to make your WhatsApp enjoyable.
-*⚡️Speed:* ${latensie.toFixed(4)} ms
-*⏱Uptime:* ${runtime(process.uptime())}
-*📡Version:* 0.0.7
-*👤Owner:*  ${Config.ownername}
-*Powered by ${tlang().title}*
-`;
+ㅤ ────────────────────────── .°୭̥ ❁ 	
+╰─➤｡･:*˚:✧｡ *${tlang().title}* ｡･:*˚:✧｡
+╰─➤*🌟Description:* A WhatsApp bot with rich features, build in NodeJs to make your WhatsApp enjoyable.
+╰─➤*⚡️Speed:* ${latensie.toFixed(4)} ms
+╰─➤*⏱Uptime:* ${runtime(process.uptime())}
+╰─➤*📡Version:* 0.0.8
+╰─➤*👤Owner:*  ${Config.ownername}
+╰─➤*Powered by ${tlang().title}*
+°୭̥ ❁ ───────────────────────── .°୭̥ ❁ `;
         let buttonMessaged = {
             image: {
                 url: await botpic(),
