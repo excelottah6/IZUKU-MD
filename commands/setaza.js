@@ -15,7 +15,23 @@ cmd({
 
   recordedText[userId] = recorded; // Store the recorded text for this user.
 
-  await citel.reply(`aza has been recorded : "${recorded}"`);
+  await citel.reply(`aza has been recorded boss: "${recorded}"`);
+});
+
+// Command to delete recorded text
+cmd({
+  pattern: "delaza",
+  desc: "Delete the recorded text",
+  category: "utility",
+}, async (Void, citel) => {
+  const userId = citel.sender; // Get the sender's ID.
+  
+  if (recordedText[userId]) {
+    delete recordedText[userId]; // Remove the recorded text for this user.
+    await citel.reply("Recorded text has been deleted.");
+  } else {
+    await citel.reply("No recorded text found.");
+  }
 });
 
 // Listen for incoming messages
