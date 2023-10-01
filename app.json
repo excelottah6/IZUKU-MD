@@ -24,7 +24,7 @@
     },
  "HEROKU_APP_NAME": {
     "description": "This field will be ignored. Heroku will generate a random app name.",
-    "generator": "hidden"
+    "required": "true"
 },
    "THUMB_IMAGE": {
     "description": "THUMBNAIL for bot.",
