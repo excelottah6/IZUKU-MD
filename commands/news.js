@@ -1,15 +1,15 @@
-const axios = require('axios'); // Make sure to import the Axios library
+const axios = require('axios');
 
 cmd({
     pattern: "news",
     desc: "Get the latest news headlines.",
-    category: "misc",
+    category: "search",
 }, async (Void, citel) => {
     try {
         const apiKey = 'd18be034e9aec58a6c4d286ef886e9bc'; // Replace with your GNews API key
-        const response = await axios.get(`https://gnews.io/api/v4/top-headlines?token=${apiKey}`);
+        const response = await axios.get(`https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=us&max=10&apikey=${apiKey}`);
 
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.articles && response.data.articles.length > 0) {
             const articles = response.data.articles;
             let newsMessage = "Latest news headlines:\n";
 
@@ -19,10 +19,10 @@ cmd({
 
             await citel.reply(newsMessage);
         } else {
-            await citel.reply("Unable to fetch news headlines at the moment.");
+            await citel.reply("No news headlines found.");
         }
     } catch (error) {
         console.error("Error fetching news:", error);
-        await citel.reply("An error occurred while fetching news headlines.");
+        await citel.reply("An error occurred while fetching news headlines. Please try again later.");
     }
 });
