@@ -16,7 +16,7 @@ cmd({
     // Schedule the reminder using node-schedule
     const job = schedule.scheduleJob(timeInput, () => {
         // When the scheduled time arrives, send the reminder message
-        citel.reply(`Reminder: "${reminderText}"`);
+        citel.reply(`Reminder set: "${reminderText}"`);
     });
 
     // Store the reminder job for later use (e.g., for canceling)
@@ -26,13 +26,13 @@ cmd({
     }
     userReminders.get(userId).push(job);
 
-
+    // Confirm to the user that the reminder has been set
     await citel.reply(`Reminder set: "${reminderText}" at ${timeInput}`);
 });
 
 // Command for canceling reminders
 cmd({
-    pattern: "cancelreminder",
+    pattern: "delreminder",
     desc: "Cancel your scheduled reminders.",
     category: "utility",
 }, async (Void, citel) => {
