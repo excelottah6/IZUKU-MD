@@ -6,12 +6,20 @@ const userReminders = new Map();
 
 // Command for setting reminders
 cmd({
-    pattern: "setreminder",
-    desc: 'Set a reminder for a task or event.',
+    pattern: "setreminder" ,
+    desc: 'Set a reminder for a task or event (e.g., ".setreminder Buy groceries tomorrow at 3:00 PM").',
     category: 'utility',
 }, async (Void, citel, match) => {
-    const reminderText = match[1].trim(); // Get the reminder text from the matched pattern.
-    const timeInput = match[2].trim(); // Get the time input.
+    const input = match[1].trim(); // Get the input after ".setreminder"
+    const matches = input.match(/^(.*?)\s+at\s+(.*)$/i); // Check if it contains "at" and split into text and time
+
+    if (!matches) {
+        await citel.reply('Invalid format. Please use ".setreminder text at time".');
+        return;
+    }
+
+    const reminderText = matches[1].trim(); // Get the reminder text
+    const timeInput = matches[2].trim(); // Get the time input
 
     // Schedule the reminder using node-schedule
     const job = schedule.scheduleJob(timeInput, () => {
@@ -32,7 +40,7 @@ cmd({
 
 // Command for canceling reminders
 cmd({
-    pattern: "delreminder",
+    pattern: "cancelreminder",
     desc: "Cancel your scheduled reminders.",
     category: "utility",
 }, async (Void, citel) => {
