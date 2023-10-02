@@ -1,37 +1,63 @@
 const { cmd } = require('../lib');
 const schedule = require('node-schedule');
 
-// Initialize an object to store scheduled reminders
-const reminders = {};
+// Create a map to store user-specific reminders
+const userReminders = new Map();
 
-// Command to set a reminder change as you like😪
+// Command for setting reminders
 cmd({
-    pattern: "reminder",
+    pattern: "setreminder",
     desc: "Set a reminder for a task or event.",
     category: "utility",
-}, async (Void, citel, text) => {
-    const reminderText = text.match[1]; // Get the reminder text from the command.
-    const userId = citel.sender;
+}, async (Void, citel, match) => {
+    const reminderText = match[1].trim(); // Get the reminder text from the matched pattern.
+    const userId = citel.sender; // Get the user's ID.
 
-    // Schedule the reminder for 5 minutes from the current time
-    const reminderTime = new Date();
-    reminderTime.setMinutes(reminderTime.getMinutes() + 5);
+    // Reply to the user and ask for the time input
+    await citel.reply(`Please enter the time for the reminder (e.g., "in 5 minutes" or "at 3:00 PM").`);
 
-    // Store the scheduled reminder
-    reminders[userId] = {
-        text: reminderText,
-        time: reminderTime,
-    };
+    // Listen for the user's time input
+    citel.ev.on('message.new', async (message) => {
+        if (message.sender === userId) {
+            const timeInput = message.text.trim();
 
-    // Reply to confirm the reminder
-    await citel.reply(`Reminder set: "${reminderText}" for 5 minutes from now.`);
+            // Schedule the reminder using node-schedule
+            const job = schedule.scheduleJob(timeInput, () => {
+                // When the scheduled time arrives, send the reminder message
+                citel.reply(`Reminder: "${reminderText}"`);
+            });
 
-    // Schedule a job to send the reminder
-    schedule.scheduleJob(reminderTime, async () => {
-        const scheduledReminder = reminders[userId];
-        if (scheduledReminder) {
-            await citel.reply(`Reminder: "${scheduledReminder.text}"`);
-            delete reminders[userId]; // Remove the reminder after it's sent
+            // Store the reminder job for later use (e.g., for canceling)
+            if (!userReminders.has(userId)) {
+                userReminders.set(userId, []);
+            }
+            userReminders.get(userId).push(job);
+
+            // Confirm to the user that the reminder has been set
+            await citel.reply(`Reminder set: "${reminderText}" at ${timeInput}`);
+
+            // Stop listening for further time input
+            citel.ev.removeAllListeners('message.new');
         }
     });
+});
+
+// Command for canceling reminders
+cmd({
+    pattern: "cancelreminder",
+    desc: "Cancel your scheduled reminders.",
+    category: "utility",
+}, async (Void, citel) => {
+    const userId = citel.sender;
+
+    if (userReminders.has(userId)) {
+        const userJobs = userReminders.get(userId);
+        userJobs.forEach((job) => {
+            job.cancel(); // Cancel the scheduled reminder
+        });
+        userReminders.delete(userId); // Remove the user's reminders
+        await citel.reply("All your scheduled reminders have been canceled.");
+    } else {
+        await citel.reply("You don't have any scheduled reminders.");
+    }
 });
