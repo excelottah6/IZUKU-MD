@@ -9,8 +9,8 @@ cmd({
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
-  const recorded = text.trim();
-  const userId = citel.sender; 
+  const recorded = text.trim(); // Get the recorded text from the command.
+  const userId = citel.sender; // Use the sender's ID as the key.
 
   recordedText[userId] = recorded; // Store the recorded text for this user.
 
@@ -42,8 +42,7 @@ cmd({
     const userId = citel.sender; // Get the sender's ID.
 
     if (recordedText[userId]) {
-      const recorded = recordedText[userId]; // Get the recorded text for this user.
-      await citel.reply(`Here's my aza: "${recorded}"`);
+      await citel.reply(`Here's your recorded text: "${recordedText[userId]}"`);
     } else {
       await citel.reply("No recorded text found.");
     }
