@@ -39,8 +39,8 @@ cmd({
 }, async (Void, citel, text) => {
   const senderId = citel.sender; // Get the sender's ID.
 
-  // Check if the sender has recorded text and the received message is "aza" or "send aza" (case-insensitive).
-  if (recordedText[senderId] && /(send aza|aza|paste aza|account number)/i.test(text)) {
+  // Check if there's recorded text for the sender and the received message contains "aza" (case-insensitive).
+  if (recordedText[senderId] && /aza/i.test(text)) {
     const recorded = recordedText[senderId];
 
     // Reply with the recorded text.
