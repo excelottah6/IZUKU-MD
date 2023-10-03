@@ -23,8 +23,8 @@ cmd({
   desc: "Delete the recorded text",
   category: "utility",
 }, async (Void, citel) => {
-  const userId = citel.sender; // Get the sender's ID. 
-  
+  const userId = citel.sender; // Get the sender's ID.
+
   if (recordedText[userId]) {
     delete recordedText[userId]; // Remove the recorded text for this user.
     await citel.reply("Recorded text has been deleted.");
@@ -37,13 +37,16 @@ cmd({
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  const senderId = citel.sender; // Get the sender's ID.
+  // Check if the received message contains "aza" or "send aza" (case-insensitive).
+  if (/(\aza\b|\send aza\b)/i.test(text)) {
+    const senderId = citel.sender; // Get the sender's ID.
 
-  // Check if there's recorded text for the sender and the received message contains "aza" or "send aza" (case-insensitive).
-  if (recordedText[senderId] && /(\aza\b|\send aza\b)/i.test(text)) {
-    const recorded = recordedText[senderId];
+    // Check if there's recorded text for the sender.
+    if (recordedText[senderId]) {
+      const recorded = recordedText[senderId];
 
-    // Reply with the recorded text.
-    await citel.reply(recorded);
+      // Reply with the recorded text.
+      await citel.reply(recorded);
+    }
   }
 });
