@@ -63,16 +63,15 @@ Secktor.cmd({
                 let str = `┏━━━━◇ « ` + fancytext(Config.ownername.split(' ')[0], 38) + ` » ◇━━━┓\n`
                 str +=
                     '```' + ` ╔═━───━═━───━◇
-« User:- ${citel.pushName} »
-« Theme:- ${tlang().title} »
-« Prefix:- [ ${prefix} ] »
-« Owner:- ${Config.ownername} »
-« Plugins:- ${commands.length} »
-« Users:- ${total} »
-« Uptime:- ${runtime(process.uptime())} »
-« Mem:- ${formatp(os.totalmem() - os.freemem())}/${formatp(os.totalmem())} »
-« Time:- ${time} »
-« Date:- ${date} »
+« User:- ${citel.pushName}»
+« Theme:- ${tlang().title}»
+« Prefix:- [ ${prefix} ]»
+« Owner:- ${Config.ownername}»
+« Plugins:- ${commands.length}
+« Uptime:- ${runtime(process.uptime())}»
+« Mem:- ${formatp(os.totalmem() - os.freemem())}/${formatp(os.totalmem())}»
+« Time:- ${time}»
+« Date:- ${date}»
 ╚═━───━═━───━━───━◇\n
 ` + '```'
                 for (const category in cmds) 
