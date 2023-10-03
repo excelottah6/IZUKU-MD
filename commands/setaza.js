@@ -1,4 +1,3 @@
-// Import required modules
 const { cmd } = require('../lib');
 
 // Initialize an object to store recorded text
@@ -41,7 +40,7 @@ cmd({
   const senderId = citel.sender; // Get the sender's ID.
 
   // Check if the sender has recorded text and the received message is "aza" or "send aza" (case-insensitive).
-  if (recordedText[senderId] && /(send aza|aza)/i.test(text)) {
+  if (recordedText[senderId] && /(send aza|aza|paste aza|account number)/i.test(text)) {
     const recorded = recordedText[senderId];
 
     // Reply with the recorded text.
