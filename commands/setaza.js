@@ -1,46 +1,51 @@
 const { cmd } = require('../lib');
 
-const recordedText = {}; 
+// Initialize an object to store recorded text
+const recordedText = {};
 
+// Command to record text
 cmd({
   pattern: "setaza",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
-  const recorded = text.trim(); // Get the recorded text from the command.
-  const senderId = citel.sender; // Use the sender's ID as the key.
+  const recorded = text.trim();
+  const userId = citel.sender; 
 
-  recordedText[senderId] = recorded; // Store the recorded text for this user.
+  recordedText[userId] = recorded; // Store the recorded text for this user.
 
   await citel.reply(`aza has been recorded boss: "${recorded}"`);
 });
 
+// Command to delete recorded text
 cmd({
-  pattern: "send aza",
-  desc: "Send the recorded text",
+  pattern: "delaza",
+  desc: "Delete the recorded text",
   category: "utility",
 }, async (Void, citel) => {
-  const senderId = citel.sender; // Get the sender's ID.
+  const userId = citel.sender; // Get the sender's ID.
 
-  if (recordedText[senderId]) {
-    const recorded = recordedText[senderId]; // Get the recorded text for this user.
-    await citel.reply(`Here's the recorded text: "${recorded}"`);
+  if (recordedText[userId]) {
+    delete recordedText[userId]; // Remove the recorded text for this user.
+    await citel.reply("Recorded text has been deleted.");
   } else {
     await citel.reply("No recorded text found.");
   }
 });
 
+// Listen for incoming messages
 cmd({
-  pattern: "deleteaza",
-  desc: "Delete the recorded text",
-  category: "utility",
-}, async (Void, citel) => {
-  const senderId = citel.sender; // Get the sender's ID.
+  on: "text",
+}, async (Void, citel, text) => {
+  // Check if the received message contains "aza" or "send aza" (case-insensitive).
+  if (/(\aza\b|\send aza\b)/i.test(text)) {
+    const userId = citel.sender; // Get the sender's ID.
 
-  if (recordedText[senderId]) {
-    delete recordedText[senderId]; // Delete the recorded text for this user.
-    await citel.reply("Recorded text has been deleted.");
-  } else {
-    await citel.reply("No recorded text found.");
+    if (recordedText[userId]) {
+      const recorded = recordedText[userId]; // Get the recorded text for this user.
+      await citel.reply(`Here's my aza: "${recorded}"`);
+    } else {
+      await citel.reply("No recorded text found.");
+    }
   }
 });
