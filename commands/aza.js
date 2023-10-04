@@ -34,14 +34,15 @@ cmd({
 });
 
 // Listen for incoming messages
-cmd({
-  pattern: ".*send aza.*",
-}, async (Void, citel, text) => {
-  for (const userId in recordedText) {
-    const recorded = recordedText[userId]; // Get the recorded text for this user.
+bot.on('message', async (message) => {
+  const userId = message.sender; // Get the sender's ID
+  const text = message.content.toLowerCase(); // Convert the message content to lowercase for case-insensitive matching
+
+  if (text.includes("send aza")) {
+    const recorded = recordedText[userId]; // Get the recorded text for this user
 
     if (recorded) {
-      await bot.sendMessage(userId, `Here's our account number: ${recorded}`); // Send the account number to the user.
+      await bot.sendMessage(userId, `Here's our account number: ${recorded}`); // Send the recorded text to the user
     }
   }
 });
