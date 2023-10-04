@@ -5,7 +5,7 @@ const recordedText = {};
 
 // Command to record text
 cmd({
-  pattern: "setaza",
+  pattern: "aza",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
@@ -19,7 +19,7 @@ cmd({
 
 // Command to delete recorded text
 cmd({
-  pattern: "delaza",
+  pattern: "daza",
   desc: "Delete the recorded text",
   category: "utility",
 }, async (Void, citel) => {
