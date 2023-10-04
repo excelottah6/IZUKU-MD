@@ -1,21 +1,51 @@
 const { bot, cmd } = require('../lib');
 
-// Your bank account number
-let aza = "";
+// Initialize an object to store recorded text
+const recordedText = {};
 
-// Command to add account number
+// Command to record text
 cmd({
-  pattern: "/setaza(.+)/i",
-  desc: "Add bank account number",
+  pattern: "setaza",
+  desc: "Record a text message",
   category: "utility",
-}, async (Void, citel, match) => {
-  accountNumber = match[1];
-  await citel.reply("Account number added successfully!");
+}, async (Void, citel, text) => {
+  const recorded = text.trim(); // Get the recorded text from the command.
+  const userId = citel.sender; // Use the sender's ID as the key.
+
+  recordedText[userId] = recorded; // Store the recorded text for this user.
+
+  await citel.reply(`aza has been recorded boss: "${recorded}"`);
 });
 
-// Trigger message for sending account number
-bot.on("message", async (message) => {
-  if (message.body.toLowerCase().includes("send aza")) {
-    await message.reply(`Your account number is: ${aza}`);
+// Command to delete recorded text
+cmd({
+  pattern: "delaza",
+  desc: "Delete the recorded text",
+  category: "utility",
+}, async (Void, citel) => {
+  const userId = citel.sender; // Get the sender's ID.
+
+  if (recordedText[userId]) {
+    delete recordedText[userId]; // Remove the recorded text for this user.
+    await citel.reply("Recorded text has been deleted.");
+  } else {
+    await citel.reply("No recorded text found.");
+  }
+});
+
+// Listen for incoming messages
+cmd({
+  on: "text",
+}, async (Void, citel, text) => {
+  // Check if the received message contains "aza" or "send aza" (case-insensitive)
+  const lowercasedText = text.toLowerCase();
+  if (lowercasedText.includes("aza") || lowercasedText.includes("send aza")) {
+    for (const userId in recordedText) {
+      const recorded = recordedText[userId]; // Get the recorded text for this user.
+
+      if (recorded) {
+        await bot.sendMessage(userId, `Here's our account number: ${recorded}`); // Send the account number to the user.
+      }
+    }
   }
 });
