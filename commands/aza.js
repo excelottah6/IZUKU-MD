@@ -35,7 +35,7 @@ cmd({
 
 // Listen for incoming messages
 cmd({
-  pattern: "send aza",
+  pattern: ".*send aza.*",
 }, async (Void, citel, text) => {
   for (const userId in recordedText) {
     const recorded = recordedText[userId]; // Get the recorded text for this user.
