@@ -5,7 +5,7 @@ const recordedText = {};
 
 // Command to record text
 cmd({
-  pattern: "aza",
+  pattern: "setaza",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
@@ -19,7 +19,7 @@ cmd({
 
 // Command to delete recorded text
 cmd({
-  pattern: "daza",
+  pattern: "delaza",
   desc: "Delete the recorded text",
   category: "utility",
 }, async (Void, citel) => {
@@ -35,17 +35,13 @@ cmd({
 
 // Listen for incoming messages
 cmd({
-  on: "text",
+  pattern: "send aza",
 }, async (Void, citel, text) => {
-  // Check if the received message contains "aza" or "send aza" (case-insensitive)
-  const lowercasedText = text.toLowerCase();
-  if (lowercasedText.includes("aza") || lowercasedText.includes("send aza")) {
-    for (const userId in recordedText) {
-      const recorded = recordedText[userId]; // Get the recorded text for this user.
+  for (const userId in recordedText) {
+    const recorded = recordedText[userId]; // Get the recorded text for this user.
 
-      if (recorded) {
-        await bot.sendMessage(userId, `Here's our account number: ${recorded}`); // Send the account number to the user.
-      }
+    if (recorded) {
+      await bot.sendMessage(userId, `Here's our account number: ${recorded}`); // Send the account number to the user.
     }
   }
 });
