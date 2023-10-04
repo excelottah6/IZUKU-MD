@@ -43,6 +43,8 @@ bot.on('message', async (message) => {
 
     if (recorded) {
       await bot.sendMessage(userId, `Here's our account number: ${recorded}`); // Send the recorded text to the user
+    } else {
+      await bot.sendMessage(userId, "No recorded text found."); // Send a message indicating no recorded text is available
     }
   }
 });
