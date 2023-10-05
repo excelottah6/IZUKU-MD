@@ -64,7 +64,7 @@ cmd({
     currentQuestionIndex++;
     sendQuestion(citel);
 });
-//======================================================================================================
+//====================================================================================================
 const flagPairs = [
   { flag: "🇺🇸", country: "United States" },
   { flag: "🇬🇧", country: "United Kingdom" },
@@ -121,7 +121,7 @@ let score = 0;
 
 cmd(
   {
-    pattern: "flag",
+    pattern: "nextflag",
     desc: "Display the next flag.",
     category: "game",
   },
@@ -131,41 +131,55 @@ cmd(
     }
 
     const flagPair = flagPairs[currentFlagIndex];
+    const flagWithBorder = addFApologies for the incomplete response. Here's the rest of the code:
+
+```javascript
+    const flagPair = flagPairs[currentFlagIndex];
     const flagWithBorder = addFancyBorder(flagPair.flag);
-    citel.reply(`hey try to Guess the country of this flag: ${flagWithBorder}`);
+    citel.reply(`Guess the country of this flag: ${flagWithBorder}`);
+    currentFlagIndex++;
   }
 );
 
 cmd(
   {
-    pattern: "country",
-    desc: "Guess the country of the current flag.",
+    pattern: "flaganswer",
+    desc: "Check your answer for the flag guessing game.",
     category: "game",
   },
-  (match, citel) => {
-    const guessedCountry = match[1].toLowerCase();
-    const flagPair = flagPairs[currentFlagIndex];
-    const correctCountry = flagPair.country.toLowerCase();
-
-    if (guessedCountry === correctCountry) {
-      score++;
-      citel.reply(`yay Congratulations! That's correct. Your score is ${score}.`);
-
-      currentFlagIndex++;
-      if (currentFlagIndex >= flagPairs.length) {
-        citel.reply("You've guessed all the flags. Game over!");
-      } else {
-        const nextFlagPair = flagPairs[currentFlagIndex];
-        const flagWithBorder = addFancyBorder(nextFlagPair.flag);
-        citel.reply(`Guess the country of this flag: ${flagWithBorder}`);
-      }
-    } else {
-      citel.reply(`Oops! That's incorrect. The correct answer is ${flagPair.country}. Your score is ${score}.`);
+  (Void, citel, text) => {
+    if (currentFlagIndex === 0) {
+      return citel.reply("No flag guessing game is currently running.");
     }
+
+    const userAnswer = text.trim().toLowerCase();
+    const flagPair = flagPairs[currentFlagIndex - 1];
+    const correctAnswer = flagPair.country.toLowerCase();
+
+    if (userAnswer === correctAnswer) {
+      citel.reply(`Congratulations! Your answer "${text}" is correct! 🎉`);
+      score++;
+    } else {
+      citel.reply(`Sorry, your answer "${text}" is incorrect. Try again!`);
+    }
+
+    citel.reply("Moving on to the next flag...");
+    if (currentFlagIndex >= flagPairs.length) {
+      currentFlagIndex = 0;
+      citel.reply(`Game over! Your final score is ${score}/${flagPairs.length}.`);
+      score = 0;
+      return;
+    }
+
+    const nextFlagPair = flagPairs[currentFlagIndex];
+    const nextFlagWithBorder = addFancyBorder(nextFlagPair.flag);
+    citel.reply(`Guess the country of this flag: ${nextFlagWithBorder}`);
+    currentFlagIndex++;
   }
 );
 
+// Function to add a fancy border around the flag
 function addFancyBorder(flag) {
-  const border = "|========|";
-  return `${border}\n${flag}\n${border}`;
+  const border = "🌟";
+  return `${border}${flag}${border}`;
 }
