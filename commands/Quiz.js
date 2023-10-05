@@ -131,10 +131,6 @@ cmd(
     }
 
     const flagPair = flagPairs[currentFlagIndex];
-    const flagWithBorder = addFApologies for the incomplete response. Here's the rest of the code:
-
-```javascript
-    const flagPair = flagPairs[currentFlagIndex];
     const flagWithBorder = addFancyBorder(flagPair.flag);
     citel.reply(`Guess the country of this flag: ${flagWithBorder}`);
     currentFlagIndex++;
