@@ -121,7 +121,7 @@ let score = 0;
 
 cmd(
   {
-    pattern: "nextflag",
+    pattern: "flag",
     desc: "Display the next flag.",
     category: "game",
   },
@@ -132,13 +132,13 @@ cmd(
 
     const flagPair = flagPairs[currentFlagIndex];
     const flagWithBorder = addFancyBorder(flagPair.flag);
-    citel.reply(`Guess the country of this flag: ${flagWithBorder}`);
+    citel.reply(`hey try to Guess the country of this flag: ${flagWithBorder}`);
   }
 );
 
 cmd(
   {
-    pattern: "guesscountry",
+    pattern: "country",
     desc: "Guess the country of the current flag.",
     category: "game",
   },
@@ -149,7 +149,7 @@ cmd(
 
     if (guessedCountry === correctCountry) {
       score++;
-      citel.reply(`Congratulations! That's correct. Your score is ${score}.`);
+      citel.reply(`yay Congratulations! That's correct. Your score is ${score}.`);
 
       currentFlagIndex++;
       if (currentFlagIndex >= flagPairs.length) {
