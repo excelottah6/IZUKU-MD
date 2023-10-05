@@ -138,7 +138,7 @@ cmd(
 
 cmd(
   {
-    pattern: "guesscountry ([\\w\\s]+)",
+    pattern: "guesscountry",
     desc: "Guess the country of the current flag.",
     category: "game",
   },
@@ -166,6 +166,6 @@ cmd(
 );
 
 function addFancyBorder(flag) {
-  const border = "🚩🚩🚩🚩🚩";
+  const border = "|========|";
   return `${border}\n${flag}\n${border}`;
 }
