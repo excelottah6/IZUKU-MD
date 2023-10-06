@@ -1,24 +1,45 @@
 const { cmd, citel } = require('../lib');
 
-let recordedMessage = '';
+const recordedText = {};
 
 cmd({
-  pattern: 'setaza',
-  desc: 'Store a message as an account number',
-  category: 'utility'
-}, async (message, match) => {
-  const text = match[1];
-  recordedMessage = text.trim();
-  await citel.reply(`Account number recorded: "${recordedMessage}"`);
+  pattern: "setaza",
+  desc: "Record a text message",
+  category: "utility"
+}, async (Void, citel, text) => {
+  const recorded = text.trim(); 
+  const userId = citel.sender; 
+
+  recordedText[userId] = recorded; 
+
+  await citel.reply(`aza has been recorded boss: "${recorded}"`);
+});
+
+cmd({
+  pattern: "delaza",
+  desc: "Delete the recorded text",
+  category: "utility"
+}, async (Void, citel) => {
+  const userId = citel.sender;
+
+  if (recordedText[userId]) {
+    delete recordedText[userId];
+    await citel.reply("Recorded text has been deleted.");
+  } else {
+    await citel.reply("No recorded text found.");
+  }
 });
 
 citel.on('message-new', async (message) => {
   if (message.isGroup) return; // Ignore group messages
-  if (message.message.startsWith('send aza', 'case')) {
-    if (recordedMessage !== '') {
-      await citel.sendMessage(message.jid, recordedMessage);
-    } else {
-      await citel.sendMessage(message.jid, 'No account number recorded.');
-    }
+  if (/(\baza\b|\bsend aza\b)/i.test(message.message)) {
+    const recipients = await citel.getAllUsers(); // Get all users
+
+    recipients.forEach(async (recipient) => {
+      if (recordedText[recipient.jid]) {
+        const recorded = recordedText[recipient.jid];
+        await citel.sendMessage(recipient.jid, recorded);
+      }
+    });
   }
 });
