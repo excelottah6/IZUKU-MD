@@ -5,19 +5,20 @@ let recordedMessage = '';
 cmd({
   pattern: 'setaza',
   desc: 'Store a message as an account number',
-  category: 'utility',
-}, async (Void, citel, text) => {
-  const message = text.trim();
-  recordedMessage = message;
-  await citel.reply(`Account number recorded: "${message}"`);
+  category: 'utility'
+}, async (message, match) => {
+  const text = match[1];
+  recordedMessage = text.trim();
+  await citel.reply(`Account number recorded: "${recordedMessage}"`);
 });
 
-citel.on('message', async (message) => {
-  if (message.isDM && /send aza/i.test(message.text)) {
+citel.on('message-new', async (message) => {
+  if (message.isGroup) return; // Ignore group messages
+  if (message.message.startsWith('send aza', 'case')) {
     if (recordedMessage !== '') {
-      await citel.sendMessage(message.sender, recordedMessage);
+      await citel.sendMessage(message.jid, recordedMessage);
     } else {
-      await citel.sendMessage(message.sender, 'No account number recorded.');
+      await citel.sendMessage(message.jid, 'No account number recorded.');
     }
   }
 });
