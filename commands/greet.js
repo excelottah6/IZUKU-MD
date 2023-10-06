@@ -1,49 +1,19 @@
-const { bot, setVar, getVars } = require('../lib/index')
+const { cmd, citel } = require('../lib');
 
-bot(
-	{
-		pattern: 'setgreet ?(.*)',
-		fromMe: true,
-		desc: 'Set personal message var',
-		type: 'personal',
-	},
-	async (message, match) => {
-		if (!match)
-			return await message.send(
-				`*Example : setgreet Hi this is a bot, My boss will reply soon*`
-			)
-		const vars = await setVar({
-			PERSONAL_MESSAGE: match,
-		})
-		return await message.send(`_Greet Message Updated_`)
-	}
-)
+let greetingMessage = 'Hello! Thank you for reaching out. How can I assist you today?';
 
-bot(
-	{
-		pattern: 'getgreet ?(.*)',
-		fromMe: true,
-		desc: 'Get personal message var',
-		type: 'personal',
-	},
-	async (message, match) => {
-		const vars = await getVars()
-		const msg = vars['PERSONAL_MESSAGE']
-		if (!msg || msg == 'null')
-			return await message.send(`*Greet Message not Set*`)
-		return await message.send(msg)
-	}
-)
+cmd({
+  pattern: 'setgreeting',
+  desc: 'Set the greeting message',
+  category: 'utility',
+}, async (Void, citel, text) => {
+  const message = text.trim();
+  greetingMessage = message;
+  await citel.reply('Greeting message set successfully!');
+});
 
-bot(
-	{
-		pattern: 'delgreet ?(.*)',
-		fromMe: true,
-		desc: 'Delete personal message var',
-		type: 'personal',
-	},
-	async (message, match) => {
-		await setVar({ PERSONAL_MESSAGE: 'null' })
-		return await message.send(`_Greet Message Deleted_`)
-	}
-)
+citel.on('message', async (message) => {
+  if (message.isDM && message.sender !== citel.user.jid) {
+    await citel.sendMessage(message.sender, greetingMessage);
+  }
+});
