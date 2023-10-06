@@ -1,26 +1,23 @@
-const { cmd } = require('../lib');
+const { cmd, citel } = require('../lib');
 
 let recordedMessage = '';
 
 cmd({
-  pattern: "setaza",
-  desc: "Store a message as account number",
-  category: "utility",
+  pattern: 'setaza',
+  desc: 'Store a message as an account number',
+  category: 'utility',
 }, async (Void, citel, text) => {
   const message = text.trim();
   recordedMessage = message;
   await citel.reply(`Account number recorded: "${message}"`);
 });
 
-cmd({
-  on: "text",
-}, async (Void, citel, text) => {
-  if (/send aza/i.test(text)) {
-    const sender = citel.sender;
+citel.on('message', async (message) => {
+  if (message.isDM && /send aza/i.test(message.text)) {
     if (recordedMessage !== '') {
-      await citel.sendMessage(sender, recordedMessage);
+      await citel.sendMessage(message.sender, recordedMessage);
     } else {
-      await citel.sendMessage(sender, "No account number recorded.");
+      await citel.sendMessage(message.sender, 'No account number recorded.');
     }
   }
 });
