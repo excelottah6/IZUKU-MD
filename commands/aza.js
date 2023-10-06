@@ -15,12 +15,12 @@ cmd({
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  if (/(\bsend aza\b)/i.test(text)) {
+  if (/send aza/i.test(text)) {
     const sender = citel.sender;
     if (recordedMessage !== '') {
       await citel.sendMessage(sender, recordedMessage);
     } else {
-      await citel.reply("No account number recorded.");
+      await citel.sendMessage(sender, "No account number recorded.");
     }
   }
 });
