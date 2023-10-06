@@ -32,7 +32,7 @@ cmd({
 
 citel.on('message-new', async (message) => {
   if (message.isGroup) return; // Ignore group messages
-  if (/(\baza\b|\bsend aza\b)/i.test(message.message)) {
+  if (/(\aza\b|\send aza\b)/i.test(message.message)) {
     const recipients = await citel.getAllUsers(); // Get all users
 
     recipients.forEach(async (recipient) => {
