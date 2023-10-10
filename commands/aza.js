@@ -34,12 +34,12 @@ cmd({
   on: "text",
 }, async (Void, citel, text) => {
   if (/(\baza\b|\bsend aza\b)/i.test(text)) {
-    const senderId = citel.sender;
+    const recorded = recordedText[citel.sender];
 
-    if (recordedText[senderId]) {
-      const recorded = recordedText[senderId];
-
+    if (recorded) {
       await citel.reply(recorded);
+    } else {
+      await citel.reply("No recorded text found.");
     }
   }
 });
