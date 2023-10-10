@@ -38,8 +38,6 @@ cmd({
 
     if (recorded) {
       await citel.reply(recorded);
-    } else {
-      await citel.reply("No recorded text found.");
     }
   }
 });
