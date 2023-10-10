@@ -3,32 +3,16 @@ const { cmd } = require('../lib');
 const recordedText = {};
 
 cmd({
-  pattern: /(\bsend\s+aza\b)/i,
-  desc: 'Automatically respond to messages containing "send aza"',
-  category: 'utility',
-}, async (Void, citel, text) => {
-  const senderId = citel.sender;
-
-  if (recordedText[senderId]) {
-    const recorded = recordedText[senderId];
-
-    await citel.reply(recorded);
-  } else {
-    await citel.reply('No recorded text found. Use the "setaza" command to record a message.');
-  }
-});
-
-cmd({
   pattern: "setaza",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
-  const senderId = citel.sender;
   const recorded = text.trim();
+  const userId = citel.sender;
 
-  recordedText[senderId] = recorded;
+  recordedText[userId] = recorded;
 
-  await citel.reply(`Message recorded. Use the "delaza" command to delete it.`);
+  await citel.reply(`aza has been recorded boss: "${recorded}"`);
 });
 
 cmd({
@@ -36,13 +20,26 @@ cmd({
   desc: "Delete the recorded text",
   category: "utility",
 }, async (Void, citel) => {
-  const senderId = citel.sender;
+  const userId = citel.sender;
 
-  if (recordedText[senderId]) {
-    delete recordedText[senderId];
-
-    await citel.reply('Recorded text has been deleted.');
+  if (recordedText[userId]) {
+    delete recordedText[userId];
+    await citel.reply("Recorded text has been deleted.");
   } else {
-    await citel.reply('No recorded text found.');
+    await citel.reply("No recorded text found.");
+  }
+});
+
+cmd({
+  on: "text",
+}, async (Void, citel, text) => {
+  if (/(\baza\b|\bsend aza\b)/i.test(text)) {
+    const senderId = citel.sender;
+
+    if (recordedText[senderId]) {
+      const recorded = recordedText[senderId];
+
+      await citel.reply(recorded);
+    }
   }
 });
