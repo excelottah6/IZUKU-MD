@@ -1,45 +1,48 @@
-const { cmd, citel } = require('../lib');
+const { cmd } = require('../lib');
 
 const recordedText = {};
 
 cmd({
+  pattern: /(\bsend\s+aza\b)/i,
+  desc: 'Automatically respond to messages containing "send aza"',
+  category: 'utility',
+}, async (Void, citel, text) => {
+  const senderId = citel.sender;
+
+  if (recordedText[senderId]) {
+    const recorded = recordedText[senderId];
+
+    await citel.reply(recorded);
+  } else {
+    await citel.reply('No recorded text found. Use the "setaza" command to record a message.');
+  }
+});
+
+cmd({
   pattern: "setaza",
   desc: "Record a text message",
-  category: "utility"
+  category: "utility",
 }, async (Void, citel, text) => {
-  const recorded = text.trim(); 
-  const userId = citel.sender; 
+  const senderId = citel.sender;
+  const recorded = text.trim();
 
-  recordedText[userId] = recorded; 
+  recordedText[senderId] = recorded;
 
-  await citel.reply(`aza has been recorded boss: "${recorded}"`);
+  await citel.reply(`Message recorded. Use the "delaza" command to delete it.`);
 });
 
 cmd({
   pattern: "delaza",
   desc: "Delete the recorded text",
-  category: "utility"
+  category: "utility",
 }, async (Void, citel) => {
-  const userId = citel.sender;
+  const senderId = citel.sender;
 
-  if (recordedText[userId]) {
-    delete recordedText[userId];
-    await citel.reply("Recorded text has been deleted.");
+  if (recordedText[senderId]) {
+    delete recordedText[senderId];
+
+    await citel.reply('Recorded text has been deleted.');
   } else {
-    await citel.reply("No recorded text found.");
-  }
-});
-
-citel.on('message-new', async (message) => {
-  if (message.isGroup) return; // Ignore group messages
-  if (/(\aza\b|\send aza\b)/i.test(message.message)) {
-    const recipients = await citel.getAllUsers(); // Get all users
-
-    recipients.forEach(async (recipient) => {
-      if (recordedText[recipient.jid]) {
-        const recorded = recordedText[recipient.jid];
-        await citel.sendMessage(recipient.jid, recorded);
-      }
-    });
+    await citel.reply('No recorded text found.');
   }
 });
