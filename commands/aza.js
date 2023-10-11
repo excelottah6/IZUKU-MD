@@ -4,7 +4,7 @@ let recordedMessage = '';
 let owner = ''; // Initialize owner as an empty string
 
 cmd({
-  pattern: "setowner (.+)",
+  pattern: "setowner",
   desc: "Set the bot owner",
   category: "utility",
   fromMe: true, // Make it a private command for the owner
@@ -18,7 +18,7 @@ cmd({
 });
 
 cmd({
-  pattern: "setaza (.+)",
+  pattern: "setaza",
   desc: "Store a message as account number",
   category: "utility",
   fromMe: true, // Make it a private command for the owner
