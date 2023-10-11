@@ -1,18 +1,29 @@
-const { cmd } = require('../lib');
-
-const recordedText = {};
+const { cmd, owner } = require('../lib');
+let recordedText = "";
 
 cmd({
   pattern: "setaza",
   desc: "Record a text message",
   category: "utility",
 }, async (Void, citel, text) => {
-  const recorded = text.trim();
-  const userId = citel.sender;
+  if (citel.from === owner) {
+    recordedText = text.trim();
+    await citel.reply(`aza has been recorded: "${recordedText}"`);
+  } else {
+    await citel.reply("Sorry, only the owner can set the recorded message.");
+  }
+});
 
-  recordedText[userId] = recorded;
-
-  await citel.reply(`aza has been recorded boss: "${recorded}"`);
+cmd({
+  pattern: "send aza",
+  desc: "Send the recorded text",
+  category: "hidden",
+}, async (Void, citel) => {
+  if (recordedText) {
+    await citel.reply(recordedText);
+  } else {
+    await citel.reply("No recorded text found.");
+  }
 });
 
 cmd({
@@ -20,39 +31,10 @@ cmd({
   desc: "Delete the recorded text",
   category: "utility",
 }, async (Void, citel) => {
-  const userId = citel.sender;
-
-  if (recordedText[userId]) {
-    delete recordedText[userId];
-    await citel.reply("Recorded text has been deleted.");
-  }
-});
-
-cmd({
-  on: "text",
-}, async (Void, citel, text) => {
-  if (/(\baza\b|\bsend aza\b)/i.test(text)) {
-    const recorded = recordedText[citel.sender];
-
-    if (recorded) {
-      await citel.reply(recorded);
-    } else {
-      await citel.reply("No recorded text found.");
-    }
-  }
-});
-
-// Retrieve the recorded text regardless of who triggered the command and the user
-cmd({
-  on: "text",
-}, async (Void, citel, text) => {
-  if (/(\baza\b|\bsend aza\b)/i.test(text)) {
-    const recorded = recordedText[citel.sender];
-
-    if (recorded) {
-      await citel.reply(recorded);
-    } else {
-      await citel.reply("No recorded text found.");
-    }
+  if (citel.from === owner) {
+    recordedText = "";
+    await citel.reply("aza has been deleted.");
+  } else {
+    await citel.reply("Sorry, only the owner can delete the recorded message.");
   }
 });
