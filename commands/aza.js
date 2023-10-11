@@ -26,7 +26,8 @@ cmd({
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  if (/(\bsend aza\b)/i.test(text)) {
+  // Updated the regular expression to match "send aza" case-insensitively
+  if (/send aza/i.test(text)) {
     const sender = citel.sender;
     if (recordedMessage !== '') {
       await citel.sendMessage(sender, recordedMessage);
