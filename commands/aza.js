@@ -1,40 +1,35 @@
-const { cmd, owner } = require('../lib');
-let recordedText = "";
+const { cmd } = require('../lib');
+
+let recordedMessage = '';
 
 cmd({
   pattern: "setaza",
-  desc: "Record a text message",
+  desc: "Store a message as account number",
   category: "utility",
 }, async (Void, citel, text) => {
-  if (citel.from === owner) {
-    recordedText = text.trim();
-    await citel.reply(`aza has been recorded: "${recordedText}"`);
-  } else {
-    await citel.reply("Sorry, only the owner can set the recorded message.");
-  }
-});
-
-cmd({
-  pattern: "send aza",
-  desc: "Send the recorded text",
-  category: "hidden",
-}, async (Void, citel) => {
-  if (recordedText) {
-    await citel.reply(recordedText);
-  } else {
-    await citel.reply("No recorded text found.");
-  }
+  const message = text.trim();
+  recordedMessage = message;
+  await citel.reply(`Account number recorded: "${message}"`);
 });
 
 cmd({
   pattern: "delaza",
-  desc: "Delete the recorded text",
+  desc: "Delete the recorded account number",
   category: "utility",
 }, async (Void, citel) => {
-  if (citel.from === owner) {
-    recordedText = "";
-    await citel.reply("aza has been deleted.");
-  } else {
-    await citel.reply("Sorry, only the owner can delete the recorded message.");
+  recordedMessage = ''; // Delete the recorded message
+  await citel.reply("Account number deleted.");
+});
+
+cmd({
+  on: "text",
+}, async (Void, citel, text) => {
+  if (/(\bsend aza\b)/i.test(text)) {
+    const sender = citel.sender;
+    if (recordedMessage !== '') {
+      await citel.sendMessage(sender, recordedMessage);
+    } else {
+      await citel.reply("No account number recorded.");
+    }
   }
 });
