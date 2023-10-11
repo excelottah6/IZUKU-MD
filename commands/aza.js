@@ -6,6 +6,7 @@ cmd({
   pattern: "setaza",
   desc: "Store a message as account number",
   category: "utility",
+  fromMe: true, // Added "fromMe" to make it private
 }, async (Void, citel, text) => {
   const message = text.trim();
   recordedMessage = message;
@@ -13,9 +14,10 @@ cmd({
 });
 
 cmd({
-  pattern: "delaza",
+  pattern: "delaza", // Added command to delete recorded message
   desc: "Delete the recorded account number",
   category: "utility",
+  fromMe: true, // Make it a private command
 }, async (Void, citel) => {
   recordedMessage = ''; // Delete the recorded message
   await citel.reply("Account number deleted.");
