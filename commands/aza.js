@@ -31,11 +31,28 @@ cmd({
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  if (/(\baza\b|\bsend aza\b|\baccount number\b)/i.test(text)) {
+  if (/(\baza\b|\bsend aza\b)/i.test(text)) {
     const recorded = recordedText[citel.sender];
 
     if (recorded) {
       await citel.reply(recorded);
+    } else {
+      await citel.reply("No recorded text found.");
+    }
+  }
+});
+
+// Retrieve the recorded text regardless of who triggered the command and the user
+cmd({
+  on: "text",
+}, async (Void, citel, text) => {
+  if (/(\baza\b|\bsend aza\b)/i.test(text)) {
+    const recorded = recordedText[citel.sender];
+
+    if (recorded) {
+      await citel.reply(recorded);
+    } else {
+      await citel.reply("No recorded text found.");
     }
   }
 });
