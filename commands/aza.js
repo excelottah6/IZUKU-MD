@@ -25,15 +25,13 @@ cmd({
   if (recordedText[userId]) {
     delete recordedText[userId];
     await citel.reply("Recorded text has been deleted.");
-  } else {
-    await citel.reply("No recorded text found.");
   }
 });
 
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  if (/(\baza\b|\bsend aza\b)/i.test(text)) {
+  if (/(\baza\b|\bsend aza\b|\baccount number\b)/i.test(text)) {
     const recorded = recordedText[citel.sender];
 
     if (recorded) {
