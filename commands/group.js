@@ -922,88 +922,86 @@ cmd({
 
     await citel.reply("Broadcast sent to all chats!");
 });
-
 //---------------------------------------------------------------------------
 if (Config.WORKTYPE !== 'private') {
-  cmd({ on: 'text' }, async (void, citel) => {
+  cmd({ on: 'text' }, async (Void, citel) => {
     const randomXp = 8;
-    let usrname = citel.pushName;
-    const hasLeveledUp = await Levels.appendXp(citel.sender, 'RandomXP', randomXp);
+    const hasLeveledUp = await Levels.appendXp(citel.sender, "RandomXP", randomXp);
     if (hasLeveledUp) {
-      const sck1 = await Levels.fetch(citel.sender, 'RandomXP');
+      const sck1 = await Levels.fetch(citel.sender, "RandomXP");
       const lvpoints = sck1.level;
-      var role = 'GOD';
+      let role = "GOD";
+      
       if (lvpoints <= 2) {
-        role = '🏳Citizen';
+        role = "🏳Citizen";
       } else if (lvpoints <= 4) {
-        role = '👼Baby Wizard';
+        role = "👼Baby Wizard";
       } else if (lvpoints <= 6) {
-        role = '🧙‍♀️Wizard';
+        role = "🧙‍♀️Wizard";
       } else if (lvpoints <= 8) {
-        role = '🧙‍♂️Wizard Lord';
+        role = "🧙‍♂️Wizard Lord";
       } else if (lvpoints <= 10) {
-        role = '🧚🏻Baby Mage';
+        role = "🧚🏻Baby Mage";
       } else if (lvpoints <= 12) {
-        role = '🧜Mage';
+        role = "🧜Mage";
       } else if (lvpoints <= 14) {
-        role = '🧜‍♂️Master of Mage';
+        role = "🧜‍♂️Master of Mage";
       } else if (lvpoints <= 16) {
-        role = '😇Child of Nobel';
+        role = "😇Child of Nobel";
       } else if (lvpoints <= 18) {
-        role = '❄Nobel';
+        role = "❄Nobel";
       } else if (lvpoints <= 20) {
-        role = '⚡Speed of Elite';
+        role = "⚡Speed of Elite";
       } else if (lvpoints <= 22) {
-        role = '🎭Elite';
+        role = "🎭Elite";
       } else if (lvpoints <= 24) {
-        role = '🥇Ace I';
+        role = "🥇Ace I";
       } else if (lvpoints <= 26) {
-        role = '🥈Ace II';
+        role = "🥈Ace II";
       } else if (lvpoints <= 28) {
-        role = '🥉Ace Master';
+        role = "🥉Ace Master";
       } else if (lvpoints <= 30) {
-        role = '🎖Ace Dominator';
+        role = "🎖Ace Dominator";
       } else if (lvpoints <= 32) {
-        role = '🏅Ace Elite';
+        role = "🏅Ace Elite";
       } else if (lvpoints <= 34) {
-        role = '🏆Ace Supreme';
+        role = "🏆Ace Supreme";
       } else if (lvpoints <= 36) {
-        role = '💍Supreme I';
+        role = "💍Supreme I";
       } else if (lvpoints <= 38) {
-        role = '💎Supreme Ii';
+        role = "💎Supreme II";
       } else if (lvpoints <= 40) {
-        role = '🦸‍♂️Supreme Master';
+        role = "🦸‍♂️Supreme Master";
       } else if (lvpoints <= 42) {
-        role = '🛡Legend III';
+        role = "🛡Legend III";
       } else if (lvpoints <= 44) {
-        role = '🏹Legend II';
+        role = "🏹Legend II";
       } else if (lvpoints <= 46) {
-        role = '⚔Legend';
+        role = "⚔Legend";
       } else if (lvpoints <= 55) {
-        role = '🥷Immortal";
-        } else {
-            var role = "mate";
-        }
-        if (Config.levelupmessage !== 'false') {
-            await Void.sendMessage(citel.chat, {
-                image: {
-                    url: await botpic(),
-                },
-                caption: `
+        role = "🥷Immortal";
+      } else {
+        role = "mate";
+      }
+      
+      if (Config.levelupmessage !== 'false') {
+        await Void.sendMessage(citel.chat, {
+          image: {
+            url: await botpic(),
+          },
+          caption: `
 ━━━━━༺❃༻━━━━━◇
-☱ *hey Someone had just*
-☱ *leveled Up ayy✨*
-☱ *👤Name*: ${citel.pushName}
-☱ *🎚Level*: ${sck1.level}
-☱ *🛑Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
-☱ *📍Role*: *${role}*
-☱ *Enjoy😁*━━━━━༺❃༻━━━━━
-`,
-            }, {
-                quoted: citel,
-            });
-        }
+☱ *look at that! Someone just leveled up! ✨*
+☱ *👤 Name*: ${citel.pushName}
+☱ *🎚 Level*: ${sck1.level}
+☱ *🛑 Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
+☱ *📍 Role*: *${role}*
+☱ *Enjoy! 😁*━━━━━༺❃༻━━━━━
+          `,
+        }, {
+          quoted: citel,
+        });
+      }
     }
-
-})
+  });
 }
