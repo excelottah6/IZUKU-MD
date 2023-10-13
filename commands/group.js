@@ -922,7 +922,7 @@ cmd({
 
     await citel.reply("Broadcast sent to all chats!");
 });
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
 if (Config.WORKTYPE !== 'private') {
   cmd({ on: 'text' }, async (Void, citel) => {
     const randomXp = 8;
