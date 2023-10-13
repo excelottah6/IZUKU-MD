@@ -10,9 +10,16 @@ cmd({
 }, async (Void, citel, text) => {
   if (citel.from === owner) {
     const chatId = citel.chatId;
-    const textFile = `chat_${chatId}_text.txt`;
-    const audioFile = `chat_${chatId}_audio.mp3`;
-    const videoFile = `chat_${chatId}_video.mp4`;
+    const chatDir = `./chats/${chatId}`;
+
+    // Create the chat directory if it doesn't exist
+    if (!fs.existsSync(chatDir)) {
+      fs.mkdirSync(chatDir);
+    }
+
+    const textFile = `${chatDir}/text.txt`;
+    const audioFile = `${chatDir}/audio.mp3`;
+    const videoFile = `${chatDir}/video.mp4`;
 
     // Save text file
     fs.writeFileSync(textFile, recordedText);
