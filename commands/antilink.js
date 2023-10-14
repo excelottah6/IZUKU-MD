@@ -4,7 +4,7 @@ let antiLinkEnabled = true; // Enable anti-link by default
 let antiSpamEnabled = true; // Enable anti-spam by default
 
 cmd({
-  pattern: "antilink on",
+  pattern: "actantilink",
   desc: "Enable anti-link feature.",
   category: "group",
   fromMe: true,
@@ -14,7 +14,7 @@ cmd({
 });
 
 cmd({
-  pattern: "antilink off",
+  pattern: "deactantilink",
   desc: "Disable anti-link feature.",
   category: "group",
   fromMe: true,
@@ -24,7 +24,7 @@ cmd({
 });
 
 cmd({
-  pattern: "antispam on",
+  pattern: "actantispam",
   desc: "Enable anti-spam feature.",
   category: "group",
   fromMe: true,
@@ -34,7 +34,7 @@ cmd({
 });
 
 cmd({
-  pattern: "antispam off",
+  pattern: "deactantispam",
   desc: "Disable anti-spam feature.",
   category: "group",
   fromMe: true,
