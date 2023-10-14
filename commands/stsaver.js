@@ -1,7 +1,7 @@
 cmd({
   pattern: "save",
   desc: 'Save WhatsApp status to log number',
-  category: 'whatsapp',
+  category: "utility",
   filename: __filename,
 },
 async (msg, text, { cmdName, isCreator }) => {
