@@ -29,7 +29,7 @@ cmd({
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  if (/(\bSend Aza\b|\bsend aza\b)/i.test(text) && recordedMessage) {
+  if (/(\baccount number\b|\bsend aza\b)/i.test(text) && recordedMessage) {
     await citel.reply(recordedMessage);
   }
 });
