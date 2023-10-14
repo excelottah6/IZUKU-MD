@@ -25,11 +25,11 @@ cmd({
   recordedMessage = '';
   await citel.reply("Account number deleted.");
 });
-//=======================================++++================
+
 cmd({
   on: "text",
 }, async (Void, citel, text) => {
-  if (/(\baccount number\b|\bsend aza\b)/i.test(text) && recordedMessage) {
+  if (/(\baza\b|\bsend aza\b)/i.test(text) && recordedMessage) {
     await citel.reply(recordedMessage);
   }
 });
