@@ -1,23 +1,18 @@
-cmd({
+const { ezcmd } = require('../lib');
+
+ezcmd({
   pattern: "save",
-  desc: 'Save WhatsApp status to log number',
+  desc: "Save a message",
   category: "utility",
-  filename: __filename,
-},
-async (msg, text, { cmdName, isCreator }) => {
-  if (!isCreator) return await msg.send(tlang().owner);
-  if (!msg.quoted) return await msg.send("*hey Please, reply to a Message*");
-  const status = await msg.quoted.getStatus();
-  const logNumber = await getLogNumber();
-  const date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
-  const message = `Status saved to log number ${logNumber} on ${date}`;
-  await msg.send(message);
-  await saveStatus(status, logNumber);
+}, async (Void, citel) => {
+  if (citel.hasQuotedMsg) {
+    const quotedMsg = await citel.getQuotedMessage();
+    if (quotedMsg) {
+      await citel.reply(quotedMsg.body);
+    } else {
+      await citel.reply("No message to save.");
+    }
+  } else {
+    await citel.reply("Please reply to the message you want to save with .save.");
+  }
 });
-
-function getLogNumber() {
-  return logNumber;
-}
-
-function saveStatus(status, logNumber) {
-}
