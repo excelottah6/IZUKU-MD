@@ -1,53 +1,85 @@
-const activeAntilinkChats = new Set(); // Set to store active antilink chats
+const { cmd } = require('../lib');
 
-// Function to check if antilink is active for a given chatId
-function isAntilinkActive(chatId) {
-  return activeAntilinkChats.has(chatId);
+let antiLinkEnabled = true; // Enable anti-link by default
+let antiSpamEnabled = true; // Enable anti-spam by default
+
+cmd({
+  pattern: "antilink on",
+  desc: "Enable anti-link feature.",
+  category: "group",
+  fromMe: true,
+}, async (Void, citel) => {
+  antiLinkEnabled = true;
+  await citel.reply("Anti-link feature has been enabled.");
+});
+
+cmd({
+  pattern: "antilink off",
+  desc: "Disable anti-link feature.",
+  category: "group",
+  fromMe: true,
+}, async (Void, citel) => {
+  antiLinkEnabled = false;
+  await citel.reply("Anti-link feature has been disabled.");
+});
+
+cmd({
+  pattern: "antispam on",
+  desc: "Enable anti-spam feature.",
+  category: "group",
+  fromMe: true,
+}, async (Void, citel) => {
+  antiSpamEnabled = true;
+  await citel.reply("Anti-spam feature has been enabled.");
+});
+
+cmd({
+  pattern: "antispam off",
+  desc: "Disable anti-spam feature.",
+  category: "group",
+  fromMe: true,
+}, async (Void, citel) => {
+  antiSpamEnabled = false;
+  await citel.reply("Anti-spam feature has been disabled.");
+});
+
+cmd({
+  on: "text",
+}, async (Void, citel, text) => {
+  const userId = citel.sender;
+
+  if (antiLinkEnabled && hasLink(text)) {
+    await citel.deleteMessage();
+    await citel.reply("Link removed: Links are not allowed.");
+    return;
+  }
+
+  if (antiSpamEnabled && isSpam(userId, text)) {
+    await citel.deleteMessage();
+    await citel.reply("Spam detected: Please avoid sending repetitive messages.");
+  }
+});
+
+// Function to check for links
+function hasLink(text) {
+  const linkRegex = /https?:\/\/\S+/i;
+  return linkRegex.test(text);
 }
 
-// Message event handler
-Void.on("message-new", async (message) => {
-  if (message.isGroup) {
-    const chatId = message.chat;
-    const isAntilinkActive = isAntilinkActive(chatId);
+// Function to check for spam and limit consecutive messages
+function isSpam(userId, text) {
+  if (lastMessages.has(userId)) {
+    const consecutiveMessages = lastMessages.get(userId);
+    consecutiveMessages.push(text);
 
-    if (isAntilinkActive && message.text.includes("http")) {
-      // Message contains a link, delete it
-      await Void.deleteMessage(chatId, message.id);
-
-      // Remove the sender from the group
-      await Void.groupRemove(chatId, [message.sender]);
+    if (consecutiveMessages.length > maxConsecutiveMessages) {
+      consecutiveMessages.shift(); // Remove the oldest message
+    } else {
+      lastMessages.set(userId, consecutiveMessages);
+      return false;
     }
   }
-});
 
-// Command to activate or deactivate antilink
-cmd({
-  pattern: "antilink (on|off)",
-  desc: "activates or deactivates antilink.",
-  category: "group",
-  filename: __filename,
-},
-async (Void, citel, match) => {
-  if (!citel.isGroup) return citel.reply(tlang().group);
-  const groupAdmins = await getAdmin(Void, citel);
-  const botNumber = await Void.decodeJid(Void.user.id);
-  const isBotAdmins = citel.isGroup ? groupAdmins.includes(botNumber) : false;
-  const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
-  if (!isAdmins) return citel.reply(tlang().admin);
-  if (!isBotAdmins) return citel.reply(tlang().botadmin);
-
-  const antilinkStatus = match[1]; // "on" or "off"
-
-  if (antilinkStatus === "on") {
-    // Activate antilink
-    activeAntilinkChats.add(citel.chat);
-    citel.reply("Antilink activated. Messages containing links will be deleted, and the sender will be removed.");
-  } else if (antilinkStatus === "off") {
-    // Deactivate antilink
-    activeAntilinkChats.delete(citel.chat);
-    citel.reply("Antilink deactivated.");
-  } else {
-    citel.reply("Invalid antilink status. Please use 'on' or 'off'.");
-  }
-});
+  lastMessages.set(userId, [text]);
+  return true;
+}
