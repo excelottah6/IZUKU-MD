@@ -8,12 +8,11 @@ cmd({
   if (citel.hasQuotedStatus) {
     const status = await citel.getQuotedStatus();
 
-    if (status.isVideo) {
-      const savedStatus = await status.forward(citel.chat, true); // Forward the video status
-      await citel.reply("Video status saved and sent!");
-    } else if (status.isImage) {
-      const savedStatus = await status.forward(citel.chat, true); // Forward the image status
-      await citel.reply("Image status saved and sent!");
+    if (status.isVideo || status.isImage) {
+      const savedStatus = await status.forward(citel.chat, false); // Forward the status
+      await citel.reply("Status saved and sent!");
+    } else {
+      await citel.reply("Sorry, I can only save and send image or video statuses.");
     }
   } else {
     await citel.reply("Reply to a status to save and send it.");
