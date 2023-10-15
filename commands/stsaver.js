@@ -11,6 +11,9 @@ cmd({
     if (status.isVideo || status.isImage) {
       const savedStatus = await status.forward(citel.chat, false); // Forward the status
       await citel.reply("Status saved and sent!");
+      
+      // Send the saved status back to the chat
+      const savedStatusMessage = await citel.sendMessage(citel.chat, savedStatus, { linkPreview: null });
     } else {
       await citel.reply("Sorry, I can only save and send image or video statuses.");
     }
