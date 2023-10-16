@@ -1,4 +1,5 @@
 const { cmd } = require('../lib')
+
 cmd({
   pattern: "save",
   desc: "Save status to the chat.",
