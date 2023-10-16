@@ -1,14 +1,14 @@
-const { cmd } = require('../lib');
-
 cmd({
   pattern: "save",
-  desc: "Save the quoted status to the chat",
+  desc: "Save status to the chat.",
   category: "misc",
-  filename: __filename,
-}, async (Void, citel) => {
-  if (!citel.hasQuoted) return await citel.reply("Please reply to a status to save it to the chat.");
+  fromMe: true, // Ensure it's a private command
+  onlyGroup: false, // Allow using it outside of groups
+}, async (Void, citel, match) => {
+  if (citel.hasQuoted) {
+    const quotedMessage = await citel.getQuotedMessage();
 
-  const status = await citel.getQuotedMessage();
-
-  await forwardMessage(citel.chat, Void, citel, citel.id);
-});
+    if (quotedMessage.isStatus) {
+      await citel.send(quotedMessage);
+    } else {
+      await citel
