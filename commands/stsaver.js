@@ -6,19 +6,14 @@ cmd({
   category: "misc",
   fromMe: true, // Ensure it's a private command
 }, async (Void, citel, match) => {
-  if (citel.hasQuotedMsg) {
-    const quotedMessage = await citel.getQuotedMessage();
-    
-    if (quotedMessage.isMedia) {
-      await forwardMessage(citel.chat, Void.bot, quotedMessage, citel.id._serialized);
-    } else {
-      await citel.reply("The quoted message does not contain media.");
-    }
+  const quotedMessage = citel.quotedMsg || (await getQuotedMessage(citel.chat, citel.id));
+  
+  if (quotedMessage && (quotedMessage.isMedia || quotedMessage.isStatus)) {
+    await forwardMessage(citel.chat, Void.bot, quotedMessage, citel.id._serialized);
   } else {
-    await citel.reply("Please reply to a message with media to save it.");
+    await citel.reply("Please reply to a message with media or a status to save it.");
   }
 });
-
 
 cmd({
   pattern: "send",
@@ -26,10 +21,16 @@ cmd({
   category: "misc",
   fromMe: true, // Ensure it's a private command
 }, async (Void, citel, match) => {
-  const quotedMessage = citel.quotedMsg;
+  const quotedMessage = citel.quotedMsg || (await getQuotedMessage(citel.chat, citel.id));
+  
   if (quotedMessage) {
     await forwardMessage(citel.chatId, Void.bot, quotedMessage, "status");
   } else {
     await citel.reply("Please reply to a message to forward it.");
   }
 });
+
+async function getQuotedMessage(chat, id) {
+  const message = await chat.getMessage(id);
+  return message.quotedMsg;
+}
