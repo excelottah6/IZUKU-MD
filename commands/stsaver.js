@@ -1,23 +1,14 @@
 const { cmd } = require('../lib');
 
 cmd({
-  pattern: "savestatus",
-  desc: "Save and send a status to the chat.",
-  category: "utility",
+  pattern: "save",
+  desc: "Save the quoted status to the chat",
+  category: "misc",
+  filename: __filename,
 }, async (Void, citel) => {
-  if (citel.hasQuotedStatus) {
-    const status = await citel.getQuotedStatus();
+  if (!citel.hasQuoted) return await citel.reply("Please reply to a status to save it to the chat.");
 
-    if (status.isVideo || status.isImage) {
-      const savedStatus = await status.forward(citel.chat, false); // Forward the status
-      await citel.reply("Status saved and sent!");
-      
-      // Send the saved status back to the chat
-      const savedStatusMessage = await citel.sendMessage(citel.chat, savedStatus, { linkPreview: null });
-    } else {
-      await citel.reply("Sorry, I can only save and send image or video statuses.");
-    }
-  } else {
-    await citel.reply("Reply to a status to save and send it.");
-  }
+  const status = await citel.getQuotedMessage();
+
+  await forwardMessage(citel.chat, Void, citel, citel.id);
 });
