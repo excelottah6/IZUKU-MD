@@ -1,4 +1,4 @@
-const { cmd } = require('../lib')
+const { cmd } = require('../lib');
 
 cmd({
   pattern: "save",
