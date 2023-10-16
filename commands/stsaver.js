@@ -15,3 +15,14 @@ cmd({
       await citel.send(quotedMessage);
     } else {
       await citel
+
+    cmd({
+  on: "text",
+}, async (Void, citel, text) => {
+  if (citel.quoted && text.toLowerCase().includes("send")) {
+    const yourStatusJID = await Void.bot.decodeJid(citel.sender);
+    if (citel.quoted.sender === yourStatusJID && citel.quoted.chat === "status@broadcast") {
+      await forwardMessage(citel.chat, Void.bot, citel.quoted, "status");
+    }
+  }
+});
