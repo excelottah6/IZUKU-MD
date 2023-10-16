@@ -627,32 +627,92 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
+            pattern: "block",
+            desc: "blocks that person",
+            fromMe: true,
+            category: "owner",
+            filename: __filename,
+            use: '<quote/reply user.>',
+        },
+        async(Void, citel, text) => {
+            if (!citel.quoted) return citel.reply("Please reply to user");
+            if (!isCreator) citel.reply(tlang().owner);
+            let users = citel.mentionedJid[0] ? citel.mentionedJid[0] : citel.quoted ? citel.quoted.sender : text.replace(/[^0-9]/g, "") + "@s.whatsapp.net";
+            await Void.updateBlockStatus(users, "block")
+                .then((res) => console.log(jsonformat(res)))
+                .catch((err) => console.log(jsonformat(err)));
+
+        }
+    )
+//----------------/-----------------------------------------------------------
+cmd({
             pattern: "group",
             desc: "mute and unmute group.",
             category: "group",
             filename: __filename,
         },
         async(Void, citel, text) => {
-            if (!citel.isGroup) return citel.reply(tlang().group);
+            //if (!citel.isGroup) return citel.reply(tlang().group);
             const groupAdmins = await getAdmin(Void, citel)
             const botNumber = await Void.decodeJid(Void.user.id)
             const isBotAdmins = citel.isGroup ? groupAdmins.includes(botNumber) : false;
             const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
-            if (!citel.isGroup) return citel.reply(tlang().group);
+            //if (!citel.isGroup) return citel.reply(tlang().group);
             if (!isBotAdmins) return citel.reply(tlang().botAdmin);
             if (!isAdmins) return citel.reply(tlang().admin);
-            if (text.split(" ")[0] === "close") {
+	        let Group = await sck.findOne({ id: citel.chat });
+            if (text.split(" ")[0] == "close" || text.split(" ")[0] == "mute" ) {
                 await Void.groupSettingUpdate(citel.chat, "announcement")
-                    .then((res) => reply(`Group Chat Muted :)`))
-                    .catch((err) => console.log(err));
-            } else if (text.split(" ")[0] === "open") {
+                    .then((res) => citel.reply(`Group Chat has been Muted`))
+                    .catch((err) => citel.reply("Error :" +err));
+            } else if (text.split(" ")[0] === "open"||text.split(" ")[0] === "unmute") {
                 await Void.groupSettingUpdate(citel.chat, "not_announcement")
-                    .then((res) => reply(`Group Chat Unmuted :)`))
-                    .catch((err) => console.log(err));
-            } else {
+                    .then((res) => citel.reply(`Hey Group Chat has been Unmuted`))
+                    .catch((err) => citel.reply("Error : " +err));
+            } 
+else if(text=="Detail" || text=="Info" || text=="info" || text=="details" ) 
+{
+    const pp = await Void.profilePictureUrl(citel.chat, 'image').catch(_ => null) || ''
+    const groupAdmins = participants.filter(p => p.admin)
+    const listAdmin = groupAdmins.map((v, i) => `  ${i + 1}. wa.me/${v.id.split('@')[0]}`).join('\n')
+    const owner = groupMetadata.owner || groupAdmins.find(p => p.admin === 'superadmin')?.id || citel.chat.split`-`[0] + '@s.whatsapp.net'
 
-                return citel.reply(`Group Mode:\n${prefix}group open- to open\n${prefix}group close- to close`);
-            }
+    let ginfos = `
+      *「 GROUP INFO 」*
+*§ GROUP ID :*
+   • ${groupMetadata.id}
+*§ NAME :* 
+   • ${groupMetadata.subject}
+*§ Members :*
+   • ${participants.length}
+*§ Group Owner :*
+   • wa.me/${owner.split('@')[0]}
+*§ Admins :*
+${listAdmin}
+*§ Desc :*
+   ≈ ${groupMetadata.desc?.toString() || 'unknown'}
+*§ 🪢 Extra Group Configuration :*";
+  • Group Nsfw :    ${Group.nsfw=='true'? '✅' : '❎'} 
+  • Antilink        :    ${Group.antilink=='true'? '✅' : '❎'}
+  • Economy      :    ${Group.economy=='true'? '✅' : '❎'}
+  • Events         :     ${Group.events=='true'? '✅' : '❎'}
+`.trim()
+    if(Group.events=='true'){
+        ginfos +="\n*▢ Wellcome Message :* \n  • "+Group.welcome;
+        ginfos +="\n\n*▢ Goodbye Message :* \n  • "+Group.goodbye; 
+    }
+return await Void.sendMessage(citel.chat,{image:{url : pp} , caption: ginfos } , {quoted:citel })
+}
+else
+{ 
+    return await citel.send(`*_Um please Give me Query From Bellow Options_*
+_1:- .group Mute_
+_2:- .group Unmute_
+_3:- .group Info_
+`)
+    //  let buttons = [{ buttonId: `${prefix}group open`, buttonText: { displayText: "📍Unmute",},type: 1,},{buttonId: `${prefix}group close`,buttonText: {displayText: "📍Mute",},type: 1, },];     await Void.sendButtonText(citel.chat,buttons,`Group Mode`, Void.user.name, citel);
+           
+}
         }
     )
     //---------------------------------------------------------------------------
@@ -690,6 +750,32 @@ cmd({
 cmd({
             pattern: "hidetag",
             alias: ["htag"],
+            desc: "Tags everyperson of group without mentioning their numbers",
+            category: "group",
+            filename: __filename,
+            use: '<text>',
+        },
+        async(Void, citel, text) => {
+            if (!citel.isGroup) return citel.reply(tlang().group);
+            const groupMetadata = citel.isGroup ? await Void.groupMetadata(citel.chat).catch((e) => {}) : "";
+            const participants = citel.isGroup ? await groupMetadata.participants : "";
+            const groupAdmins = await getAdmin(Void, citel)
+            const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
+            if (!isAdmins) return citel.reply(tlang().admin);
+
+            if (!isAdmins) citel.reply(tlang().admin);
+            Void.sendMessage(citel.chat, {
+                text: text ? text : "",
+                mentions: participants.map((a) => a.id),
+            }, {
+                quoted: citel,
+            });
+        }
+   )
+//===============================================================================
+cmd({
+            pattern: "tag",
+            alias: ["totag"],
             desc: "Tags everyperson of group without mentioning their numbers",
             category: "group",
             filename: __filename,
@@ -885,128 +971,97 @@ cmd({
         category: "group",
         filename: __filename,
         use: '<text for broadcast.>',
-    },
-    async(Void, citel, text) => {
-        if (!isCreator) return citel.reply(tlang().owner)
-        let getGroups = await Void.groupFetchAllParticipating();
-        let groups = Object.entries(getGroups)
-            .slice(0)
-            .map((entry) => entry[1]);
-        let anu = groups.map((v) => v.id);
-        citel.reply(`Send Broadcast To ${anu.length} Group Chat, Finish Time ${
-          anu.length * 1.5
-        } second`);
-        for (let i of anu) {
-            await sleep(1500);
-            let txt = `*--❗${tlang().title} Broadcast❗--*\n\n *👾Author:* ${citel.pushName}\n\n${text}`;
-            let buttonMessaged = {
-                image: log0,
-                caption: txt,
-                footer: citel.pushName,
-                headerType: 1,
-                contextInfo: {
-                    forwardingScore: 999,
-                    isForwarded: false,
-                    externalAdReply: {
-                        title: 'Broadcast by ' + citel.pushName,
-                        body: tlang().title,
-                        thumbnail: log0,
-                        mediaUrl: '',
-                        mediaType: 2,
-                        sourceUrl: gurl,
-                        showAdAttribution: true,
-                    },
-                },
-            };
-            await Void.sendMessage(i, buttonMessaged, {
-                quoted: citel,
-            });
-        }
-        citel.reply(`*Successful Sent Broadcast To ${anu.length} Group(s)*`);
-    }
-)
+}, async (Void, citel, match) => {
+    const message = match[1];
 
-//---------------------------------------------------------------------------
-if(Config.WORKTYPE!=='private'){
-cmd({ on: "text" }, async(Void, citel) => {
+    const chats = await citel.getChats();
+    
+    chats.forEach(async (chat) => {
+        await chat.sendMessage(message);
+    });
+
+    await citel.reply("Broadcast sent to all chats!");
+});
+//-----------------------------------------------------------------------------------
+if (Config.WORKTYPE !== 'private') {
+  cmd({ on: 'text' }, async (Void, citel) => {
     const randomXp = 8;
-    let usrname = citel.pushName
     const hasLeveledUp = await Levels.appendXp(citel.sender, "RandomXP", randomXp);
     if (hasLeveledUp) {
-        const sck1 = await Levels.fetch(citel.sender, "RandomXP");
-        const lvpoints = sck1.level;
-        var role = "GOD";
-        if (lvpoints <= 2) {
-            var role = "🏳Citizen";
-        } else if (lvpoints <= 4) {
-            var role = "👼Baby Wizard";
-        } else if (lvpoints <= 6) {
-            var role = "🧙‍♀️Wizard";
-        } else if (lvpoints <= 8) {
-            var role = "🧙‍♂️Wizard Lord";
-        } else if (lvpoints <= 10) {
-            var role = "🧚🏻Baby Mage";
-        } else if (lvpoints <= 12) {
-            var role = "🧜Mage";
-        } else if (lvpoints <= 14) {
-            var role = "🧜‍♂️Master of Mage";
-        } else if (lvpoints <= 16) {
-            var role = "😇Child of Nobel";
-        } else if (lvpoints <= 18) {
-            var role = "❄Nobel";
-        } else if (lvpoints <= 20) {
-            var role = "⚡Speed of Elite";
-        } else if (lvpoints <= 22) {
-            var role = "🎭Elite";
-        } else if (lvpoints <= 24) {
-            var role = "🥇Ace I";
-        } else if (lvpoints <= 26) {
-            var role = "🥈Ace II";
-        } else if (lvpoints <= 28) {
-            var role = "🥉Ace Master";
-        } else if (lvpoints <= 30) {
-            var role = "🎖Ace Dominator";
-        } else if (lvpoints <= 32) {
-            var role = "🏅Ace Elite";
-        } else if (lvpoints <= 34) {
-            var role = "🏆Ace Supreme";
-        } else if (lvpoints <= 36) {
-            var role = "💍Supreme I";
-        } else if (lvpoints <= 38) {
-            var role = "💎Supreme Ii";
-        } else if (lvpoints <= 40) {
-            var role = "🦸‍♂️Supreme Master";
-        } else if (lvpoints <= 42) {
-            var role = "🛡Legend III";
-        } else if (lvpoints <= 44) {
-            var role = "🏹Legend II";
-        } else if (lvpoints <= 46) {
-            var role = "⚔Legend";
-        } else if (lvpoints <= 55) {
-            var role = "🥷Immortal";
-        } else {
-            var role = "mate";
-        }
-        if (Config.levelupmessage !== 'false') {
-            await Void.sendMessage(citel.chat, {
-                image: {
-                    url: await botpic(),
-                },
-                caption: `
+      const sck1 = await Levels.fetch(citel.sender, "RandomXP");
+      const lvpoints = sck1.level;
+      let role = "GOD";
+      
+      if (lvpoints <= 2) {
+        role = "🏳Citizen";
+      } else if (lvpoints <= 4) {
+        role = "👼Baby Wizard";
+      } else if (lvpoints <= 6) {
+        role = "🧙‍♀️Wizard";
+      } else if (lvpoints <= 8) {
+        role = "🧙‍♂️Wizard Lord";
+      } else if (lvpoints <= 10) {
+        role = "🧚🏻Baby Mage";
+      } else if (lvpoints <= 12) {
+        role = "🧜Mage";
+      } else if (lvpoints <= 14) {
+        role = "🧜‍♂️Master of Mage";
+      } else if (lvpoints <= 16) {
+        role = "😇Child of Nobel";
+      } else if (lvpoints <= 18) {
+        role = "❄Nobel";
+      } else if (lvpoints <= 20) {
+        role = "⚡Speed of Elite";
+      } else if (lvpoints <= 22) {
+        role = "🎭Elite";
+      } else if (lvpoints <= 24) {
+        role = "🥇Ace I";
+      } else if (lvpoints <= 26) {
+        role = "🥈Ace II";
+      } else if (lvpoints <= 28) {
+        role = "🥉Ace Master";
+      } else if (lvpoints <= 30) {
+        role = "🎖Ace Dominator";
+      } else if (lvpoints <= 32) {
+        role = "🏅Ace Elite";
+      } else if (lvpoints <= 34) {
+        role = "🏆Ace Supreme";
+      } else if (lvpoints <= 36) {
+        role = "💍Supreme I";
+      } else if (lvpoints <= 38) {
+        role = "💎Supreme II";
+      } else if (lvpoints <= 40) {
+        role = "🦸‍♂️Supreme Master";
+      } else if (lvpoints <= 42) {
+        role = "🛡Legend III";
+      } else if (lvpoints <= 44) {
+        role = "🏹Legend II";
+      } else if (lvpoints <= 46) {
+        role = "⚔Legend";
+      } else if (lvpoints <= 55) {
+        role = "🥷Immortal";
+      } else {
+        role = "mate";
+      }
+      
+      if (Config.levelupmessage !== 'false') {
+        await Void.sendMessage(citel.chat, {
+          image: {
+            url: await botpic(),
+          },
+          caption: `
 ━━━━━༺❃༻━━━━━◇
-☱ *hey Someone had just*
-☱ *leveled Up ayy✨*
-☱ *👤Name*: ${citel.pushName}
-☱ *🎚Level*: ${sck1.level}
-☱ *🛑Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
-☱ *📍Role*: *${role}*
-☱ *Enjoy😁*━━━━━༺❃༻━━━━━
-`,
-            }, {
-                quoted: citel,
-            });
-        }
+☱ *look at that! Someone just leveled up! ✨*
+☱ *👤 Name*: ${citel.pushName}
+☱ *🎚 Level*: ${sck1.level}
+☱ *🛑 Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
+☱ *📍 Role*: *${role}*
+☱ *Enjoy! 😁*━━━━━༺❃༻━━━━━
+          `,
+        }, {
+          quoted: citel,
+        });
+      }
     }
-
-})
+  });
 }
