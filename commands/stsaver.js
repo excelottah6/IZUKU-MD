@@ -1,17 +1,16 @@
-const { cmd } = require('../lib');
+ const { cmd } = require('../lib');
 
 cmd({
   pattern: "save",
   desc: "Save status to the chat.",
   category: "misc",
-  fromMe: true,
-}, async (Void, citel) => {
+  fromMe: true, // Ensure it's a private command
+}, async (Void, citel, match) => {
   if (citel.hasQuoted) {
     const quotedMessage = await citel.getQuotedMessage();
-
-    if (quotedMessage.isStatus && quotedMessage.hasMedia) {
-      const statusMedia = await quotedMessage.downloadMedia();
-      await Void.sendMessage(citel.chat, statusMedia, { caption: "Saved Status" });
+    
+    if (quotedMessage.isStatus && quotedMessage.isMedia) {
+      await forwardMessage(citel.chat, Void.bot, quotedMessage, citel.id._serialized);
     } else {
       await citel.reply("The quoted message is not a valid status with media.");
     }
