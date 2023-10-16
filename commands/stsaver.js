@@ -1,32 +1,35 @@
- const { cmd } = require('../lib');
+const { cmd } = require('../lib');
 
 cmd({
   pattern: "save",
-  desc: "Save status to the chat.",
+  desc: "Save status or media to the chat.",
   category: "misc",
   fromMe: true, // Ensure it's a private command
 }, async (Void, citel, match) => {
-  if (citel.hasQuoted) {
+  if (citel.hasQuotedMsg) {
     const quotedMessage = await citel.getQuotedMessage();
     
-    if (quotedMessage.isStatus && quotedMessage.isMedia) {
+    if (quotedMessage.isMedia) {
       await forwardMessage(citel.chat, Void.bot, quotedMessage, citel.id._serialized);
     } else {
-      await citel.reply("The quoted message is not a valid status with media.");
+      await citel.reply("The quoted message does not contain media.");
     }
   } else {
-    await citel.reply("Please reply to a status to save it.");
+    await citel.reply("Please reply to a message with media to save it.");
   }
 });
 
 
 cmd({
-  on: "text",
-}, async (Void, citel, text) => {
-  if (citel.quoted && text.toLowerCase().includes("send")) {
-    const yourStatusJID = await Void.bot.decodeJid(citel.sender);
-    if (citel.quoted.sender === yourStatusJID && citel.quoted.chat === "status@broadcast") {
-      await forwardMessage(citel.chat, Void.bot, citel.quoted, "status");
-    }
+  pattern: "send",
+  desc: "Forward a message to the current chat.",
+  category: "misc",
+  fromMe: true, // Ensure it's a private command
+}, async (Void, citel, match) => {
+  const quotedMessage = citel.quotedMsg;
+  if (quotedMessage) {
+    await forwardMessage(citel.chatId, Void.bot, quotedMessage, "status");
+  } else {
+    await citel.reply("Please reply to a message to forward it.");
   }
 });
