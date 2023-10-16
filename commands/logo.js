@@ -4,9 +4,9 @@ const { tlang,cmd } = require('../lib')
  const maker = require('mumaker')
  
      //---------------------------------------------------------------------------
- cmd({ pattern: "deep", category: "textpro", desc: "Some text to image feature with various styles." }, async(Void, citel, text) => {
-         if (!text) return citel.reply('_Need text._')
-         let anu = await maker.textpro('https://textpro.me/create-3d-deep-sea-metal-text-effect-online-1053.html', text)
-         Void.sendMessage(citel.chat, { image: { url: anu }, caption: `Made by ${tlang().title},For my ${tlang().greet}` }, { quoted: citel })
-     })
+cmd({ pattern: "shinytext ?(.*)", category: "textpro", desc: "Generates a shiny black 3D text effect logo with custom text.", usage: "shinytext [text]" }, async (message, match) => {
+    let text = match[1];
+    let url = `https://textpro.me/shiny-black-3d-text-effect-generator-1143.html?text=${encodeURIComponent(text)}`;
+    message.sendMessage({ url: url });
+});
 //------------------------------------------------------------------------------------------
