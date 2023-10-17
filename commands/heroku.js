@@ -111,7 +111,8 @@ citel.reply(str)
        return citel.reply(data)
   })
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-cmd({
+cmd(
+  {
     pattern: "setvar",
     desc: "set var in koyeb.",
     filename: __filename,
@@ -140,7 +141,8 @@ cmd({
   })
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-cmd({
+cmd(
+  {
     pattern: "delvar",
     desc: "delete var from koyeb.",
     filename: __filename,
@@ -154,8 +156,10 @@ cmd({
        let data = await delvar(text)
        return citel.reply(data)
   })
-//-------------------------------------------------------------------------------------  
-cmd({
+
+---------------------------------------  
+cmd(
+   {
              pattern: "setsudo",
              alias:["ssudo"],
              desc: "provide owner rule to someone so he can use your bot",
@@ -188,7 +192,8 @@ fetch(`https://api.heroku.com/apps/${appName}/config-vars`,
          })
 //-------------------------------------------------------------------------
 
- cmd({
+ cmd(
+   {
              pattern: "delsudo",
              alias:["dsudo"],
              desc: "del some one from sudo",
