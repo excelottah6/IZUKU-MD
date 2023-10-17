@@ -98,7 +98,7 @@ cmd({
         citel.reply(`*Check your DM I LEFT SOMETHING THERE🤭 ${tlang().greet}*`);
         await Void.sendMessage(`${citel.sender}`, {
             image: log0,
-            caption: `*Group Name: MAC-Support*\n*Group Link:* https://chat.whatsapp.com/IpDbNkTpz1l520HHFuS7B7`,
+            caption: `*Group Name: IZUKU-Support*\n*Group Link:* https://chat.whatsapp.com/IpDbNkTpz1l520HHFuS7B7`,
         });
 
     }
@@ -921,17 +921,23 @@ cmd({
 
   await message.reply(response);
 });
-//--------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
 cmd({
   pattern: "totag",
-  desc: 'Hide tags in a message',
-  category: 'group'
-}, async (message, match) => {
-  const participants = await message.groupMetadata(message.jid).participants;
-  const mentionString = participants.map((participant) => `@${participant.jid.split('@')[0]}`).join(' ');
-  const hiddenTagMessage = `**${mentionString}**`;
-  await message.sendMessage(message.jid, hiddenTagMessage);
+  desc: "Hide tags in a message",
+  category: "group",
+}, async (Void, citel) => {
+  const mentioned = citel.mentionedIds;
+  let hiddenTagMessage = citel.text;
+  
+  mentioned.forEach((mention) => {
+    const mentionString = `@${mention.split('@')[0]}`;
+    hiddenTagMessage = hiddenTagMessage.replace(mentionString, '');
+  });
+
+  await citel.sendMessage(citel.chat, hiddenTagMessage);
 });
+
 
 //--------------------------------------------------------------------------------
 cmd({
