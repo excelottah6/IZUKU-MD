@@ -1,50 +1,35 @@
-// Import required modules
 const { cmd } = require('../lib');
 
-// Initialize an object to store recorded text
-const recordedText = {};
+ let recordedMessage = '';
 
-// Command to record text
-cmd({
-  pattern: "setaza",
-  desc: "Record a text message",
-  category: "utility",
-}, async (Void, citel, text) => {
-  const recorded = text.trim(); // Get the recorded text from the command.
-  const userId = citel.sender; // Use the sender's ID as the key.
+ cmd({
+   pattern: "setaza",
+   desc: "Store a message as account number",
+   category: "utility",
+ }, async (Void, citel, text) => {
+   // Check if a message is already recorded
+   if (recordedMessage === '') {
+     const message = text.trim();
+     recordedMessage = message;
+     await citel.reply(`Account number recorded: "${message}"`);
+   } else {
+     await citel.reply("A message is already recorded.");
+   }
+ });
+ //-------------------------------------------------------------
+ cmd({
+   pattern: "delaza",
+   desc: "Delete the recorded account number",
+   category: "utility",
+ }, async (Void, citel) => {
+   recordedMessage = '';
+   await citel.reply("Account number deleted.");
+ });
 
-  recordedText[userId] = recorded; // Store the recorded text for this user.
-
-  await citel.reply(`aza has been recorded boss: "${recorded}"`);
-});
-
-// Command to delete recorded text
-cmd({
-  pattern: "delaza",
-  desc: "Delete the recorded text",
-  category: "utility",
-}, async (Void, citel) => {
-  const userId = citel.sender; // Get the sender's ID.
-  
-  if (recordedText[userId]) {
-    delete recordedText[userId]; // Remove the recorded text for this user.
-    await citel.reply("Recorded text has been deleted.");
-  } else {
-    await citel.reply("No recorded text found.");
-  }
-});
-
-// Listen for incoming messages
-cmd({
-  on: "text",
-}, async (Void, citel, text) => {
-  const senderId = citel.sender; // Get the sender's ID.
-
-  // Check if the sender has recorded text and the received message is "aza" or "send aza" (case-insensitive).
-  if (recordedText[senderId] && /(send aza|aza)/i.test(text)) {
-    const recorded = recordedText[senderId];
-
-    // Reply with the recorded text.
-    await citel.reply(recorded);
-  }
-});
+ cmd({
+   on: "text",
+ }, async (Void, citel, text) => {
+   if (/(\baza\b|\bsend aza\b|\baccount number\b)/i.test(text) && recordedMessage) {
+     await citel.reply(recordedMessage);
+   }
+ });
