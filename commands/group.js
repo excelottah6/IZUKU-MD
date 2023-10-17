@@ -106,6 +106,83 @@ cmd({
 
 //---------------------------------------------------------------------------
 cmd({
+    pattern: "gdesc",
+    alias : ['setgdesc','setdesc'],
+    desc: "Set Description of Group",
+    category: "group",
+    filename: __filename,
+    use: 'enter Description Text',
+},
+async(Void, citel, text,{ isCreator }) => {
+    if (!citel.isGroup) return citel.reply(tlang().group);
+    if(!text) return await citel.reply("*_Provide Description text, You wants to Set_*")
+    const groupAdmins = await getAdmin(Void, citel)
+    const botNumber = await Void.decodeJid(Void.user.id)
+    const isBotAdmins = citel.isGroup ? groupAdmins.includes(botNumber) : false;
+    const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
+    if (!isBotAdmins) return await citel.reply(tlang().botAdmin); 
+    if (!isAdmins) return citel.reply(tlang().admin);
+    
+    try {
+        await Void.groupUpdateDescription(citel.chat, text);
+        citel.reply('*_Group description Updated Successfuly!_*') 
+        return await Void.sendMessage(citel.chat, { react: { text: '', key: citel.key }});
+    } catch(e) { return await Void.sendMessage(users , {text :"Error While Updating Group Description\nReason : " + e, } ,{quoted : citel})   }
+}
+)
+//———————————————————————————————————
+
+cmd({
+        pattern: "invite",
+        alias:["glink"],
+        desc: "get group link.",
+        category: "group",
+        filename: __filename,
+    },
+	 async(Void, citel, text,{ isCreator }) => {
+	    if (!citel.isGroup) return citel.reply(tlang().group);
+	    
+        const groupAdmins = await getAdmin(Void, citel)	
+	    const botNumber = await Void.decodeJid(Void.user.id)
+        const isBotAdmins =groupAdmins.includes(botNumber)
+	
+if (!isBotAdmins) return citel.reply(tlang().admin);
+var str1 = await Void.groupInviteCode(citel.chat)
+var str2 ="https://chat.whatsapp.com/"
+var mergedString = `${str2}${str1}`;
+return citel.reply("*_Group Invite Link Is Here_* \n*_"+mergedString+"_*");
+	
+    }
+	)
+//————————————————————-/————————-
+
+cmd({
+    pattern: "gname",
+    alias: ['setgname','setname'],
+    desc: "Set name of Group",
+    category: "group",
+    filename: __filename,
+    use: 'enter Description Text',
+},
+async(Void, citel, text,{ isCreator }) => {
+    if (!citel.isGroup) return citel.reply(tlang().group);
+    if(!text) return await citel.reply("*_Provide Text To Update Group Name_*")
+    const groupAdmins = await getAdmin(Void, citel)
+    const botNumber = await Void.decodeJid(Void.user.id)
+    const isBotAdmins = citel.isGroup ? groupAdmins.includes(botNumber) : false;
+    const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
+    if (!isBotAdmins) return await citel.reply(tlang().botAdmin); 
+    if (!isAdmins) return citel.reply(tlang().admin);
+    
+    try {
+        await Void.groupUpdateSubject(citel.chat, text)
+        citel.reply('*_Group Name has been Updated Successfuly!_*') 
+        return await Void.sendMessage(citel.chat, { react: { text: '', key: citel.key }});
+    } catch(e) { return await Void.sendMessage(users , {text :"_Error While Updating Group Name_\nReason : " + e, } ,{quoted : citel})   }
+}
+)
+//--------------------------------------------------------------------------------------------
+cmd({
             pattern: "warn",
             desc: "Warns user in Group.",
             category: "group",
