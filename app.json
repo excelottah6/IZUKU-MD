@@ -18,9 +18,13 @@
       "description": "Automatically saves status of every person and sends in log number.",
        "required" :false
       },
+	"AUTO_STATUS_READER": {
+      "description": "Automatically read status of every person and sends in log number.",
+       "required" :false
+      },
     "HEROKU_API_KEY": {
     "description": "Put HEROKU API KEY",
-     "required" :false
+     "required"  :true
     },
  "HEROKU_APP_NAME": {
     "description": "This field will be ignored. Heroku will generate a random app name.",
