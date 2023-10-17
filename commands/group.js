@@ -905,22 +905,21 @@ cmd({
     //---------------------------------------------------------------------------
 
 cmd({
-  pattern: "tag",
-  desc: 'Tag everyone in the chat',
-  category: 'group'
+  pattern: "listonline",
+  desc: "Get all active members of the group",
+  category: "group",
 }, async (message, match) => {
-  let target;
-  if (message.reply_message) {
-    target = message.reply_message.jid;
-  } else {
-    target = message.jid;
-  }
-  const participants = await citel.getGroupParticipants(target);
-  const mentionString = participants.map((participant) => `@${participant.jid}`).join(' ');
-  await citel.sendMessage(target, mentionString);
+  const participants = await message.groupMetadata(message.jid).participants;
+  const activeMembers = participants.filter((participant) => participant.isActive);
+  const activeMemberNames = activeMembers.map((member) => member.jid.split('@')[0]);
+  const activeMemberCount = activeMembers.length;
+
+  let response = `Active Members (${activeMemberCount}):\n`;
+  response += activeMemberNames.join('\n');
+
+  await message.reply(response);
 });
 //--------------------------------------------------------------------------------
-
 cmd({
   pattern: "totag",
   desc: 'Hide tags in a message',
@@ -931,6 +930,7 @@ cmd({
   const hiddenTagMessage = `**${mentionString}**`;
   await message.sendMessage(message.jid, hiddenTagMessage);
 });
+
 //--------------------------------------------------------------------------------
 cmd({
     pattern: "broadcast",
