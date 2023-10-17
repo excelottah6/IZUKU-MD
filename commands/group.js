@@ -295,6 +295,7 @@ cmd({
     //---------------------------------------------------------------------------
 cmd({
             pattern: "profile",
+	    alias: ["prof"],
             desc: "Shows profile of user.",
             category: "group",
             filename: __filename,
@@ -392,6 +393,7 @@ cmd({
     //---------------------------------------------------------------------------
 cmd({
             pattern: "rank",
+	    alias: ["ran"],
             desc: "Sends rank card of user.",
             category: "group",
             filename: __filename,
