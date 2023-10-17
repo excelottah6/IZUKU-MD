@@ -103,8 +103,85 @@ cmd({
 
     }
 )
-
 //---------------------------------------------------------------------------
+cmd({
+   pattern: "setgreeting",
+   desc: "Set a custom greeting message",
+   category: "utility",
+ }, async (Void, citel, text) => {
+   const greeting = text.trim(); // Get the custom greeting message from the command.
+   const userId = citel.sender; // Use the sender's ID as the key.
+
+   greetingMessages[userId] = greeting; // Store the custom greeting message for this user.
+
+   await citel.reply("Custom greeting message set successfully!");
+ });
+
+ // Listen for incoming messages
+ bot.on('message', async (message) => {
+   const userId = message.sender; // Get the sender's ID
+
+   // Check if the sender has a custom greeting message
+   if (greetingMessages[userId]) {
+     const greeting = greetingMessages[userId]; // Get the custom greeting message for this user
+     await bot.sendMessage(userId, `👋 ${greeting}`); // Send the custom greeting message to the user
+   } else {
+     await bot.sendMessage(userId, "👋 Hello! How can I assist you?"); // Send a default greeting message if no custom greeting is set
+   }
+ });
+//-----------——•-----------------------------------------111-1-11-1
+cmd({
+            pattern: "hidetag",
+            alias: ["htag"],
+            desc: "Tags everyperson of group without mentioning their numbers",
+            category: "group",
+            filename: __filename,
+            use: '<text>',
+        },
+        async(Void, citel, text) => {
+            if (!citel.isGroup) return citel.reply(tlang().group);
+            const groupMetadata = citel.isGroup ? await Void.groupMetadata(citel.chat).catch((e) => {}) : "";
+            const participants = citel.isGroup ? await groupMetadata.participants : "";
+            const groupAdmins = await getAdmin(Void, citel)
+            const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
+            if (!isAdmins) return citel.reply(tlang().admin);
+
+            if (!isAdmins) citel.reply(tlang().admin);
+            Void.sendMessage(citel.chat, {
+                text: text ? text : "",
+                mentions: participants.map((a) => a.id),
+            }, {
+                quoted: citel,
+            });
+        }
+    )
+//----------------------------------------------------------------------
+cmd({
+            pattern: "tag",
+            alias: ["totag"],
+            desc: "Tags everyperson of group without mentioning their numbers",
+            category: "group",
+            filename: __filename,
+            use: '<text>',
+        },
+        async(Void, citel, text) => {
+            if (!citel.isGroup) return citel.reply(tlang().group);
+            const groupMetadata = citel.isGroup ? await Void.groupMetadata(citel.chat).catch((e) => {}) : "";
+            const participants = citel.isGroup ? await groupMetadata.participants : "";
+            const groupAdmins = await getAdmin(Void, citel)
+            const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
+            if (!isAdmins) return citel.reply(tlang().admin);
+
+            if (!isAdmins) citel.reply(tlang().admin);
+            Void.sendMessage(citel.chat, {
+                text: text ? text : "",
+                mentions: participants.map((a) => a.id),
+            }, {
+                quoted: citel,
+            });
+        }
+    )
+//------------------------_____-_----------------------------------
 cmd({
             pattern: "warn",
             desc: "Warns user in Group.",
@@ -994,19 +1071,17 @@ cmd({ on: "text" }, async(Void, citel) => {
                 },
                 caption: `
 ━━━━━༺❃༻━━━━━◇
-☱ *hey Someone had just*
-☱ *leveled Up ayy✨*
-☱ *👤Name*: ${citel.pushName}
-☱ *🎚Level*: ${sck1.level}
-☱ *🛑Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
-☱ *📍Role*: *${role}*
-☱ *Enjoy😁*━━━━━༺❃༻━━━━━
-`,
-            }, {
-                quoted: citel,
-            });
-        }
+☱ *look at that! Someone just leveled up! ✨*
+☱ *👤 Name*: ${citel.pushName}
+☱ *🎚 Level*: ${sck1.level}
+☱ *🛑 Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
+☱ *📍 Role*: *${role}*
+☱ *Enjoy! 😁*━━━━━༺❃༻━━━━━
+          `,
+        }, {
+          quoted: citel,
+        });
+      }
     }
-
-})
+  });
 }
