@@ -30,10 +30,10 @@ cmd(
           await git.fetch();	
               var commits = await git.log(['main' + '..origin/' +'main']);	
               if (commits.total === 0) {	
-                return 'Êá´á´œ..Êœá´€á´ á´‡...á´€ÊŸÊ€á´‡á´…Ê..á´œá´˜á´…á´€á´›á´‡á´…...'	
+                return 'ʏᴏᴜ..ʜᴀᴠᴇ...ᴀʟʀᴇᴅʏ..ᴜᴘᴅᴀᴛᴇᴅ...'	
               } else {	
                     var app = await heroku.get('/apps/' + process.env.HEROKU_APP_NAME)	
-                   //   await Void.sendMessage(citel.chat,{text:'*á´œá´˜á´…á´€á´›ÉªÉ´É¢...*'})	
+                   //   await Void.sendMessage(citel.chat,{text:'*ᴜᴘᴅᴀᴛɪɴɢ...*'})	
                   git.fetch('upstream', 'main');	
                   git.reset('hard', ['FETCH_HEAD']);	
       
@@ -45,7 +45,7 @@ cmd(
                   } catch { console.log('heroku remote adding error'); }	
                   await git.push('heroku', 'main');	
       
-                  return '*Ê™á´á´› á´œá´˜á´…á´€á´›á´‡á´…...*\n_Restarting._'	
+                  return '*ʙᴏᴛ ᴜᴘᴅᴀᴛᴇᴅ...*\n_Restarting._'	
       
       
               }	
@@ -142,7 +142,7 @@ cmd(
                   [text.split(':')[0]]: text.split(':')[1],
           },
         });
-        await citel.reply(`ðŸŸ©var ${text.split(':')[0]} : ${text.split(':')[1]} has been set Successfuly.`);
+        await citel.reply(`🟩var ${text.split(':')[0]} : ${text.split(':')[1]} has been set Successfuly.`);
        }
        let check = await get_deployments()
        if(check==='true') return citel.reply('_Please wait..._\n_Currently 2 instances are running in Koyeb,wait to stop one of them._')
@@ -165,4 +165,4 @@ cmd(
        if(check==='true') return citel.reply('_Please wait..._\n_Currently 2 instances are running in Koyeb,wait to stop one of them._')
        let data = await delvar(text)
        return citel.reply(data)
-  }
+  })
