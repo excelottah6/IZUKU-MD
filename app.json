@@ -18,7 +18,7 @@
       "description": "Automatically saves status of every person and sends in log number.",
        "required" :false
       },
-	"AUTO_STATUS_READER": {
+	"AUTO_READ_STATUS": {
       "description": "Automatically read status of every person and sends in log number.",
        "required" :false
       },
@@ -52,6 +52,10 @@
     "description": "Fill the value true if you want bot send Level up message in chat.",
      "required" :false,
      "value": "true"
+    },
+    "SUDO": {
+    "description": "PUT NUMBER TO GIVE SUDO ACCESS NOTE:remove the + and must be in international form eg:2347039570336",
+     "required"  :true
     },
       "READ_MESSAGE": {
     "description": "Fill the value true if you want bot to read all messages.",
