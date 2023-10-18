@@ -31,10 +31,10 @@ fetch(`https://api.heroku.com/apps/${appName}/config-vars`,
         {
                   method: 'PATCH',
                   headers,
-                  body: JSON.stringify({ [varName]: newVarValue })
+                  body:JSON.stringify({ [varName]: newVarValue })
         })
 .then(response => response.json())
 .then(data => { return citel.reply(`*_${user} Added Succesfully._*\n*_New Sudo Numbers:_* ${newVarValue}`); })
 .catch(error => citel.reply('*_Error While Adding new Sudo:_* '+ error));
-
-         })
+  })
+//--------------------------------------------------------------------------------------------------------
