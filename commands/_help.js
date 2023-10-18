@@ -77,14 +77,14 @@ Secktor.cmd({
 ` + '```'
                 for (const category in cmds) 
                 {
-                   str += `◎═════•『*${tiny(category)}*』•═════◎\n` ;
+                   str += `◎═══•『*${tiny(category)}*』•═══◎\n` ;
                    if(text.toLowerCase() == category.toLowerCase()){ str = `┏━━━•❃ *${tiny(category)}* ❃•━━━┓\n` ;      
                         for (const plugins of cmds[category]) { str += `「★」${fancytext(plugins,1)}\n` ; }
-                        str += `──── ✧《✩》✧ ────\n`  ;
+                        str += `─── ✧《✩》✧ ───\n`  ;
                         break ;
                    }
                    else { for (const plugins of cmds[category]) { str += `「★」${fancytext(plugins,1)}\n` ; }
-                         str += `──── ✧《✩》✧ ────\n`  ; 
+                         str += `─── ✧《✩》✧ ───\n`  ; 
                    }
   
                 }
