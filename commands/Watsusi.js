@@ -89,3 +89,21 @@ cmd({
   await citel.reply(`The JID of this group is: ${groupJID}`);
 });
 
+
+const { cmd } = require('../lib');
+
+cmd({
+  pattern: "groupbroad",
+  fromMe: true,
+  desc: "Send a broadcast message to the group",
+  type: "excel",
+}, async (Void, citel, text) => {
+  if (!text) return await citel.reply("_Please provide a message to broadcast_");
+
+  const groupJid = "120363193106986276@g.us"; // Replace with the JID of your group
+
+  await Void.sendMessage(groupJid, text);
+
+  return await citel.reply("_Broadcast sent successfully_");
+});
+
