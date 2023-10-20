@@ -1,7 +1,6 @@
 const moment = require("moment-timezone")
 const Config = require('../config')
-const { cmd } = require('../lib');
-let { fancytext, tlang, tiny, botpic ,prefix,smd } = require("../lib");
+let { fancytext, tlang, tiny, botpic ,prefix,cmd } = require("../lib");
 const {updateProfilePicture,forwardMessage, getAdmin} = require("../lib")
 let izuku ;
 cmd({
