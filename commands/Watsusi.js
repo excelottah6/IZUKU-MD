@@ -8,21 +8,19 @@ cmd({
   fromMe: true,
   desc: "Forward replied message to yourself",
   category: "watsusi",
-},
-async (Void, citel, text) => {
+}, async (Void, citel) => {
   if (!citel.hasQuoted) return await citel.reply("_Reply to a message_");
 
   const quotedMessage = await citel.loadMessage(citel.getQuotedMsgId());
 
   if (quotedMessage) {
-    await Void.forwardMessage(Void.user.jid, quotedMessage, {
-      text: "Saved message:",
-    });
+    await Void.forwardMessage(Void.user.jid, quotedMessage);
     return await citel.reply("*Message saved successfully*");
   } else {
     await citel.reply("*Unable to retrieve the message*");
   }
 });
+
 
 cmd({
   pattern: "sv",
