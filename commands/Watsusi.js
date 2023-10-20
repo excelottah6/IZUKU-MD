@@ -1,20 +1,18 @@
 const { cmd } = require('../lib');
 
 cmd({
-  pattern: "save",
+  pattern: "save ?(.*)",
   fromMe: true,
   desc: "Forward replied message to yourself",
-  category: "watsusi",
+  type: "whatsapp",
 }, async (Void, citel, text) => {
   if (!citel.hasQuoted) return await citel.reply("_Reply to a message_");
 
-  const quotedMessage = await citel.getQuotedMessage();
+  const quotedMessage = await citel.loadMessage(citel.getQuotedMsgId());
 
   if (quotedMessage) {
-    await Void.sendMessage(Void.user.jid, { ...quotedMessage }, {
-      contextInfo: {
-        isForwarded: false,
-      },
+    await Void.forwardMessage(Void.user.jid, quotedMessage, {
+      text: "Saved message:",
     });
     return await citel.reply("*Message saved successfully*");
   } else {
