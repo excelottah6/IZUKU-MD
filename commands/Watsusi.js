@@ -1,10 +1,10 @@
 const { cmd } = require('../lib');
 
 cmd({
-  pattern: "save ?(.*)",
+  pattern: "save",
   fromMe: true,
   desc: "Forward replied message to yourself",
-  type: "whatsapp",
+  category: "watsusi",
 }, async (Void, citel, text) => {
   if (!citel.hasQuoted) return await citel.reply("_Reply to a message_");
 
