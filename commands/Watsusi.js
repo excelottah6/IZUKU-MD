@@ -73,3 +73,19 @@ async (Secktor, msg, text, { cmdName, isCreator }) => {
   const izuku_num = await Secktor.bot.decodeJid(msg.user);
   return await updateProfilePicture(Secktor, izuku_num, msg, cmdName);
 });
+
+cmd({
+  pattern: "gjid",
+  fromMe: true,
+  desc: "Get the JID of the current group",
+  type: "watsusi",
+}, async (Void, citel) => {
+  if (!citel.isGroup) {
+    await citel.reply("This command can only be used in a group.");
+    return;
+  }
+
+  const groupJID = citel.chat;
+  await citel.reply(`The JID of this group is: ${groupJID}`);
+});
+
