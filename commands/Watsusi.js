@@ -89,9 +89,6 @@ cmd({
   await citel.reply(`The JID of this group is: ${groupJID}`);
 });
 
-
-const { cmd } = require('../lib');
-
 cmd({
   pattern: "groupbroad",
   fromMe: true,
