@@ -1,7 +1,5 @@
-// Import necessary libraries and modules
 const { cmd, getRandomInt } = require('../lib');
 
-// Define quiz questions and answers
 const quizQuestions = [
     {
         question: "What is the capital of France?",
@@ -14,7 +12,7 @@ const quizQuestions = [
         correctAnswer: "B"
     },
     {
-        question: "The iPhone was made in what year?",
+        question: "The first iPhone was made in what year?",
         options: ["A. 2004", "B. 2007", "C. 2012"],
         correctAnswer: "B"
     }
@@ -23,8 +21,6 @@ const quizQuestions = [
 
 let currentQuestionIndex = 0;
 let userScore = 0;
-
-// Create a command for starting the quiz
 cmd({
     pattern: "startquiz",
     desc: "Start a quiz game.",
@@ -64,27 +60,6 @@ cmd({
     currentQuestionIndex++;
     sendQuestion(citel);
 });
- 1 change: 0 additions & 1 deletion 1  
-.pm2/module_conf.json
- 
- 
-Load diff
-This file was deleted.
-
-  1 change: 0 additions & 1 deletion 1  
-.pm2/touch
- 
- 
-Load diff
-This file was deleted.
-
-    115 changes: 0 additions & 115 deletions 115  
-commands/Quiz.js
- 
- @@ -64,118 +64,3 @@ cmd({
-     currentQuestionIndex++;
-     sendQuestion(citel);
- });
  //====================================================================================================
  const flagPairs = [
    { flag: "🇺🇸", country: "United States" },
@@ -142,7 +117,7 @@ commands/Quiz.js
 
  cmd(
    {
-     pattern: "nextflag",
+     pattern: "flag",
      desc: "Display the next flag.",
      category: "game",
    },
@@ -197,6 +172,6 @@ commands/Quiz.js
 
  // Function to add a fancy border around the flag
  function addFancyBorder(flag) {
-   const border = "🌟";
+   const border = "•";
    return `${border}${flag}${border}`;
  }
