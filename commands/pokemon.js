@@ -1,6 +1,7 @@
 const { cmd, tlang, prefix } = require('../lib');
 const { pokemonCharacters } = require('./pokemon-data');
 const mongoose = require('mongoose');
+const Player = mongoose.model('Player');
 const playerSchema = new mongoose.Schema({
   userId: String,
   username: String,
@@ -48,5 +49,43 @@ async (Void, citel, text) => {
     citel.reply(`*${pokemonName}'s Profile*\n\nLevel: ${profile.level}\nXP: ${profile.xp}`);
   } else {
     citel.reply(`Pokémon '${pokemonName}' not found in your collection.`);
+  }
+});
+
+cmd({
+  pattern: "catch",
+  desc: "Catch a Pokémon",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel, text) => {
+  const playerUserId = citel.sender;
+  const player = await Player.findOne({ userId: playerUserId });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  // Simulate a random Pokémon encounter (you can implement this differently)
+  const randomPokemonName = getRandomPokemonName();
+
+  if (!randomPokemonName) {
+    return citel.reply("No Pokémon encountered this time. Try again later.");
+  }
+
+  if (player.pokemons.includes(randomPokemonName)) {
+    return citel.reply(`You already have a ${randomPokemonName}. Try to catch a different Pokémon.`);
+  }
+
+  player.pokemons.push(randomPokemonName);
+  await player.save();
+
+  citel.reply(`You caught a wild ${randomPokemonName}!`);
+
+  function getRandomPokemonName() {
+    // Simulate a random encounter; you can implement this differently
+    const availablePokemonNames = Object.keys(pokemonCharacters);
+    const randomIndex = Math.floor(Math.random() * availablePokemonNames.length);
+    return availablePokemonNames[randomIndex];
   }
 });
