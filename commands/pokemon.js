@@ -7,6 +7,7 @@ const playerSchema = new mongoose.Schema({
   username: String,
   pokemons: [String],
   inventory: [{ item: String, quantity: Number }],
+  forSalePokemons: [String],
 lastCatchTimestamp: Number, 
 });
 const cooldownInHours = 2;
@@ -121,10 +122,9 @@ async (Void, citel) => {
   }
 });
 
-
 cmd({
   pattern: "buy",
-  desc: "Buy a Pokémon from the marketplace",
+  desc: "Buy a Pokémon from another player",
   category: "pokemon",
   filename: __filename,
 }, async (Void, citel, text) => {
@@ -135,12 +135,28 @@ cmd({
     return citel.reply("You must register as a player first using the 'register' command.");
   }
 
-  // Parse the Pokémon name to buy from the text
-  const pokemonNameToBuy = text.trim().toLowerCase();
+  // Parse the Pokémon name and owner from the text
+  const [pokemonNameToBuy, ownerUsername] = text.trim().split(" from ");
+
+  if (!pokemonNameToBuy || !ownerUsername) {
+    return citel.reply("Please specify the Pokémon to buy and the owner (e.g., .buy pikachu from @owner).");
+  }
 
   // Check if the Pokémon exists in the marketplace
   if (!isPokemonInMarketplace(pokemonNameToBuy)) {
     return citel.reply(`The Pokémon '${pokemonNameToBuy}' is not available in the marketplace.`);
+  }
+
+  // Find the owner's player information
+  const owner = await Player.findOne({ username: ownerUsername });
+
+  if (!owner) {
+    return citel.reply(`Player @${ownerUsername} not found. Make sure the username is correct.`);
+  }
+
+  // Check if the owner has put the Pokémon up for sale
+  if (!isPokemonForSale(owner, pokemonNameToBuy)) {
+    return citel.reply(`The Pokémon '${pokemonNameToBuy}' is not for sale by @${ownerUsername}.`);
   }
 
   // Calculate the price for the Pokémon
@@ -155,10 +171,14 @@ cmd({
   buyer.currency -= pokemonPrice;
   buyer.pokemons.push(pokemonNameToBuy);
 
-  // Save the changes to the database
-  await buyer.save();
+  // Remove the Pokémon from the owner's collection
+  owner.pokemons = owner.pokemons.filter(pokemon => pokemon !== pokemonNameToBuy);
 
-  citel.reply(`You bought a ${pokemonNameToBuy} for ${pokemonPrice} currency.`);
+  // Save the changes to the database for both the buyer and the owner
+  await buyer.save();
+  await owner.save();
+
+  citel.reply(`You bought a ${pokemonNameToBuy} from @${ownerUsername} for ${pokemonPrice} currency.`);
 });
 
 // Function to check if a Pokémon is available in the marketplace
@@ -188,14 +208,26 @@ function calculatePokemonPrice(pokemonName) {
   return price || 250; // Default price if not specified in the map
 }
 
+// Function to check if a Pokémon is available in the marketplace
+function isPokemonInMarketplace(pokemonName) {
+  // You can implement this based on the sellers who have put Pokémon for sale
+  // Check if any player has the Pokémon for sale
+  const sellersWithPokemon = players.filter((player) =>
+    player.forSalePokemons && player.forSalePokemons.includes(pokemonName)
+  );
+
+  // Return true if any seller has the Pokémon for sale
+  return sellersWithPokemon.length > 0;
+}
 
 
 cmd({
   pattern: "sell",
-  desc: "Sell a Pokémon in the marketplace",
+  desc: "Put a Pokémon up for sale in the marketplace",
   category: "pokemon",
   filename: __filename,
-}, async (Void, citel, text) => {
+},
+async (Void, citel, text) => {
   const sellerUserId = citel.sender;
   const seller = await Player.findOne({ userId: sellerUserId });
 
@@ -203,26 +235,31 @@ cmd({
     return citel.reply("You must register as a player first using the 'register' command.");
   }
 
-  // Parse the Pokémon name to sell from the text
-  const pokemonNameToSell = text.trim().toLowerCase();
-
-  // Check if the Pokémon exists in the seller's collection
-  if (!seller.pokemons.includes(pokemonNameToSell)) {
-    return citel.reply(`You don't have a ${pokemonNameToSell} to sell.`);
+  const args = text.split(" ");
+  if (args.length < 1) {
+    return citel.reply("Please specify the Pokémon you want to sell.");
   }
 
-  // Calculate the price for the Pokémon (you can use the calculatePokemonPrice function)
-  const pokemonPrice = calculatePokemonPrice(pokemonNameToSell);
+  const pokemonNameToSell = args[0].toLowerCase();
 
-  // Remove the Pokémon from the seller's collection and add currency
+  // Check if the seller owns the specified Pokémon
+  if (!seller.pokemons.includes(pokemonNameToSell)) {
+    return citel.reply(`You don't own a ${pokemonNameToSell} to sell.`);
+  }
+
+  // Add the Pokémon to the list of Pokémon for sale
+  seller.forSalePokemons = seller.forSalePokemons || [];
+  seller.forSalePokemons.push(pokemonNameToSell);
+
+  // Remove the Pokémon from the seller's collection
   seller.pokemons = seller.pokemons.filter((pokemon) => pokemon !== pokemonNameToSell);
-  seller.currency += pokemonPrice;
 
   // Save the changes to the database
   await seller.save();
 
-  citel.reply(`You sold your ${pokemonNameToSell} for ${pokemonPrice} currency.`);
+  citel.reply(`You have put your ${pokemonNameToSell} up for sale in the marketplace.`);
 });
+
 
 cmd({
   pattern: "mypokemon",
@@ -377,5 +414,27 @@ async (Void, citel, text) => {
       return citel.reply(`The Pokémon '${pokemonName}' is not owned by other players.`);
     }
   }
+});
+
+cmd({
+  pattern: "marketplace",
+  desc: "Check available Pokémon in the marketplace and their prices",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel) => {
+  // Get a list of players who have Pokémon for sale
+  const sellersWithPokemonsForSale = players.filter((player) => player.forSalePokemons && player.forSalePokemons.length > 0);
+
+  if (sellersWithPokemonsForSale.length === 0) {
+    return citel.reply("There are no Pokémon available in the marketplace at the moment.");
+  }
+
+  const marketplaceInfo = sellersWithPokemonsForSale.map((seller) => {
+    const availablePokemons = seller.forSalePokemons.join(", ");
+    return `@${seller.userId} is selling: ${availablePokemons}`;
+  });
+
+  citel.reply(`Pokémon available in the marketplace:\n\n${marketplaceInfo.join("\n")}`);
 });
 
