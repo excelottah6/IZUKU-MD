@@ -123,7 +123,7 @@ async (Void, citel) => {
 
 
 cmd({
-  pattern: "buy (.+)",
+  pattern: "buy",
   desc: "Buy a Pokémon from the marketplace",
   category: "pokemon",
   filename: __filename,
@@ -251,7 +251,7 @@ async (Void, citel) => {
 cmd({
   pattern: "reward",
   desc: "Claim your daily reward",
-  category: "economy",
+  category: "pokemon",
   filename: __filename,
 },
 async (Void, citel, text) => {
@@ -304,7 +304,7 @@ async (Void, citel) => {
 cmd({
   pattern: "levelup",
   desc: "Use currency to level up a Pokémon",
-  category: "economy",
+  category: "pokemon",
   filename: __filename,
 },
 async (Void, citel, text) => {
