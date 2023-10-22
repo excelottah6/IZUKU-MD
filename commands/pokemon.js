@@ -1,6 +1,5 @@
-const { tlang, prefix } = require('../lib');
-const { cmd } = require('../lib');
-const { pokemonCharacters } = require('./pokemon-data');
+const { cmd, tlang, prefix } = require('../lib');
+const { pokemonCharacters } = require('../lib/pokemon-data');
 const mongoose = require('mongoose');
 
 const playerSchema = new mongoose.Schema({
