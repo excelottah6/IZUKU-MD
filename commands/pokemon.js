@@ -34,7 +34,7 @@ cmd({
   });
 
   await newPlayer.save();
-  citel.reply("You are now registered as a player!");
+  citel.reply("*welcome You are now registered as a player!🤑🤍*");
 });
 
 cmd({
@@ -221,3 +221,28 @@ cmd({
 
   citel.reply(`You sold your ${pokemonNameToSell} for ${pokemonPrice} currency.`);
 });
+
+cmd({
+  pattern: "mypokemon",
+  desc: "List all your owned Pokémon",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel) => {
+  const playerUserId = citel.sender;
+  const player = await Player.findOne({ userId: playerUserId });
+
+  if (!player) {
+    return citel.reply("🫠You must register as a player first using the 'register' command.");
+  }
+
+  const ownedPokemons = player.pokemons;
+
+  if (ownedPokemons.length === 0) {
+    return citel.reply("😕You don't have any Pokémon in your collection.");
+  }
+
+  const pokemonList = ownedPokemons.join(", ");
+  citel.reply(`🚹Your owned Pokémon:\n${pokemonList}`);
+});
+
