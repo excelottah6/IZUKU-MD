@@ -345,3 +345,37 @@ async (Void, citel, text) => {
   citel.reply(`You spent ${currencyToSpend} currency to level up your ${pokemonName} by ${xpToAdd} XP.`);
 });
 
+cmd({
+  pattern: "searchpokemon",
+  desc: "Search for the owner of a specific Pokémon",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel, text) => {
+  const player = await Player.findOne({ userId: citel.sender });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  const pokemonName = text.toLowerCase();
+
+  // Check if the specified Pokémon exists in the player's collection
+  if (player.pokemons.includes(pokemonName)) {
+    return citel.reply(`You own a ${pokemonName}.`);
+  } else {
+    // Search for other players who own the specified Pokémon
+    const otherPlayers = await Player.find({
+      userId: { $ne: citel.sender }, // Exclude the current player
+      pokemons: pokemonName,
+    });
+
+    if (otherPlayers.length > 0) {
+      const playerList = otherPlayers.map((otherPlayer) => otherPlayer.username).join(", ");
+      return citel.reply(`Players who own ${pokemonName}: ${playerList}`);
+    } else {
+      return citel.reply(`The Pokémon '${pokemonName}' is not owned by other players.`);
+    }
+  }
+});
+
