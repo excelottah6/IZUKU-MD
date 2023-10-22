@@ -54,7 +54,6 @@ async (Void, citel, text) => {
   }
 });
 
-const cooldownInHours = 24;
 
 cmd({
   pattern: "catch",
