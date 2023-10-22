@@ -120,7 +120,7 @@ async (Void, citel) => {
 });
 
 cmd({
-  pattern: "buy",
+  pattern: "buy (.+)",
   desc: "Buy a Pokémon from the marketplace",
   category: "pokemon",
   filename: __filename,
@@ -131,14 +131,16 @@ cmd({
   if (!buyer) {
     return citel.reply("You must register as a player first using the 'register' command.");
   }
+
+  // Parse the Pokémon name to buy from the text
   const pokemonNameToBuy = text.trim().toLowerCase();
 
-  // Check if the Pokémon exists in the marketplace (you can implement this)
+  // Check if the Pokémon exists in the marketplace
   if (!isPokemonInMarketplace(pokemonNameToBuy)) {
     return citel.reply(`The Pokémon '${pokemonNameToBuy}' is not available in the marketplace.`);
   }
 
-  // Calculate the price for the Pokémon (you can implement this)
+  // Calculate the price for the Pokémon
   const pokemonPrice = calculatePokemonPrice(pokemonNameToBuy);
 
   // Check if the buyer has enough currency to make the purchase
@@ -150,15 +152,44 @@ cmd({
   buyer.currency -= pokemonPrice;
   buyer.pokemons.push(pokemonNameToBuy);
 
-
+  // Save the changes to the database
   await buyer.save();
 
   citel.reply(`You bought a ${pokemonNameToBuy} for ${pokemonPrice} currency.`);
 });
 
+// Function to check if a Pokémon is available in the marketplace
+function isPokemonInMarketplace(pokemonName) {
+  // You can maintain an array of available Pokémon in your marketplace
+  const availablePokemons = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff"];
+  
+  // Check if the requested Pokémon is in the list of available Pokémon
+  return availablePokemons.includes(pokemonName.toLowerCase());
+}
+
+// Function to calculate the price of a Pokémon
+function calculatePokemonPrice(pokemonName) {
+  // You can set different prices for different Pokémon
+  const priceMap = {
+    pikachu: 100,
+    charizard: 500,
+    bulbasaur: 200,
+    squirtle: 300,
+    jigglypuff: 150,
+  };
+
+  // Check if the requested Pokémon is in the price map
+  const price = priceMap[pokemonName.toLowerCase()];
+
+  // If the Pokémon is not found in the map, return a default price
+  return price || 250; // Default price if not specified in the map
+}
+
+
+
 cmd({
   pattern: "sell",
-  desc: "Sell a Pokémon from your collection",
+  desc: "Sell a Pokémon in the marketplace",
   category: "pokemon",
   filename: __filename,
 }, async (Void, citel, text) => {
@@ -172,20 +203,20 @@ cmd({
   // Parse the Pokémon name to sell from the text
   const pokemonNameToSell = text.trim().toLowerCase();
 
-  // Check if the seller has the Pokémon in their collection
+  // Check if the Pokémon exists in the seller's collection
   if (!seller.pokemons.includes(pokemonNameToSell)) {
     return citel.reply(`You don't have a ${pokemonNameToSell} to sell.`);
   }
 
-  // Calculate the selling price for the Pokémon (you can implement this)
-  const pokemonSellingPrice = calculateSellingPrice(pokemonNameToSell);
+  // Calculate the price for the Pokémon (you can use the calculatePokemonPrice function)
+  const pokemonPrice = calculatePokemonPrice(pokemonNameToSell);
 
-  // Add the selling price to the seller's currency and remove the Pokémon from their collection
-  seller.currency += pokemonSellingPrice;
-  seller.pokemons = seller.pokemons.filter(pokemon => pokemon !== pokemonNameToSell);
+  // Remove the Pokémon from the seller's collection and add currency
+  seller.pokemons = seller.pokemons.filter((pokemon) => pokemon !== pokemonNameToSell);
+  seller.currency += pokemonPrice;
 
   // Save the changes to the database
   await seller.save();
 
-  citel.reply(`You sold your ${pokemonNameToSell} for ${pokemonSellingPrice} currency.`);
+  citel.reply(`You sold your ${pokemonNameToSell} for ${pokemonPrice} currency.`);
 });
