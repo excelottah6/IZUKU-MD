@@ -2,12 +2,12 @@ const { tlang, prefix } = require('../lib');
 const { cmd } = require('../lib');
 const { pokemonCharacters } = require('./pokemon-data');
 const mongoose = require('mongoose');
-const Player = mongoose.model('Player');
+
 const playerSchema = new mongoose.Schema({
   userId: String,
   username: String,
   pokemons: [String],
-  inventory: [{ item: String, quantity: Number }] 
+  inventory: [{ item: String, quantity: Number }]
 });
 
 const Player = mongoose.model('Player', playerSchema);
