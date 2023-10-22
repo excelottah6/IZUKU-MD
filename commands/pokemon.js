@@ -1,4 +1,5 @@
 const { cmd, tlang, prefix } = require('../lib');
+const { cmd } = require('../lib');
 const { pokemonCharacters } = require('./pokemon-data');
 const mongoose = require('mongoose');
 const Player = mongoose.model('Player');
@@ -36,7 +37,7 @@ cmd({
 });
 
 cmd({
-  pattern: "profile",
+  pattern: "pokefile",
   desc: "Check a Pokémon's profile",
   category: "pokemon",
   filename: __filename,
