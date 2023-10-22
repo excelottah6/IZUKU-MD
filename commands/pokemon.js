@@ -9,7 +9,7 @@ const playerSchema = new mongoose.Schema({
   inventory: [{ item: String, quantity: Number }],
 lastCatchTimestamp: Number, 
 });
-const cooldownInHours = 24;
+const cooldownInHours = 2;
 
 const Player = mongoose.model('Player', playerSchema);
 
@@ -66,7 +66,7 @@ async (Void, citel) => {
   const player = await Player.findOne({ userId: playerUserId });
 
   if (!player) {
-    return citel.reply("You must register as a player first using the 'register' command.");
+    return citel.reply("🚫 You must register as a player first using the 'register' command.");
   }
 
   // Get the current timestamp
@@ -74,13 +74,13 @@ async (Void, citel) => {
 
   // Check the timestamp of the last catch, if available
   if (player.lastCatchTimestamp) {
-    // Calculate the time elapsed since the last catch
+    // Calculate the time elapsed since the last catch in hours
     const timeElapsed = (currentTime - player.lastCatchTimestamp) / (1000 * 60 * 60); // in hours
 
     if (timeElapsed < cooldownInHours) {
       // Player needs to wait until the cooldown period is over
       const remainingTime = cooldownInHours - timeElapsed;
-      return citel.reply(`You need to wait ${remainingTime.toFixed(2)} hours before you can catch another Pokémon.`);
+      return citel.reply(`⌛ You need to wait ${remainingTime.toFixed(0)} hours before you can catch another Pokémon.`);
     }
   }
 
@@ -88,11 +88,11 @@ async (Void, citel) => {
   const randomPokemonName = getRandomPokemonName();
 
   if (!randomPokemonName) {
-    return citel.reply("No Pokémon encountered this time. Try again later.");
+    return citel.reply("🌟 No Pokémon encountered this time. Try again later.");
   }
 
   if (player.pokemons.includes(randomPokemonName)) {
-    return citel.reply(`You already have a ${randomPokemonName}. Try to catch a different Pokémon.`);
+    return citel.reply(`👉 You already have a ${randomPokemonName}. Try to catch a different Pokémon.`);
   }
 
   player.pokemons.push(randomPokemonName);
@@ -103,10 +103,10 @@ async (Void, citel) => {
   const profile = pokemonCharacters[randomPokemonName];
   const { level, xp, image } = profile;
 
-  const caption = `You caught a wild ${randomPokemonName}!\n\n*${randomPokemonName}'s Profile*\n\nLevel: ${level}\nXP: ${xp}`;
+  const caption = `🎉 You caught a wild ${randomPokemonName}!\n\n*${randomPokemonName}'s Profile*\n\nLevel: ${level}\nXP: ${xp}`;
 
   if (image) {
-    await Void.sendImage(citel.chat, image, { caption });
+    await citel.sendImage(citel.chat, image, { caption });
   } else {
     citel.reply(caption);
   }
@@ -118,6 +118,7 @@ async (Void, citel) => {
     return availablePokemonNames[randomIndex];
   }
 });
+
 
 cmd({
   pattern: "buy (.+)",
