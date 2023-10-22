@@ -1,4 +1,5 @@
-const { cmd } = require ('../lib')
+const { cmd, tlang, prefix } = require('../lib');
+const { pokemonCharacters } = require('./pokemon-data');
 const mongoose = require('mongoose');
 const playerSchema = new mongoose.Schema({
   userId: String,
@@ -31,4 +32,21 @@ cmd({
 
   await newPlayer.save();
   citel.reply("You are now registered as a player!");
+});
+
+cmd({
+  pattern: "profile",
+  desc: "Check a Pokémon's profile",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel, text) => {
+  const pokemonName = text.toLowerCase();
+  const profile = pokemonCharacters[pokemonName];
+
+  if (profile) {
+    citel.reply(`*${pokemonName}'s Profile*\n\nLevel: ${profile.level}\nXP: ${profile.xp}`);
+  } else {
+    citel.reply(`Pokémon '${pokemonName}' not found in your collection.`);
+  }
 });
