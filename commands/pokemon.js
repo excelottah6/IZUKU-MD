@@ -1,3 +1,4 @@
+const { cmd } = require ('../lib')
 const mongoose = require('mongoose');
 const playerSchema = new mongoose.Schema({
   userId: String,
