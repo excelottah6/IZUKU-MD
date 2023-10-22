@@ -6,11 +6,12 @@ const playerSchema = new mongoose.Schema({
   userId: String,
   username: String,
   pokemons: [String],
-  inventory: [{ item: String, quantity: Number }]
+  inventory: [{ item: String, quantity: Number }],
+lastCatchTimestamp: Number, 
 });
+const cooldownInHours = 24;
 
 const Player = mongoose.model('Player', playerSchema);
-const cooldownInHours = 24;
 
 cmd({
   pattern: "register",
@@ -53,7 +54,71 @@ async (Void, citel, text) => {
   }
 });
 
+const cooldownInHours = 24;
 
+cmd({
+  pattern: "catch",
+  desc: "Catch a Pokémon",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel) => {
+  const playerUserId = citel.sender;
+  const player = await Player.findOne({ userId: playerUserId });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  // Get the current timestamp
+  const currentTime = Date.now();
+
+  // Check the timestamp of the last catch, if available
+  if (player.lastCatchTimestamp) {
+    // Calculate the time elapsed since the last catch
+    const timeElapsed = (currentTime - player.lastCatchTimestamp) / (1000 * 60 * 60); // in hours
+
+    if (timeElapsed < cooldownInHours) {
+      // Player needs to wait until the cooldown period is over
+      const remainingTime = cooldownInHours - timeElapsed;
+      return citel.reply(`You need to wait ${remainingTime.toFixed(2)} hours before you can catch another Pokémon.`);
+    }
+  }
+
+  // Simulate a random Pokémon encounter (you can implement this differently)
+  const randomPokemonName = getRandomPokemonName();
+
+  if (!randomPokemonName) {
+    return citel.reply("No Pokémon encountered this time. Try again later.");
+  }
+
+  if (player.pokemons.includes(randomPokemonName)) {
+    return citel.reply(`You already have a ${randomPokemonName}. Try to catch a different Pokémon.`);
+  }
+
+  player.pokemons.push(randomPokemonName);
+  player.lastCatchTimestamp = currentTime; // Update the last catch timestamp
+  await player.save();
+
+  // Include the image URL of the caught Pokémon in the response
+  const profile = pokemonCharacters[randomPokemonName];
+  const { level, xp, image } = profile;
+
+  const caption = `You caught a wild ${randomPokemonName}!\n\n*${randomPokemonName}'s Profile*\n\nLevel: ${level}\nXP: ${xp}`;
+
+  if (image) {
+    await Void.sendImage(citel.chat, image, { caption });
+  } else {
+    citel.reply(caption);
+  }
+
+  function getRandomPokemonName() {
+    // Simulate a random encounter; you can implement this differently
+    const availablePokemonNames = Object.keys(pokemonCharacters);
+    const randomIndex = Math.floor(Math.random() * availablePokemonNames.length);
+    return availablePokemonNames[randomIndex];
+  }
+});
 
 cmd({
   pattern: "buy",
