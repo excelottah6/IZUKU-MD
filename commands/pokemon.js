@@ -48,11 +48,13 @@ async (Void, citel, text) => {
   const profile = pokemonCharacters[pokemonName];
 
   if (profile) {
+    // Include the updated XP value in the response
     citel.reply(`*${pokemonName}'s Profile*\n\nLevel: ${profile.level}\nXP: ${profile.xp}`);
   } else {
     citel.reply(`Pokémon '${pokemonName}' not found in your collection.`);
   }
 });
+
 
 
 cmd({
@@ -244,5 +246,102 @@ async (Void, citel) => {
 
   const pokemonList = ownedPokemons.join(", ");
   citel.reply(`🚹Your owned Pokémon:\n${pokemonList}`);
+});
+
+cmd({
+  pattern: "reward",
+  desc: "Claim your daily reward",
+  category: "economy",
+  filename: __filename,
+},
+async (Void, citel, text) => {
+  const player = await Player.findOne({ userId: citel.sender });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  // Check if the player has already claimed their daily reward today
+  if (player.lastDailyClaim) {
+    const lastClaimDate = new Date(player.lastDailyClaim);
+    const currentDate = new Date();
+    if (currentDate.getDate() === lastClaimDate.getDate()) {
+      return citel.reply("You have already claimed your daily reward today.");
+    }
+  }
+
+  // Award currency and update last claim date
+  player.currency += 100; // Adjust the reward amount as needed
+  player.lastDailyClaim = new Date();
+  await player.save();
+
+  citel.reply("You claimed your daily reward. You received 100 currency.");
+});
+
+cmd({
+  pattern: "spin",
+  desc: "Spin the wheel for a chance to win currency",
+  category: "economy",
+  filename: __filename,
+},
+async (Void, citel) => {
+  const player = await Player.findOne({ userId: citel.sender });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  // Simulate a random reward (adjust as needed)
+  const reward = Math.floor(Math.random() * 200) + 1; // Generates a random value between 1 and 200
+
+  // Award the player and update their currency
+  player.currency += reward;
+  await player.save();
+
+  citel.reply(`You spinned the wheel and won ${reward} currency!`);
+});
+
+cmd({
+  pattern: "levelup",
+  desc: "Use currency to level up a Pokémon",
+  category: "economy",
+  filename: __filename,
+},
+async (Void, citel, text) => {
+  const player = await Player.findOne({ userId: citel.sender });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  const args = text.split(" ");
+  if (args.length < 2) {
+    return citel.reply("Please specify a Pokémon to level up and the amount of currency to spend.");
+  }
+
+  const pokemonName = args[0].toLowerCase();
+  const currencyToSpend = parseInt(args[1]);
+
+  // Check if the player owns the specified Pokémon
+  if (!player.pokemons.includes(pokemonName)) {
+    return citel.reply(`You don't own a ${pokemonName}.`);
+  }
+
+  // Check if the player has enough currency to spend
+  if (player.currency < currencyToSpend) {
+    return citel.reply("You don't have enough currency to level up this Pokémon.");
+  }
+
+  // Calculate the amount of XP to add based on the currency spent (you can adjust this formula)
+  const xpToAdd = Math.floor(currencyToSpend / 10);
+
+  // Update the Pokémon's XP and deduct the spent currency
+  player.currency -= currencyToSpend;
+  player.pokemonData[pokemonName].xp += xpToAdd;
+
+  // Save the changes to the database
+  await player.save();
+
+  citel.reply(`You spent ${currencyToSpend} currency to level up your ${pokemonName} by ${xpToAdd} XP.`);
 });
 
