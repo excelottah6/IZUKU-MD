@@ -83,9 +83,81 @@ async (Void, citel, text) => {
   citel.reply(`You caught a wild ${randomPokemonName}!`);
 
   function getRandomPokemonName() {
-    // Simulate a random encounter; you can implement this differently
     const availablePokemonNames = Object.keys(pokemonCharacters);
     const randomIndex = Math.floor(Math.random() * availablePokemonNames.length);
     return availablePokemonNames[randomIndex];
   }
+});
+
+cmd({
+  pattern: "buy",
+  desc: "Buy a Pokémon from the marketplace",
+  category: "pokemon",
+  filename: __filename,
+}, async (Void, citel, text) => {
+  const buyerUserId = citel.sender;
+  const buyer = await Player.findOne({ userId: buyerUserId });
+
+  if (!buyer) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  // Parse the Pokémon name to buy from the text
+  const pokemonNameToBuy = text.trim().toLowerCase();
+
+  // Check if the Pokémon exists in the marketplace (you can implement this)
+  if (!isPokemonInMarketplace(pokemonNameToBuy)) {
+    return citel.reply(`The Pokémon '${pokemonNameToBuy}' is not available in the marketplace.`);
+  }
+
+  // Calculate the price for the Pokémon (you can implement this)
+  const pokemonPrice = calculatePokemonPrice(pokemonNameToBuy);
+
+  // Check if the buyer has enough currency to make the purchase
+  if (buyer.currency < pokemonPrice) {
+    return citel.reply("You don't have enough currency to buy this Pokémon.");
+  }
+
+  // Deduct the price from the buyer's currency and add the Pokémon to their collection
+  buyer.currency -= pokemonPrice;
+  buyer.pokemons.push(pokemonNameToBuy);
+
+  // Save the changes to the database
+  await buyer.save();
+
+  citel.reply(`You bought a ${pokemonNameToBuy} for ${pokemonPrice} currency.`);
+});
+
+cmd({
+  pattern: "sell",
+  desc: "Sell a Pokémon from your collection",
+  category: "pokemon",
+  filename: __filename,
+}, async (Void, citel, text) => {
+  const sellerUserId = citel.sender;
+  const seller = await Player.findOne({ userId: sellerUserId });
+
+  if (!seller) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  // Parse the Pokémon name to sell from the text
+  const pokemonNameToSell = text.trim().toLowerCase();
+
+  // Check if the seller has the Pokémon in their collection
+  if (!seller.pokemons.includes(pokemonNameToSell)) {
+    return citel.reply(`You don't have a ${pokemonNameToSell} to sell.`);
+  }
+
+  // Calculate the selling price for the Pokémon (you can implement this)
+  const pokemonSellingPrice = calculateSellingPrice(pokemonNameToSell);
+
+  // Add the selling price to the seller's currency and remove the Pokémon from their collection
+  seller.currency += pokemonSellingPrice;
+  seller.pokemons = seller.pokemons.filter(pokemon => pokemon !== pokemonNameToSell);
+
+  // Save the changes to the database
+  await seller.save();
+
+  citel.reply(`You sold your ${pokemonNameToSell} for ${pokemonSellingPrice} currency.`);
 });
