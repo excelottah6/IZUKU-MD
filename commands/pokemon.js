@@ -1,4 +1,4 @@
-const { cmd, tlang, prefix } = require('../lib');
+const { tlang, prefix } = require('../lib');
 const { cmd } = require('../lib');
 const { pokemonCharacters } = require('./pokemon-data');
 const mongoose = require('mongoose');
