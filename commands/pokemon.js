@@ -10,6 +10,7 @@ const playerSchema = new mongoose.Schema({
 });
 
 const Player = mongoose.model('Player', playerSchema);
+const cooldownInHours = 24;
 
 cmd({
   pattern: "register",
@@ -52,42 +53,7 @@ async (Void, citel, text) => {
   }
 });
 
-cmd({
-  pattern: "catch",
-  desc: "Catch a Pokémon",
-  category: "pokemon",
-  filename: __filename,
-},
-async (Void, citel, text) => {
-  const playerUserId = citel.sender;
-  const player = await Player.findOne({ userId: playerUserId });
 
-  if (!player) {
-    return citel.reply("You must register as a player first using the 'register' command.");
-  }
-
-  // Simulate a random Pokémon encounter (you can implement this differently)
-  const randomPokemonName = getRandomPokemonName();
-
-  if (!randomPokemonName) {
-    return citel.reply("No Pokémon encountered this time. Try again later.");
-  }
-
-  if (player.pokemons.includes(randomPokemonName)) {
-    return citel.reply(`You already have a ${randomPokemonName}. Try to catch a different Pokémon.`);
-  }
-
-  player.pokemons.push(randomPokemonName);
-  await player.save();
-
-  citel.reply(`You caught a wild ${randomPokemonName}!`);
-
-  function getRandomPokemonName() {
-    const availablePokemonNames = Object.keys(pokemonCharacters);
-    const randomIndex = Math.floor(Math.random() * availablePokemonNames.length);
-    return availablePokemonNames[randomIndex];
-  }
-});
 
 cmd({
   pattern: "buy",
@@ -101,8 +67,6 @@ cmd({
   if (!buyer) {
     return citel.reply("You must register as a player first using the 'register' command.");
   }
-
-  // Parse the Pokémon name to buy from the text
   const pokemonNameToBuy = text.trim().toLowerCase();
 
   // Check if the Pokémon exists in the marketplace (you can implement this)
@@ -122,7 +86,7 @@ cmd({
   buyer.currency -= pokemonPrice;
   buyer.pokemons.push(pokemonNameToBuy);
 
-  // Save the changes to the database
+
   await buyer.save();
 
   citel.reply(`You bought a ${pokemonNameToBuy} for ${pokemonPrice} currency.`);
