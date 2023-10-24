@@ -8,7 +8,8 @@ const playerSchema = new mongoose.Schema({
   pokemons: [String],
   inventory: [{ item: String, quantity: Number }],
   forSalePokemons: [String],
-lastCatchTimestamp: Number, 
+lastCatchTimestamp: Number,
+  currency: Number,
 });
 const cooldownInHours = 2;
 
@@ -55,7 +56,6 @@ async (Void, citel, text) => {
     citel.reply(`Pokémon '${pokemonName}' not found in your collection.`);
   }
 });
-
 
 
 cmd({
@@ -174,20 +174,29 @@ cmd({
   // Remove the Pokémon from the owner's collection
   owner.pokemons = owner.pokemons.filter(pokemon => pokemon !== pokemonNameToBuy);
 
+  // Calculate the profit to send to the owner
+  const profit = pokemonPrice;
+
+  // Add the profit to the owner's currency
+  owner.currency += profit;
+
   // Save the changes to the database for both the buyer and the owner
   await buyer.save();
   await owner.save();
 
-  citel.reply(`You bought a ${pokemonNameToBuy} from @${ownerUsername} for ${pokemonPrice} currency.`);
+  citel.reply(`You bought a ${pokemonNameToBuy} from @${ownerUsername} for ${pokemonPrice} currency. The owner received ${profit} currency.`);
 });
 
 // Function to check if a Pokémon is available in the marketplace
 function isPokemonInMarketplace(pokemonName) {
-  // You can maintain an array of available Pokémon in your marketplace
-  const availablePokemons = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff"];
-  
-  // Check if the requested Pokémon is in the list of available Pokémon
-  return availablePokemons.includes(pokemonName.toLowerCase());
+  // You can implement this based on the sellers who have put Pokémon for sale
+  // Check if any player has the Pokémon for sale
+  const sellersWithPokemon = players.filter((player) =>
+    player.forSalePokemons && player.forSalePokemons.includes(pokemonName)
+  );
+
+  // Return true if any seller has the Pokémon for sale
+  return sellersWithPokemon.length > 0;
 }
 
 // Function to calculate the price of a Pokémon
@@ -219,7 +228,6 @@ function isPokemonInMarketplace(pokemonName) {
   // Return true if any seller has the Pokémon for sale
   return sellersWithPokemon.length > 0;
 }
-
 
 cmd({
   pattern: "sell",
@@ -259,6 +267,7 @@ async (Void, citel, text) => {
 
   citel.reply(`You have put your ${pokemonNameToSell} up for sale in the marketplace.`);
 });
+
 
 
 cmd({
@@ -322,10 +331,26 @@ cmd({
   filename: __filename,
 },
 async (Void, citel) => {
-  const player = await Player.findOne({ userId: citel.sender });
+  const playerUserId = citel.sender;
+  const player = await Player.findOne({ userId: playerUserId });
 
   if (!player) {
-    return citel.reply("You must register as a player first using the 'register' command.");
+    return citel.reply("🚫 You must register as a player first using the 'register' command.");
+  }
+
+  // Get the current timestamp
+  const currentTime = Date.now();
+
+  // Check the timestamp of the last spin, if available
+  if (player.lastSpinTimestamp) {
+    // Calculate the time elapsed since the last spin in hours
+    const timeElapsed = (currentTime - player.lastSpinTimestamp) / (1000 * 60 * 60); // in hours
+
+    if (timeElapsed < spinCooldownInHours) {
+      // Player needs to wait until the cooldown period is over
+      const remainingTime = spinCooldownInHours - timeElapsed;
+      return citel.reply(`⌛ You can spin again in ${remainingTime.toFixed(0)} hours.`);
+    }
   }
 
   // Simulate a random reward (adjust as needed)
@@ -333,54 +358,48 @@ async (Void, citel) => {
 
   // Award the player and update their currency
   player.currency += reward;
+  player.lastSpinTimestamp = currentTime; // Update the last spin timestamp
   await player.save();
 
-  citel.reply(`You spinned the wheel and won ${reward} currency!`);
+  citel.reply(`🎉 You spinned the wheel and won ${reward} currency!`);
 });
+
 
 cmd({
   pattern: "levelup",
-  desc: "Use currency to level up a Pokémon",
+  desc: "Automatically level up a random Pokémon based on your messages",
   category: "pokemon",
   filename: __filename,
 },
-async (Void, citel, text) => {
+async (Void, citel) => {
   const player = await Player.findOne({ userId: citel.sender });
 
   if (!player) {
     return citel.reply("You must register as a player first using the 'register' command.");
   }
 
-  const args = text.split(" ");
-  if (args.length < 2) {
-    return citel.reply("Please specify a Pokémon to level up and the amount of currency to spend.");
+  const availablePokemonNames = Object.keys(pokemonCharacters);
+  if (availablePokemonNames.length === 0) {
+    return citel.reply("No Pokémon available to level up.");
   }
 
-  const pokemonName = args[0].toLowerCase();
-  const currencyToSpend = parseInt(args[1]);
+  // Select a random Pokémon from the player's collection
+  const randomIndex = Math.floor(Math.random() * availablePokemonNames.length);
+  const randomPokemonName = availablePokemonNames[randomIndex];
 
-  // Check if the player owns the specified Pokémon
-  if (!player.pokemons.includes(pokemonName)) {
-    return citel.reply(`You don't own a ${pokemonName}.`);
-  }
+  // Calculate XP based on the number of messages sent (adjust the formula as needed)
+  const messagesSent = player.messagesSent || 0; // Assuming you track messages sent by the player
+  const xpToAdd = messagesSent;
 
-  // Check if the player has enough currency to spend
-  if (player.currency < currencyToSpend) {
-    return citel.reply("You don't have enough currency to level up this Pokémon.");
-  }
-
-  // Calculate the amount of XP to add based on the currency spent (you can adjust this formula)
-  const xpToAdd = Math.floor(currencyToSpend / 10);
-
-  // Update the Pokémon's XP and deduct the spent currency
-  player.currency -= currencyToSpend;
-  player.pokemonData[pokemonName].xp += xpToAdd;
+  // Update the Pokémon's XP
+  player.pokemonData[randomPokemonName].xp += xpToAdd;
 
   // Save the changes to the database
   await player.save();
 
-  citel.reply(`You spent ${currencyToSpend} currency to level up your ${pokemonName} by ${xpToAdd} XP.`);
+  citel.reply(`You've leveled up your ${randomPokemonName} by ${xpToAdd} XP.`);
 });
+
 
 cmd({
   pattern: "searchpokemon",
@@ -436,5 +455,22 @@ async (Void, citel) => {
   });
 
   citel.reply(`Pokémon available in the marketplace:\n\n${marketplaceInfo.join("\n")}`);
+});
+
+cmd({
+  pattern: "balance",
+  desc: "Check your currency balance",
+  category: "pokemon",
+  filename: __filename,
+},
+async (Void, citel) => {
+  const playerUserId = citel.sender;
+  const player = await Player.findOne({ userId: playerUserId });
+
+  if (!player) {
+    return citel.reply("You must register as a player first using the 'register' command.");
+  }
+
+  citel.reply(`Your currency balance: ${player.currency} currency.`);
 });
 
