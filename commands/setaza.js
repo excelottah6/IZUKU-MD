@@ -1,5 +1,5 @@
 const { cmd } = require('../lib');
-
+const filters = new Map();
  let recordedMessage = '';
 
  cmd({
@@ -34,3 +34,35 @@ const { cmd } = require('../lib');
    }
  });
 //-------------------------------------------_______________________----------
+
+cmd({
+   pattern: "sa",
+   fromMe: true,
+   desc: "Set a filter message in any chat",
+   category: "utility",
+ }, async (Void, citel, text) => {
+   match = text.match(/[\'\"\“](.*?)[\'\"\“]/gsm);
+
+   if (match === null) {
+     if (!filters.has(citel.jid) || filters.get(citel.jid).size === 0) {
+       await citel.reply('_There are no filters in this chat!_');
+     } else {
+       var msg = '_Here are your filters in this chat:_\n';
+       filters.get(citel.jid).forEach((value, key) => {
+         msg += '```' + key + '```\n';
+       });
+       await citel.reply(msg);
+     }
+   } else {
+     if (match.length < 2) {
+       return await citel.reply(`*Need text!*\nExample: setaza 'hi' 'hello'`);
+     }
+
+     if (!filters.has(citel.jid)) {
+       filters.set(citel.jid, new Map());
+     }
+
+     filters.get(citel.jid).set(match[0].replace(/['"“]+/g, ''), match[1].replace(/['"“]+/g, ''));
+     await citel.reply('_Successfully set_ ```' + match[0].replace(/['"]+/g, '') + '``` _to filter!_');
+   }
+ });
