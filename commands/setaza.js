@@ -1,6 +1,52 @@
 const { cmd } = require('../lib');
 const filters = new Map();
  let recordedMessage = '';
+const customFilters = new Map();
+
+cmd({
+   pattern: "setfilter",
+   fromMe: true,
+   desc: "Set a custom filter with trigger and response",
+   category: "utility",
+   type: "group"
+ }, async (Void, citel, text) => {
+   const args = text.split(' ');
+   if (args.length < 3) {
+     await citel.reply("Usage: setfilter 'trigger' 'response'");
+     return;
+   }
+
+   const trigger = args[1].replace(/[\'\"\“]+/g, '');
+   const response = args.slice(2).join(' ').replace(/[\'\"\“]+/g, '');
+
+   if (customFilters.has(citel.jid)) {
+     customFilters.get(citel.jid).set(trigger, response);
+   } else {
+     const filterMap = new Map();
+     filterMap.set(trigger, response);
+     customFilters.set(citel.jid, filterMap);
+   }
+
+   await citel.reply(`Filter set: "${trigger}" will trigger the response "${response}"`);
+ });
+
+// Create a message listener to check for custom filters
+cmd({
+   on: 'text',
+   fromMe: false
+ }, async (message, citel) => {
+   if (customFilters.has(citel.jid)) {
+     const filters = customFilters.get(citel.jid);
+     const text = message.text;
+     for (const [trigger, response] of filters) {
+       if (text.includes(trigger)) {
+         await citel.reply(response);
+       }
+     }
+   }
+ });
+
+
 
  cmd({
    pattern: "setaza",
@@ -34,35 +80,3 @@ const filters = new Map();
    }
  });
 //-------------------------------------------_______________________----------
-
-cmd({
-   pattern: "sa",
-   fromMe: true,
-   desc: "Set a filter message in any chat",
-   category: "utility",
- }, async (Void, citel, text) => {
-   match = text.match(/[\'\"\“](.*?)[\'\"\“]/gsm);
-
-   if (match === null) {
-     if (!filters.has(citel.jid) || filters.get(citel.jid).size === 0) {
-       await citel.reply('_There are no filters in this chat!_');
-     } else {
-       var msg = '_Here are your filters in this chat:_\n';
-       filters.get(citel.jid).forEach((value, key) => {
-         msg += '```' + key + '```\n';
-       });
-       await citel.reply(msg);
-     }
-   } else {
-     if (match.length < 2) {
-       return await citel.reply(`*Need text!*\nExample: setaza 'hi' 'hello'`);
-     }
-
-     if (!filters.has(citel.jid)) {
-       filters.set(citel.jid, new Map());
-     }
-
-     filters.get(citel.jid).set(match[0].replace(/['"“]+/g, ''), match[1].replace(/['"“]+/g, ''));
-     await citel.reply('_Successfully set_ ```' + match[0].replace(/['"]+/g, '') + '``` _to filter!_');
-   }
- });
