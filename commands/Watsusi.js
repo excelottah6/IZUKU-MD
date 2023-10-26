@@ -2,7 +2,7 @@ const { cmd } = require('../lib');
 const { updateProfilePicture, forwardMessage } = require("../lib");
 
 cmd({
-    pattern: "status",
+    pattern: "save",
     desc: "Save WhatsApp status.",
     category: "watsusi",
     filename: __filename,
