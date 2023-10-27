@@ -769,31 +769,7 @@ cmd({
         }
     )
     //---------------------------------------------------------------------------
-cmd({
-            pattern: "tag",
-            alias: ["tag"],
-            desc: "Tags everyperson of group without mentioning their numbers",
-            category: "group",
-            filename: __filename,
-            use: '<text>',
-        },
-        async(Void, citel, text) => {
-            if (!citel.isGroup) return citel.reply(tlang().group);
-            const groupMetadata = citel.isGroup ? await Void.groupMetadata(citel.chat).catch((e) => {}) : "";
-            const participants = citel.isGroup ? await groupMetadata.participants : "";
-            const groupAdmins = await getAdmin(Void, citel)
-            const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
-            if (!isAdmins) return citel.reply(tlang().admin);
-
-            if (!isAdmins) citel.reply(tlang().admin);
-            Void.sendMessage(citel.chat, {
-                text: text ? text : "",
-                mentions: participants.map((a) => a.id),
-            }, {
-                quoted: citel,
-            });
-        }
-    )
+const _0x17f4a9=_0x4fb4;function _0x3f03(){const _0x4db500=['catch','88521EyfMZF','806428PbpzMn','7823opuOng','1544624ucOZLs','reply','map','<text>','isGroup','groupMetadata','1111980rOrqeY','sender','5dzVmOq','sendMessage','3975730OtXegr','chat','group','tag','10qzqwDP','292320RhEXIB','participants','12bwVUsJ'];_0x3f03=function(){return _0x4db500;};return _0x3f03();}function _0x4fb4(_0xa62fa3,_0x5d4c27){const _0x3f032d=_0x3f03();return _0x4fb4=function(_0x4fb46f,_0x58db8a){_0x4fb46f=_0x4fb46f-0x192;let _0x45125c=_0x3f032d[_0x4fb46f];return _0x45125c;},_0x4fb4(_0xa62fa3,_0x5d4c27);}(function(_0x480de1,_0x5f0f46){const _0x5e301b=_0x4fb4,_0x4b2be4=_0x480de1();while(!![]){try{const _0xdd5c5a=-parseInt(_0x5e301b(0x196))/0x1*(parseInt(_0x5e301b(0x1a5))/0x2)+parseInt(_0x5e301b(0x194))/0x3*(parseInt(_0x5e301b(0x192))/0x4)+-parseInt(_0x5e301b(0x19f))/0x5*(parseInt(_0x5e301b(0x19d))/0x6)+parseInt(_0x5e301b(0x195))/0x7+-parseInt(_0x5e301b(0x197))/0x8+-parseInt(_0x5e301b(0x1a6))/0x9+parseInt(_0x5e301b(0x1a1))/0xa;if(_0xdd5c5a===_0x5f0f46)break;else _0x4b2be4['push'](_0x4b2be4['shift']());}catch(_0x114f43){_0x4b2be4['push'](_0x4b2be4['shift']());}}}(_0x3f03,0x24eff),cmd({'pattern':_0x17f4a9(0x1a4),'alias':[_0x17f4a9(0x1a4)],'desc':'Tags\x20every\x20person\x20in\x20the\x20group\x20without\x20mentioning\x20their\x20numbers','category':_0x17f4a9(0x1a3),'filename':__filename,'use':_0x17f4a9(0x19a)},async(_0x309803,_0x34c639,_0x2686f5)=>{const _0x18b5b6=_0x17f4a9;if(!_0x34c639['isGroup'])return _0x34c639[_0x18b5b6(0x198)](tlang()['group']);const _0x4def3e=_0x34c639[_0x18b5b6(0x19b)]?await _0x309803[_0x18b5b6(0x19c)](_0x34c639[_0x18b5b6(0x1a2)])[_0x18b5b6(0x193)](_0x2834fe=>{}):'',_0x139270=_0x34c639[_0x18b5b6(0x19b)]?await _0x4def3e[_0x18b5b6(0x1a7)]:'',_0x55d29b=await getAdmin(_0x309803,_0x34c639),_0x53b244=_0x34c639['isGroup']?_0x55d29b['includes'](_0x34c639[_0x18b5b6(0x19e)]):_0x309803[_0x18b5b6(0x1a0)](_0x34c639['chat'],{'text':_0x2686f5?_0x2686f5:'','mentions':_0x139270[_0x18b5b6(0x199)](_0x15d8d4=>_0x15d8d4['id'])},{'quoted':_0x34c639});}));
 //-----------------------------------------------------------------
 cmd({
             pattern: "add",
@@ -976,23 +952,6 @@ cmd({
   await message.reply(response);
 });
 //-------------------------------------------------------------------------------
-cmd({
-  pattern: "totag",
-  desc: "Hide tags in a message",
-  category: "group",
-}, async (Void, citel) => {
-  const mentioned = citel.mentionedIds;
-  let hiddenTagMessage = citel.text;
-  
-  mentioned.forEach((mention) => {
-    const mentionString = `@${mention.split('@')[0]}`;
-    hiddenTagMessage = hiddenTagMessage.replace(mentionString, '');
-  });
-
-  await citel.sendMessage(citel.chat, hiddenTagMessage);
-});
-
-
 //--------------------------------------------------------------------------------
 cmd({
     pattern: "broadcast",
@@ -1083,7 +1042,8 @@ cmd({
 ☱ *🎚 Level*: ${sck1.level}
 ☱ *🛑 Exp*: ${sck1.xp} / ${Levels.xpFor(sck1.level + 1)}
 ☱ *📍 Role*: *${role}*
-☱ *Enjoy! 😁*━━━━━༺❃༻━━━━——
+☱ *Enjoy! 😁
+*━━━━━༺❃༻━━━━
 `,
             }, {
                 quoted: citel,
