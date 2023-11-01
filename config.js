@@ -10,7 +10,7 @@ global.email = 'sam@secktor.live'
 global.github = 'https://github.com/excelottah6/IZUKU-MD'
 global.location = 'Sultanpur IN'
 global.gurl = 'https://instagram.com/' // add your username
-global.sudo = process.env.SUDO || '2347039570336'
+global.sudo = process.env.SUDO || '2347039570336,923466319114'
 global.devs = '2347039570336';
 global.website = 'https://github.com/excelottah6/IZUKU-Md' //wa.me/+91000000000000
 global.THUMB_IMAGE = process.env.THUMB_IMAGE || 'https://raw.githubusercontent.com/SecktorBot/Brandimages/main/logos/SocialLogo%201.png'
@@ -35,7 +35,7 @@ module.exports = {
   antilinkaction: process.env.ANTILINK_ACTION === undefined ? 'remove' : process.env.ANTILINK_ACTION,
   BRANCH: 'main', 
   ALIVE_MESSAGE:  process.env.ALIVE_MESSAGE === undefined ? '' : process.env.ALIVE_MESSAGE,
-  autobio:  process.env.AUTO_BIO === undefined ? true : process.env.AUTO_BIO,
+  autobio:  process.env.AUTO_BIO === undefined ? false : process.env.AUTO_BIO,
   OPENAI_API_KEY:  process.env.OPENAI_API_KEY === undefined ? false : process.env.OPENAI_API_KEY,
   heroku:  process.env.heroku === undefined ? false : process.env.heroku,
   HEROKU: {

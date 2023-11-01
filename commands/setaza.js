@@ -1,5 +1,4 @@
 const { cmd } = require('../lib');
-
  let recordedMessage = '';
 
  cmd({

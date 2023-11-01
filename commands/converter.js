@@ -19,8 +19,51 @@
 const axios = require('axios')
 const { sck1, tiny, fancytext, listall,cmd,ffmpeg } = require('../lib/')
 const fs = require('fs-extra');
-const { exec } = require('child_process')
 const { Sticker, createSticker, StickerTypes } = require("wa-sticker-formatter");
+const { exec } = require("child_process");
+//---------------------------------------------------------------------------------------
+cmd({
+    pattern: "mp4",
+    desc: "Converts replied animated sticker to an MP4 video.",
+    category: "converter",
+    use: '<reply to any animated sticker>',
+    filename: __filename
+},
+async (Void, citel, text) => {
+    const getRandom = (ext) => {
+        return `${Math.floor(Math.random() * 10000)}${ext}`
+    }
+    if (!citel.quoted) return citel.reply("_Reply to Any Animated Sticker._")
+    let mime = citel.quoted.mtype;
+    if (mime === "stickerMessage") {
+        let media = await Void.downloadAndSaveMediaMessage(citel.quoted);
+        let name = await getRandom('.mp4');
+        exec(`ffmpeg -ignore_unknown -i ${media} -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" ${name}`, (err) => {
+            let buffer = fs.readFileSync(name);
+            Void.sendMessage(citel.chat, { video: buffer }, { mimetype: "video/mp4", quoted: citel });
+
+            fs.unlink(media, (err) => {
+                if (err) {
+                    return console.error('File Not Deleted from From VIDEO AT: ', media, '\n while Error: ', err);
+                } else {
+                    return console.log('File deleted successfully in VIDEO at: ', media);
+                }
+            });
+
+            fs.unlink(name, (err) => {
+                if (err) {
+                    return console.error('File Not Deleted from From VIDEO AT: ', name, '\n while Error: ', err);
+                } else {
+                    return console.log('File deleted successfully in VIDEO at: ', name);
+                }
+            });
+        });
+    } else {
+        return citel.reply("```Please, Reply To An Animated Sticker```");
+    }
+});
+
+
 
     //---------------------------------------------------------------------------
     cmd({
@@ -177,7 +220,7 @@ cmd({
                 let text = tiny(
                     "Fancy text generator\n\nExample: .fancy 46 Izuku\n\n"
                 );
-                listall("Secktor Bot").forEach((txt, num) => {
+                listall("IZUKU BOT").forEach((txt, num) => {
                     text += `${(num += 1)} ${txt}\n`;
                 });
                 return await citel.reply(text);

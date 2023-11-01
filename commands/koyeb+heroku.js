@@ -166,3 +166,101 @@ cmd(
        let data = await delvar(text)
        return citel.reply(data)
   })
+//----------------------------------------------------------------------------------
+cmd(
+  {
+    pattern: "setowner",
+    desc: "Set OWNER_NUMBER in Heroku.",
+    filename: __filename,
+    category: "misc",
+  },
+  async (Void, citel, text, { isCreator }) => {
+    if (!isCreator) return citel.reply(tlang().owner);
+
+    if (!text) {
+      return citel.reply("Please provide a new OWNER_NUMBER value.");
+    }
+
+    if (Config.HEROKU) {
+      const Heroku = require("heroku-client");
+      const heroku = new Heroku({
+        token: Config.HEROKU.API_KEY,
+      });
+      const baseURI = "/apps/" + Config.HEROKU.APP_NAME;
+      const newOwnerNumber = text.trim();
+
+      const configVars = await heroku.get(baseURI + "/config-vars");
+
+      if (newOwnerNumber === configVars.OWNER_NUMBER) {
+        return citel.reply(`❌ OWNER_NUMBER is already set to: ${newOwnerNumber}`);
+      }
+
+      await heroku.patch(baseURI + "/config-vars", {
+        body: {
+          OWNER_NUMBER: newOwnerNumber,
+        },
+      });
+      return citel.reply(`✅ OWNER_NUMBER has been set to: ${newOwnerNumber}`);
+    } else {
+      return citel.reply("Heroku configuration is missing.");
+    }
+  }
+);
+
+//-------------------------------------------------------------------------------------
+cmd(
+  {
+    pattern: "delowner",
+    desc: "Delete the OWNER_NUMBER variable in Heroku.",
+    filename: __filename,
+    category: "misc",
+  },
+  async (Void, citel, text, { isCreator }) => {
+    if (!isCreator) return citel.reply(tlang().owner);
+
+    if (Config.HEROKU) {
+      const Heroku = require("heroku-client");
+      const heroku = new Heroku({
+        token: Config.HEROKU.API_KEY,
+      });
+      const baseURI = "/apps/" + Config.HEROKU.APP_NAME;
+
+      await heroku.patch(baseURI + "/config-vars", {
+        body: {
+          OWNER_NUMBER: null,
+        },
+      });
+
+      return citel.reply("✅ OWNER_NUMBER has been deleted.");
+    } else {
+      return citel.reply("Heroku configuration is missing.");
+    }
+  }
+);
+//-----------------------------------------------------------------------------
+cmd(
+  {
+    pattern: "getownernumbers",
+    desc: "Get all OWNER_NUMBER values from Heroku.",
+    filename: __filename,
+    category: "misc",
+  },
+  async (Void, citel, text, { isCreator }) => {
+    if (!isCreator) return citel.reply(tlang().owner);
+
+    if (Config.HEROKU) {
+      const Heroku = require("heroku-client");
+      const heroku = new Heroku({
+        token: Config.HEROKU.API_KEY,
+      });
+      const baseURI = "/apps/" + Config.HEROKU.APP_NAME;
+
+      const configVars = await heroku.get(baseURI + "/config-vars");
+      const ownerNumbers = configVars.OWNER_NUMBER;
+
+      return citel.reply(`Current OWNER_NUMBER values: ${ownerNumbers}`);
+    } else {
+      return citel.reply("Heroku configuration is missing.");
+    }
+  }
+);
