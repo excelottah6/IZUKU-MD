@@ -3,8 +3,8 @@
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
  It is supplied in the hope that it may be useful.
- * @project_name : Secktor-Md
- * @author : SamPandey001 <https://github.com/SamPandey001>
+ * @project_name : IZUKU-Md
+ * @author : excelottah6 <https://github.com/excelottah6>
  * @description : Secktor,A Multi-functional whatsapp bot.
  * @version 0.0.6
  **/
@@ -155,37 +155,7 @@ cmd({
     }
 )
     //---------------------------------------------------------------------------
-cmd({
-            pattern: "image",
-            category: "search",
-            desc: "Searches Image on Google",
-            use: '<text>',
-            filename: __filename,
-        },
-        async(Void, citel, text) => {
-            if (!text) return citel.reply("Provide me a query!")
-            if (!text) return reply("Hey bie please tell me for which pic you're looking");
-            let name1 = text.split("|")[0]
-            let name2 = text.split("|")[1] || `1`
-            citel.reply(`Sending ${name2} image(s) of ${name1} in chat`)
-            let nn = name2
-            for (let i = 0; i < nn; i++) {
-
-                let n = await gis(name1)
-                images = n[Math.floor(Math.random() * n.length)].url;
-                    let buttonMessage = {
-                        image: {
-                            url: images,
-                        },
-                        caption: `_Sector Image Search_\n*${name1}*`,
-                        headerType: 4,
-                    };
-                    Void.sendMessage(citel.chat, buttonMessage, {
-                        quoted: citel,
-                    });
-            }
-        }
-    )
+function _0x4643(_0x4b0120,_0x4302e3){const _0x471b4e=_0x471b();return _0x4643=function(_0x4643e4,_0x4db310){_0x4643e4=_0x4643e4-0x10b;let _0x204718=_0x471b4e[_0x4643e4];return _0x204718;},_0x4643(_0x4b0120,_0x4302e3);}const _0x597914=_0x4643;(function(_0x1cf4ec,_0x41132d){const _0x42265f=_0x4643,_0x53969a=_0x1cf4ec();while(!![]){try{const _0x27c680=-parseInt(_0x42265f(0x10f))/0x1+-parseInt(_0x42265f(0x11d))/0x2*(-parseInt(_0x42265f(0x115))/0x3)+parseInt(_0x42265f(0x110))/0x4*(parseInt(_0x42265f(0x119))/0x5)+parseInt(_0x42265f(0x11e))/0x6+-parseInt(_0x42265f(0x123))/0x7+-parseInt(_0x42265f(0x11a))/0x8*(parseInt(_0x42265f(0x120))/0x9)+parseInt(_0x42265f(0x10c))/0xa*(parseInt(_0x42265f(0x11b))/0xb);if(_0x27c680===_0x41132d)break;else _0x53969a['push'](_0x53969a['shift']());}catch(_0xba5bbb){_0x53969a['push'](_0x53969a['shift']());}}}(_0x471b,0x367c0),cmd({'pattern':_0x597914(0x113),'category':_0x597914(0x121),'desc':'Searches\x20Image\x20on\x20Google','use':'<text>','filename':__filename},async(_0x31cd58,_0x815c58,_0x1ff2ad)=>{const _0x4253bd=_0x597914;if(!_0x1ff2ad)return _0x815c58[_0x4253bd(0x11f)](_0x4253bd(0x111));if(!_0x1ff2ad)return reply('Hey\x20\x20please\x20tell\x20me\x20for\x20which\x20pic\x20you\x27re\x20looking');let _0x44d017=_0x1ff2ad[_0x4253bd(0x122)]('|')[0x0],_0x13d025=_0x1ff2ad[_0x4253bd(0x122)]('|')[0x1]||'1';_0x815c58['reply'](_0x4253bd(0x117)+_0x13d025+'\x20image(s)\x20of\x20'+_0x44d017+_0x4253bd(0x10e));let _0x587d35=_0x13d025;for(let _0x42928b=0x0;_0x42928b<_0x587d35;_0x42928b++){let _0x51f60a=await gis(_0x44d017);images=_0x51f60a[Math[_0x4253bd(0x114)](Math[_0x4253bd(0x10b)]()*_0x51f60a[_0x4253bd(0x112)])][_0x4253bd(0x10d)];let _0x2a0c10={'image':{'url':images},'caption':_0x4253bd(0x116)+_0x44d017+'*','headerType':0x4};_0x31cd58[_0x4253bd(0x118)](_0x815c58[_0x4253bd(0x11c)],_0x2a0c10,{'quoted':_0x815c58});}}));function _0x471b(){const _0x203bb8=['5zGRxMf','8UDDCJn','77xCsfOA','chat','179954QUrlOJ','1181586XGsTir','reply','1394451wWSzDw','search','split','1914745Nnzvxh','random','637410qCztru','url','\x20in\x20chat','90347EBRAzD','35576YWIBKG','Provide\x20me\x20a\x20query!','length','image','floor','3aflzci','_IZUKU\x20Image\x20Search_\x0a*','Sending\x20','sendMessage'];_0x471b=function(){return _0x203bb8;};return _0x471b();}
     //---------------------------------------------------------------------------
 cmd({
             pattern: "couplepp",
@@ -205,7 +175,7 @@ cmd({
         pattern: "iswa",
         category: "search",
         desc: "Searches in given rage about given number.",
-        use: '9112345678xx',
+        use: '23470395703xx',
         filename: __filename,
     },
     async(Void, citel, text) => {
