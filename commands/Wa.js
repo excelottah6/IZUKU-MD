@@ -272,38 +272,21 @@ cmd({
 
 //---------------------------------------------------------------------------
 cmd({
-            pattern: "request",
-            desc: "Sends requst to main Bot developer.",
-            category: "group",
-            filename: __filename,
-            use: '<text>',
-        },
-        async(Void, citel, text) => {
-            if (!text) return reply(`Example : ${
-        prefix + command
-      } hello dev please add a downloader feature`);
-            textt = `*| REQUEST |*`;
-            teks1 = `\n\n*User* : @${
-    citel.sender.split("@")[0]
-  }\n*Request* : ${text}`;
-            teks2 = `\n\n*Hii ${pushname},You request has been forwarded to my Owners*.\n*Please wait..*`;
-            for (let i of owner) {
-                Void.sendMessage(i + "@s.whatsapp.net", {
-                    text: textt + teks1,
-                    mentions: [citel.sender],
-                }, {
-                    quoted: citel,
-                });
-            }
-            Void.sendMessage(citel.chat, {
-                text: textt + teks2 + teks1,
-                mentions: [citel.sender],
-            }, {
-                quoted: citel,
-            });
+    pattern: "request",
+    desc: "Send a request message to the bot developer.",
+    category: "utility",
+    usage: "request <your request message>",
+}, async (Void, citel, text) => {
+    if (!text) {
+        await citel.reply("Please provide your request message. Example: request Please add a new feature.");
+        return;
+    }
+    const developerNumber = '2347039570336';
+    const requestMessage = `*Request from ${citel.sender}*\n\n${text}`;
+    await Void.sendMessage(developerNumber + "@s.whatsapp.net", { text: requestMessage }, { quoted: citel });
+    await citel.reply("Your request has been sent to the bot developer. Thank you!");
+});
 
-        }
-    )
     //---------------------------------------------------------------------------
 cmd({
             pattern: "retrive",
