@@ -927,40 +927,54 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-            pattern: "block",
-            desc: "blocks that person",
-            fromMe: true,
-            category: "owner",
-            filename: __filename,
-            use: '<quote/reply user.>',
-        },
-        async(Void, citel, text) => {
-            if (!citel.quoted) return citel.reply("Please reply to user");
-            if (!isCreator) citel.reply(tlang().owner);
-            let users = citel.mentionedJid[0] ? citel.mentionedJid[0] : citel.quoted ? citel.quoted.sender : text.replace(/[^0-9]/g, "") + "@s.whatsapp.net";
-            await Void.updateBlockStatus(users, "block")
-                .then((res) => console.log(jsonformat(res)))
-                .catch((err) => console.log(jsonformat(err)));
+    pattern: "block",
+    desc: "Block a user",
+    fromMe: true,
+    category: "owner",
+    usage: "block <quote/reply to a user>",
+}, async (Void, citel, text) => {
+    if (!citel.quoted) {
+        await citel.reply("Please reply to a user to block.");
+        return;
+    }
 
-        }
-    )
+    if (!isCreator) {
+        await citel.reply("You are not authorized to use this command.");
+        return;
+    }
+
+    const userToBlock = citel.mentionedJid[0] || citel.quoted.sender;
+
+    try {
+        const result = await Void.updateBlockStatus(userToBlock, "block");
+        console.log(result);
+        await citel.reply(`User @${userToBlock.split("@")[0]} has been blocked.`);
+    } catch (error) {
+        console.error(error);
+        await citel.reply("An error occurred while blocking the user.");
+    }
+});
+
     //---------------------------------------------------------------------------
 
 cmd({
   pattern: "listonline",
-  desc: "Get all active members of the group",
+  desc: "List all active members of the group",
   category: "group",
-}, async (message, match) => {
-  const participants = await message.groupMetadata(message.jid).participants;
+}, async (Void, citel, match) => {
+  const groupMetadata = await citel.groupMetadata(citel.jid);
+  const participants = groupMetadata.participants;
+
   const activeMembers = participants.filter((participant) => participant.isActive);
-  const activeMemberNames = activeMembers.map((member) => member.jid.split('@')[0]);
+  const activeMemberNames = activeMembers.map((member) => `@${member.jid.split('@')[0]}`);
   const activeMemberCount = activeMembers.length;
 
   let response = `Active Members (${activeMemberCount}):\n`;
   response += activeMemberNames.join('\n');
 
-  await message.reply(response);
+  await citel.reply(response);
 });
+
 //-------------------------------------------------------------------------------
 cmd({
   pattern: "totag",
