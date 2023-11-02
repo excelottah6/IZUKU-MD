@@ -956,7 +956,6 @@ cmd({
 });
 
     //---------------------------------------------------------------------------
-
 cmd({
   pattern: "listonline",
   desc: "List all active members of the group",
@@ -975,6 +974,8 @@ cmd({
   await citel.reply(response);
 });
 
+
+  
 //-------------------------------------------------------------------------------
 cmd({
   pattern: "totag",
