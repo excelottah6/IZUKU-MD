@@ -21,6 +21,33 @@ const { sck1, tiny, fancytext, listall,cmd,ffmpeg } = require('../lib/')
 const fs = require('fs-extra');
 const { Sticker, createSticker, StickerTypes } = require("wa-sticker-formatter");
 const { exec } = require("child_process");
+const { cmd } = require('../lib');
+const { fromBuffer } = require('file-type');
+
+cmd({
+    pattern: 'doc',
+    desc: "convert media to document",
+    react: "🔂",
+    type: 'converter'
+}, async (Void, citel, match) => {
+    match = (match || "converted-media").replace(/[^A-Za-z0-9]/g, '-');
+    
+    if (!citel.reply_message.image && !citel.reply_message.audio && !citel.reply_message.video) {
+        return citel.reply("_*Reply to a video/audio/image message!*");
+    }
+    
+    const media = await citel.reply_message.download();
+    const { ext, mime } = await fromBuffer(media);
+    
+    const document = {
+        document: media,
+        mimetype: mime,
+        fileName: match + "." + ext
+    };
+    
+    return await Void.sendMessage(citel.chat, document, { quoted: citel });
+});
+
 //---------------------------------------------------------------------------------------
 cmd({
     pattern: "mp4",
