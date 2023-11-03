@@ -1,8 +1,8 @@
 const { exec } = require("child_process");
 const fs = require("fs");
-const { cmd } = require("./lib");
+const { cmd } = require("../lib");
 cmd({
-    pattern: "mp4",
+    pattern: "mp",
     desc: "Converts a replied animated sticker to a video.",
     category: "converter",
     usage: '<reply to any animated sticker>',
