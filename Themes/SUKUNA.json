@@ -1,0 +1,55 @@
+{
+  "__JSON__": true,
+  "AUTHOR": "excelottah6",
+  "LANGUAGE": "English",
+  "LANGCODE": "en",
+  "STRINGS": {
+      "updater": {
+          "UPDATE": "*Your bot is already on latest version Darling*",
+          "NEW_UPDATE": "*There is a new update available for the bot!*\n\n*Changes:*\n",
+          "UPDATED_LOCAL": "*Successfully Updated!*"
+      },
+      "global": {
+          "greet2": "Konnichiwa!(💚ω💚)",
+          "botName": "SUKUNA",
+          "body": "𝑊ℎ𝑎𝑡𝑠𝑎𝑝𝑝-𝐵𝑜𝑡𝑡𝑜",
+          "pic1": "https://telegra.ph/file/afa98cc079aa4e211cf16.jpg",
+          "pic2": "https://telegra.ph/file/a71403881001a297f7bd6.jpg",
+          "pic3": "https://telegra.ph/file/dd9f33c5b7fbc2533d826.jpg",
+          "pic4": "https://telegra.ph/file/2f13af7e3f948278524d7.jpg",
+          "pic5": "https://telegra.ph/file/b8a211b18637595005fbb.jpg",
+          "pic6": "https://telegra.ph/file/a253cd889c08dde39afb6.jpg",
+          "pic7": "https://telegra.ph/file/a8e2f218758fa8a5599e6.jpg",
+           "greet" : "Darling",
+          "dotbody" : "Hey Love,I am Alive.",
+          "promote": "Admin Role Given to my Darling",
+          "pmallow": "*Hii,This is SUKUNA*\n*An assistant of My Master.*\nMy Master is busy right now.\nKindly Leave your Message.\n\n_I will inform him about your message asap......_",
+          "pmblock": "❌ Blocked*\n\n You have been blocked for spamming.\n\n _𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝕾𝖀𝕶𝖀𝕹𝕬",
+          "pmwarn": "✋Hii* \nPlease don't spam else I'll block you for spamming. _You have ${checkPermit.times} warning(s)._\n\n *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝕾𝖀𝕶𝖀𝕹𝕬*",
+          "permited": "Hii ${tname} Sir*\n\nNow You are permitted by my owner to pm now.\n\n *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 GHOST*", 
+          "revoked" : "*Hii ${tname} Sir*\n\nYour pm permit permission has been prevoked now.\n\n _𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 GHOST_",
+          "demote": "Uhh,Admin Role Taken back",
+          "antlink": "Link Detected.\n*Good Bye Sir*",
+          "session": "\n*This is your session_Id,keep it safe and store it properly*\n_Now Upload This json file in Your Forked Repo_\n Connect your repo to Heroku and *Deploy Branch* and Bot will run for Always\n\n*𝑷𝒐𝒘𝒆𝒓𝒆𝒅 𝒃𝒚 𝒁𝒆𝒓𝒐 𝑻𝒘𝒐*",
+          "mention": " Please mention any user Darling",
+          "title": "𝕾𝖀𝕶𝖀𝕹𝕬",
+          "footer": "IZUKU 𝐌𝐝",
+          "by": "Made by: *CitelVoid*",
+          "chat_desc": "Options Avilable* : 1. mute\n2. unmute\n3. archive\n4. unarchive\n5. read\n6. unread\n7. delete",
+          "success": "Done ✓",
+          "dot": "Darling📍, Do you mean *-help?*",
+          "couple_male": "*I dont want to die alone,I want a female yaar*",
+          "couple_female": "*I dont want to die alone,I want a male yaar*",
+          "admin": "𝑻𝒉𝒊𝒔 𝑪𝒐𝒎𝒎𝒂𝒏𝒅 𝒊𝒔 𝒐𝒏𝒍𝒚 𝒇𝒐𝒓 𝑮𝒓𝒐𝒖𝒑 𝑨𝒅𝒎𝒊𝒏⚠️!",
+          "botAdmin": "𝑰𝒇 𝒚𝒐𝒖 𝒓𝒆𝒂𝒍𝒍𝒚 𝒘𝒂𝒏𝒕 𝒎𝒆 𝒕𝒐 𝒅𝒐 𝒕𝒉𝒂𝒕,𝑮𝒊𝒗𝒆 𝒎𝒆 𝒂𝒅𝒎𝒊𝒏 𝒑𝒓𝒊𝒗𝒊𝒍𝒆𝒈𝒆❗",
+          "owner": "𝐓𝐡𝐢𝐬 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐢𝐬 𝐨𝐧𝐥𝐲 𝐟𝐨𝐫 𝐌𝐲 𝐎𝐰𝐧𝐞𝐫 ⚠️",
+          "group": "𝑻𝒉𝒊𝒔 𝑭𝒆𝒂𝒕𝒖𝒓𝒆 𝒊𝒔 𝑶𝒏𝒍𝒚 𝑭𝒐𝒓 𝑮𝒓𝒐𝒖𝒑𝒔❗",
+          "private": "𝑻𝒉𝒊𝒔 𝒇𝒆𝒂𝒕𝒖𝒓𝒆 𝒊𝒏 𝒐𝒏𝒍𝒚 𝒇𝒐𝒓 𝒕𝒉𝒆 𝐌𝐲 𝐎𝐰𝐧𝐞𝐫 ⚠️",
+          "bot": "𝑻𝒉𝒊𝒔 𝒇𝒆𝒂𝒕𝒖𝒓𝒆 𝒊𝒏 𝒐𝒏𝒍𝒚 𝒇𝒐𝒓 𝒕𝒉𝒆 𝒃𝒐𝒕 𝒏𝒖𝒎𝒃𝒆𝒓⚠️",
+          "wait": "𝑷𝒓𝒐𝒄𝒆𝒔𝒔𝒊𝒏𝒈 𝒚𝒐𝒖𝒓 𝒓𝒆𝒒𝒖𝒆𝒔𝒕✅"
+      },
+      "error": {
+          "text": "*Uhh,Got an Error*"
+      }
+  }
+}
