@@ -209,7 +209,7 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
      //---------------------------------------------------------------------------
  cmd({
              pattern: "npm",
-             desc: "download mp4 from url.",
+             desc: "search  npm packages from their name .",
              category: "search",
              use: '<package name>',
              filename: __filename,
