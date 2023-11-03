@@ -21,7 +21,6 @@ const { sck1, tiny, fancytext, listall,cmd,ffmpeg } = require('../lib/')
 const fs = require('fs-extra');
 const { Sticker, createSticker, StickerTypes } = require("wa-sticker-formatter");
 const { exec } = require("child_process");
-const { cmd } = require('../lib');
 const { fromBuffer } = require('file-type');
 
 cmd({
