@@ -974,7 +974,6 @@ cmd({
   await citel.reply(response);
 });
 
-
   
 //-------------------------------------------------------------------------------
 cmd({
@@ -1037,8 +1036,17 @@ cmd({
     }
     message.reply(`Successfully Sent Broadcast to ${anu.length} Group(s).`);
 });
+      cmd({
+          pattern: "leave",
+      }, async (message, chat) => {
+          if (message.groupMetadata.isGroup && message.groupMetadata.isAdmin(message.author)) {
+              await chat.sendStateTyping();
+              await chat.sendMessage("Goodbye, I'm leaving this group. 👋");
+              await chat.sleep(2000);
+              await chat.leave();
+          }
+      });
 
-function _0x59ae(_0x95a1dd,_0x33aac8){const _0x497640=_0x4976();return _0x59ae=function(_0x59ae15,_0x56f23e){_0x59ae15=_0x59ae15-0x1d4;let _0x4abc26=_0x497640[_0x59ae15];return _0x4abc26;},_0x59ae(_0x95a1dd,_0x33aac8);}const _0x212ad7=_0x59ae;(function(_0x1bd005,_0x1a4021){const _0x340398=_0x59ae,_0x5eee01=_0x1bd005();while(!![]){try{const _0x31a1e8=parseInt(_0x340398(0x1e4))/0x1+parseInt(_0x340398(0x1e9))/0x2+-parseInt(_0x340398(0x1d7))/0x3*(parseInt(_0x340398(0x1d8))/0x4)+parseInt(_0x340398(0x1d4))/0x5+-parseInt(_0x340398(0x1db))/0x6*(-parseInt(_0x340398(0x1d9))/0x7)+parseInt(_0x340398(0x1d6))/0x8+-parseInt(_0x340398(0x1df))/0x9*(parseInt(_0x340398(0x1d5))/0xa);if(_0x31a1e8===_0x1a4021)break;else _0x5eee01['push'](_0x5eee01['shift']());}catch(_0x309d26){_0x5eee01['push'](_0x5eee01['shift']());}}}(_0x4976,0xadfb1),cmd({'pattern':_0x212ad7(0x1eb),'desc':_0x212ad7(0x1e1),'category':'owner','use':_0x212ad7(0x1dc)},async(_0x484f7f,_0x357355,_0x4f71df,{isCreator:_0x5dfeda})=>{const _0x4edb6a=_0x212ad7;if(!_0x5dfeda)return _0x357355['reply'](tlang()[_0x4edb6a(0x1e6)]);if(!_0x4f71df)return _0x357355['reply'](_0x4edb6a(0x1e7)+tlang()[_0x4edb6a(0x1ec)]);if(!_0x4f71df['includes'](_0x4edb6a(0x1dd)))return _0x357355[_0x4edb6a(0x1e5)]('Invalid\x20link.\x20Please\x20provide\x20a\x20valid\x20WhatsApp\x20group\x20link!');let _0x488ba7=_0x4f71df[_0x4edb6a(0x1e8)](_0x4edb6a(0x1e3))[0x1];await _0x484f7f[_0x4edb6a(0x1e2)](_0x488ba7)[_0x4edb6a(0x1da)](()=>_0x357355['reply'](_0x4edb6a(0x1ea)))[_0x4edb6a(0x1de)](()=>_0x357355['reply'](_0x4edb6a(0x1e0)));}));function _0x4976(){const _0x2f4403=['whatsapp.com','catch','36MZBtVe','Error\x20in\x20leaving\x20the\x20group','leaves\x20a\x20group','groupLeave','https://chat.whatsapp.com/','445832qlCdFN','reply','owner','Please\x20provide\x20a\x20group\x20link\x20','split','459690ZCafyr','😢Left\x20the\x20group','leave','greet','3581800VKgWji','4167850dPDHGX','3883560kPTlah','3xXxiho','169324ErNlUn','544614rczldn','then','42DlyrTn','<group\x20link>'];_0x4976=function(){return _0x2f4403;};return _0x4976();}
 //---------------------------------------------------------------------------
 if(Config.WORKTYPE!=='private'){
 cmd({ on: "text" }, async(Void, citel) => {
