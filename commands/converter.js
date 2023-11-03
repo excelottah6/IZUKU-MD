@@ -23,72 +23,31 @@ const { Sticker, createSticker, StickerTypes } = require("wa-sticker-formatter")
 const { exec } = require("child_process");
 const { fromBuffer } = require('file-type');
 
-cmd({
-    pattern: 'doc',
-    desc: "convert media to document",
-    react: "🔂",
-    type: 'converter'
-}, async (Void, citel, match) => {
-    match = (match || "converted-media").replace(/[^A-Za-z0-9]/g, '-');
+//cmd({
+    //pattern: 'doc',
+    //desc: "convert media to document",
+    //react: "🔂",
+    //category: 'converter'
+//}, async (Void, citel, match) => {
+   // match = (match || "converted-media").replace(/[^A-Za-z0-9]/g, '-');
     
-    if (!citel.reply_message.image && !citel.reply_message.audio && !citel.reply_message.video) {
-        return citel.reply("_*Reply to a video/audio/image message!*");
-    }
+   // if (!citel.reply_message.image && !citel.reply_message.audio && !citel.reply_message.video) {
+      //  return citel.reply("_*Reply to a video/audio/image message!*");
+   // }
     
-    const media = await citel.reply_message.download();
-    const { ext, mime } = await fromBuffer(media);
+   // const media = await citel.reply_message.download();
+   // const { ext, mime } = await fromBuffer(media);
     
-    const document = {
-        document: media,
-        mimetype: mime,
-        fileName: match + "." + ext
-    };
+    //const document = {
+       // document: media,
+        //mimetype: mime,
+       // fileName: match + "." + ext
+   // };
     
-    return await Void.sendMessage(citel.chat, document, { quoted: citel });
-});
+   // return await Void.sendMessage(citel.chat, document, { quoted: citel });
+//});
 
 //---------------------------------------------------------------------------------------
-cmd({
-    pattern: "mp4",
-    desc: "Converts replied animated sticker to an MP4 video.",
-    category: "converter",
-    use: '<reply to any animated sticker>',
-    filename: __filename
-},
-async (Void, citel, text) => {
-    const getRandom = (ext) => {
-        return `${Math.floor(Math.random() * 10000)}${ext}`
-    }
-    if (!citel.quoted) return citel.reply("_Reply to Any Animated Sticker._")
-    let mime = citel.quoted.mtype;
-    if (mime === "stickerMessage") {
-        let media = await Void.downloadAndSaveMediaMessage(citel.quoted);
-        let name = await getRandom('.mp4');
-        exec(`ffmpeg -ignore_unknown -i ${media} -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" ${name}`, (err) => {
-            let buffer = fs.readFileSync(name);
-            Void.sendMessage(citel.chat, { video: buffer }, { mimetype: "video/mp4", quoted: citel });
-
-            fs.unlink(media, (err) => {
-                if (err) {
-                    return console.error('File Not Deleted from From VIDEO AT: ', media, '\n while Error: ', err);
-                } else {
-                    return console.log('File deleted successfully in VIDEO at: ', media);
-                }
-            });
-
-            fs.unlink(name, (err) => {
-                if (err) {
-                    return console.error('File Not Deleted from From VIDEO AT: ', name, '\n while Error: ', err);
-                } else {
-                    return console.log('File deleted successfully in VIDEO at: ', name);
-                }
-            });
-        });
-    } else {
-        return citel.reply("```Please, Reply To An Animated Sticker```");
-    }
-});
-
 
 
     //---------------------------------------------------------------------------
