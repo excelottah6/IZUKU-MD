@@ -2,7 +2,23 @@ const { cmd } = require('../lib');
 const { updateProfilePicture, forwardMessage } = require("../lib");
 const afkUsers = new Map();
 
-function _0x2f0f(_0x2743ba,_0x15c258){const _0x7cc0ca=_0x7cc0();return _0x2f0f=function(_0x2f0fa3,_0x56c668){_0x2f0fa3=_0x2f0fa3-0x1d6;let _0x650d72=_0x7cc0ca[_0x2f0fa3];return _0x650d72;},_0x2f0f(_0x2743ba,_0x15c258);}const _0x556563=_0x2f0f;(function(_0x48cf9b,_0x4e4553){const _0x1a046d=_0x2f0f,_0xe713fe=_0x48cf9b();while(!![]){try{const _0x39ca60=-parseInt(_0x1a046d(0x1d6))/0x1*(-parseInt(_0x1a046d(0x1da))/0x2)+parseInt(_0x1a046d(0x1dd))/0x3*(-parseInt(_0x1a046d(0x1e1))/0x4)+-parseInt(_0x1a046d(0x1df))/0x5+parseInt(_0x1a046d(0x1dc))/0x6+parseInt(_0x1a046d(0x1e7))/0x7*(-parseInt(_0x1a046d(0x1e5))/0x8)+-parseInt(_0x1a046d(0x1d7))/0x9+parseInt(_0x1a046d(0x1e0))/0xa;if(_0x39ca60===_0x4e4553)break;else _0xe713fe['push'](_0xe713fe['shift']());}catch(_0x9656b9){_0xe713fe['push'](_0xe713fe['shift']());}}}(_0x7cc0,0x531a0),cmd({'pattern':_0x556563(0x1e8),'desc':_0x556563(0x1e6),'category':_0x556563(0x1e3)},async(_0x178171,_0x8139b4,_0x5d333f)=>{const _0x5efa26=_0x556563;if(!_0x8139b4['quoted']||!_0x8139b4[_0x5efa26(0x1de)][_0x5efa26(0x1e2)])return await _0x8139b4[_0x5efa26(0x1db)]('Please\x20reply\x20to\x20the\x20status\x20you\x20want\x20to\x20save.');const _0x5e2d46=await _0x8139b4[_0x5efa26(0x1e4)][_0x5efa26(0x1d8)](_0x8139b4['user']);return await _0x8139b4[_0x5efa26(0x1d9)](_0x5e2d46,_0x8139b4['quoted']),await _0x8139b4['reply']('Status\x20saved\x20successfully.');}));function _0x7cc0(){const _0x5db6e4=['Save\x20WhatsApp\x20status','69034oQtuBI','save','263jJQQJg','6016473vuQTtj','decodeJid','forwardMessages','302jnTwoe','reply','3692076dDGWGn','69JzsFTb','quoted','1876840DiAbXk','18247050xKrsAz','80756zoOFwh','fromMe','watsusi','bot','512fTRwkd'];_0x7cc0=function(){return _0x5db6e4;};return _0x7cc0();}
+cmd({
+  pattern: 'send',
+  fromMe: true,
+  desc: 'Sends a message',
+},
+async (Void, citel, match) => {
+  if (!citel.reply_message) {
+    return citel.reply('Please reply to a message to use this command.');
+  }
+
+  const jids = match[1] ? match[1].match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g) : [citel.jid];
+
+  for (const jid of jids) {
+    await citel.forwardMessage(jid, citel.quoted, { contextInfo: { isForwarded: false }, detectLinks: true });
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+  }
+});
 
 cmd({
   pattern: "gjid",
