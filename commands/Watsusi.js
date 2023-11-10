@@ -39,6 +39,12 @@ cmd({
 	return await citel.reply('I am back!');
 });
 
+void.on('message-new', async (message) => {
+  if (global.AFK.isAfk && message.sender && message.sender.isMe) {
+    await Void.sendMessage(message.jid, `I'm currently AFK. Reason: ${global.AFK.reason}`);
+  }
+});
+
 
 cmd({
   pattern: 'send',
