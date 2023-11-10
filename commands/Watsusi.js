@@ -1,6 +1,44 @@
 const { cmd } = require('../lib');
 const { updateProfilePicture, forwardMessage } = require("../lib");
-const afkUsers = new Map();
+
+global.AFK = {
+	isAfk: false,
+	reason: false,
+	lastseen: 0,
+};
+
+cmd({
+	pattern: 'afk',
+	fromMe: true,
+	desc: 'away from keyboard',
+	category: 'watsusi',
+}, async (Void, citel, match) => {
+	if (!global.AFK.isAfk && !match)
+		return await citel.reply('Example: My owner is AFK\nLast seen before #lastseen\nTo turn off AFK, send a message again.');
+
+	if (!global.AFK.isAfk) {
+		if (match) global.AFK.reason = match;
+		global.AFK.isAfk = true;
+		global.AFK.lastseen = Math.round(new Date().getTime() / 1000);
+		return await citel.reply(match.replace('#lastseen', Math.round(new Date().getTime() / 1000) - global.AFK.lastseen));
+	}
+});
+
+cmd({
+	pattern: 'unafk',
+	fromMe: true,
+	desc: 'turn off away from keyboard',
+	category: 'watsusi',
+}, async (Void, citel) => {
+	if (!global.AFK.isAfk) return await citel.reply('I am not AFK.');
+
+	global.AFK.isAfk = false;
+	global.AFK.reason = false;
+	global.AFK.lastseen = 0;
+
+	return await citel.reply('I am back!');
+});
+
 
 cmd({
   pattern: 'send',
@@ -48,38 +86,4 @@ cmd({
   await Void.sendMessage(groupJid, text);
 
   return await citel.reply("_Broadcast sent successfully_");
-});
-
-cmd({
-  pattern: "afk",
-  desc: "Set your status as AFK with an optional message",
-  category: "general",
-  filename: __filename,
-}, async (Void, citel, match) => {
-  const user = citel.sender;
-  const reason = match[1] || "AFK";
-
-  afkUsers.set(user, reason);
-  await citel.reply(`You are now AFK: ${reason}`);
-});
-
-cmd({
-  pattern: "delafk",
-  desc: "Remove your AFK status",
-  category: "general",
-  filename: __filename,
-}, async (Void, citel) => {
-  const user = citel.sender;
-
-  if (afkUsers.has(user)) {
-    afkUsers.delete(user);
-    await citel.reply("Welcome back! Your AFK status has been removed.");
-  }
-});
-
-Void.addIncomingMessageHandler(async (message) => {
-  if (afkUsers.has(message.sender)) {
-    const reason = afkUsers.get(message.sender);
-    await message.sendMessage(`The user is currently AFK: ${reason}`);
-  }
 });
