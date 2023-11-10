@@ -41,7 +41,7 @@ cmd({
 
 
 cmd({
-  pattern: 'send',
+  pattern: 'send ?(.*)',
   fromMe: true,
   desc: 'Sends a message',
 },
@@ -52,10 +52,16 @@ async (Void, citel, match) => {
 
   const jids = match[1] ? match[1].match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g) : [citel.jid];
 
+  if (!jids) {
+    return citel.reply('Invalid user ID(s) provided.');
+  }
+
   for (const jid of jids) {
     await citel.forwardMessage(jid, citel.quoted, { contextInfo: { isForwarded: false }, detectLinks: true });
     await new Promise((resolve) => setTimeout(resolve, 5000));
   }
+
+  return citel.reply('Message(s) sent successfully.');
 });
 
 cmd({
