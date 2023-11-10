@@ -41,7 +41,7 @@ cmd({
 
 
 cmd({
-  pattern: 'send ?(.*)',
+  pattern: 'send',
   fromMe: true,
   desc: 'Sends a message',
 },
