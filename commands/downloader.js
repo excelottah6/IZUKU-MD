@@ -13,6 +13,7 @@ const { tlang, ringtone, cmd,fetchJson, sleep, botpic,ffmpeg, getBuffer, pintere
 const { mediafire } = require("../lib/mediafire.js");
 const googleTTS = require("google-tts-api");
 const ytdl = require('ytdl-secktor')
+const tiktokScraper = require('tiktok-scraper');
 const { ttdl } = require('../lib/scraper.js');
 const fs = require('fs-extra')
 var videotime = 60000 // 1000 min
@@ -61,7 +62,7 @@ cmd({
     )
      //---------------------------------------------------------------------------
      cmd({
-        pattern: "yts",
+        pattern: "ydesc",
         desc: "Gives descriptive info of query from youtube..",
         category: "downloader",
         filename: __filename,
@@ -156,7 +157,7 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-            pattern: "play",
+            pattern: "song",
             desc: "Sends info about the query(of youtube video/audio).",
             category: "downloader",
             filename: __filename,
@@ -284,7 +285,7 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-            pattern: "audio",
+            pattern: "play",
             alias :['song'],
             desc: "Downloads audio from youtube.",
             category: "downloader",
@@ -565,29 +566,29 @@ cmd({
 
     }
 )
-
+//-------------------
 cmd({
   pattern: 'tiktok',
-  desc: 'Download TikTok videos',
+  fromMe: true,
+  desc: 'Download TikTok without watermark',
+  type: 'whatsapp',
 },
 async (Void, citel, match) => {
-  const url = match[1];
-
-  if (!url) {
-    return citel.reply('Please provide a TikTok video URL to download.');
-  }
-
   try {
-    const videoData = await ttdl(url);
+    if (!match || !match[1]) {
+      return citel.reply('Please provide a TikTok video URL.');
+    }
 
-    if (videoData.status === 200 && videoData.result.nowatermark) {
-      await citel.reply('Downloading TikTok video without watermark...');
-      await Void.sendMedia(citel.jid, { url: videoData.result.nowatermark }, 'video');
+    const videoUrl = match[1];
+    const videoInfo = await tiktokScraper.getVideoMeta(videoUrl);
+
+    if (videoInfo && videoInfo.collector[0].videoUrl) {
+      return citel.sendFile(citel.chat, videoInfo.collector[0].videoUrl, 'tiktok_nowatermark.mp4', 'Downloaded without watermark. Powered by YourBot.');
     } else {
-      await citel.reply('Failed to download the TikTok video. Please check the provided URL.');
+      return citel.reply('Failed to download TikTok video without watermark.');
     }
   } catch (error) {
     console.error(error);
-    await citel.reply('An error occurred while downloading the TikTok video.');
+    return citel.reply('An error occurred while processing your request.');
   }
 });
