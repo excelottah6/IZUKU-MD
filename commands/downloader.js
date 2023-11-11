@@ -566,26 +566,39 @@ cmd({
     }
 )
 
-
 cmd({
   pattern: 'tiktok',
-  desc: 'Download a TikTok video without watermark.',
   fromMe: true,
-}, async (Void, citel, text) => {
-  if (!text || !text[1]) {
-    return await citel.reply('Please provide a TikTok video URL.');
+  desc: 'Download TikTok video without watermark',
+},
+async (void, citel, text) => {
+  const url = text.split(' ')[1];
+
+  if (!url) {
+    return citel.reply('Please provide a TikTok video URL.');
   }
 
-  const tiktokUrl = text[1];
+  // Regular expression to extract video ID from TikTok URL
+  const regex = /(https:\/\/(?:www\.)?tiktok\.com\/(?:\w+\/)?video\/(\d+))/;
+  const matchResult = url.match(regex);
 
-  
-    const result = await ttdl.getInfo(tiktokUrl);
+  if (!matchResult || matchResult.length < 3) {
+    return citel.reply('Invalid TikTok video URL. Please provide a valid URL.');
+  }
 
-    if (result.statusCode === 200) {
-      const videoUrl = result.collector[0].videoUrl;
-      await citel.reply('Video URL: ' + videoUrl);
+  const videoId = matchResult[2];
+
+  try {
+    const result = await ttdl.getInfo(videoId);
+    const downloadUrl = result.nowatermark;
+
+    if (downloadUrl) {
+      // You can handle the download URL as needed, for example, send it as a reply
+      citel.reply(`Download URL: ${downloadUrl}`);
     } else {
-      await citel.reply(`Error: Unable to get information for the provided TikTok URL.`);
+      citel.reply('No download URL found. The video may be private or have restrictions.');
     }
-  
+  } catch (error) {
+    citel.reply(`Error: ${error.message}`);
+  }
 });
