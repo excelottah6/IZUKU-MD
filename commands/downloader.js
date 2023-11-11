@@ -566,6 +566,7 @@ cmd({
     }
 )
 
+
 cmd({
   pattern: 'tiktok',
   desc: 'Download a TikTok video without watermark.',
@@ -577,7 +578,7 @@ cmd({
 
   const tiktokUrl = match[1];
 
-  try {
+  
     const result = await ttdl.getInfo(tiktokUrl);
 
     if (result.statusCode === 200) {
@@ -587,8 +588,5 @@ cmd({
     } else {
       await message.reply(`Error: Unable to get information for the provided TikTok URL.`);
     }
-  } catch (error) {
-    console.error('Error:', error);
-    await message.reply('An error occurred while processing your request.');
-  }
+  
 });
