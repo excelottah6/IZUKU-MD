@@ -15,8 +15,38 @@ const quizQuestions = [
         question: "The first iPhone was made in what year?",
         options: ["A. 2004", "B. 2007", "C. 2012"],
         correctAnswer: "B"
-    }
-    // Add more questions here
+    },
+
+    {
+        question: "WHO IS THE OWNER OF IZUKU?",
+        options: ["A. EO", "B. SP", "C. SL"],
+        correctAnswer: "A"
+    },
+
+    {
+        question: "IZUKU IS MADE FROM WHAT LANGUAGE ?",
+        options: ["A. NODE", "B. JAVA", "C. REACT"],
+        correctAnswer: "A"
+    },
+    
+    {
+        question: "martin luther king jnr was who?",
+        options: ["A. BLACK LIVES ACTIVIST", "B. CLEANER", "C. PORN ACTOR🤡"],
+        correctAnswer: "A"
+    },
+
+    {
+        question: "how old is excel😕?",
+        options: ["A. 21", "B. 15", "C. 17"],
+        correctAnswer: "C"
+    },
+
+    {
+        question: "ANOTHER NAME FOR IZUKU IS?",
+        options: ["A. London", "B. Berlin", "C. Paris"],
+        correctAnswer: "C"
+    },
+    {
 ];
 let currentQuestionIndex = 0;
 let userScore = 0;
