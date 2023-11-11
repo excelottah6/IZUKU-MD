@@ -6,7 +6,7 @@
   "type": "commonjs",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "pm2 start lib/client.js --deep-monitoring --atach --name izuku",
+    "start": "pm2 start lib/client.js --deep-monitoring --attach --name izuku",
     "stop": "pm2 stop izuku"
   },
   "author": "excelottah6",
