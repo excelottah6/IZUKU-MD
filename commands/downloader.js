@@ -61,7 +61,7 @@ cmd({
     )
      //---------------------------------------------------------------------------
      cmd({
-        pattern: "yts",
+        pattern: "ydesc",
         desc: "Gives descriptive info of query from youtube..",
         category: "downloader",
         filename: __filename,
@@ -156,7 +156,7 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-            pattern: "play",
+            pattern: "song",
             desc: "Sends info about the query(of youtube video/audio).",
             category: "downloader",
             filename: __filename,
@@ -284,7 +284,7 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-            pattern: "audio",
+            pattern: "play",
             alias :['song'],
             desc: "Downloads audio from youtube.",
             category: "downloader",
@@ -567,7 +567,7 @@ cmd({
 )
 //-----------------------------------------------------------------------------------------------------11-1
 cmd({
-  pattern: 'tiktok ?(.*)',
+  pattern: 'tiktok',
   desc: 'Download a TikTok video without watermark.',
   fromMe: true,
 }, async (message, match) => {
@@ -590,7 +590,3 @@ cmd({
   } catch (error) {
     console.error('Error:', error);
     await message.reply('An error occurred while processing your request.');
-  }
-});
-
-
