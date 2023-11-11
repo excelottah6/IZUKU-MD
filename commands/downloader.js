@@ -13,7 +13,7 @@ const { tlang, ringtone, cmd,fetchJson, sleep, botpic,ffmpeg, getBuffer, pintere
 const { mediafire } = require("../lib/mediafire.js");
 const googleTTS = require("google-tts-api");
 const ytdl = require('ytdl-secktor')
-const { ttdl } = require('vz-tiktok-downloader');
+const ttdl = require('vz-tiktok-downloader');
 const fs = require('fs-extra')
 var videotime = 60000 // 1000 min
 var dlsize = 1000 // 1000mb
