@@ -572,11 +572,11 @@ cmd({
   desc: 'Download a TikTok video without watermark.',
   fromMe: true,
 }, async (Void, citel, text) => {
-  if (!match || !match[1]) {
+  if (!text || !text[1]) {
     return await citel.reply('Please provide a TikTok video URL.');
   }
 
-  const tiktokUrl = match[1];
+  const tiktokUrl = text[1];
 
   
     const result = await ttdl.getInfo(tiktokUrl);
