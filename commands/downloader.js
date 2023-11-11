@@ -571,7 +571,7 @@ cmd({
   pattern: 'tiktok',
   desc: 'Download a TikTok video without watermark.',
   fromMe: true,
-}, async (citel, match) => {
+}, async (Void, citel, text) => {
   if (!match || !match[1]) {
     return await citel.reply('Please provide a TikTok video URL.');
   }
@@ -583,7 +583,6 @@ cmd({
 
     if (result.statusCode === 200) {
       const videoUrl = result.collector[0].videoUrl;
-      // You can use the videoUrl as needed (e.g., download, send, etc.).
       await cite.reply('Video URL: ' + videoUrl);
     } else {
       await citel.reply(`Error: Unable to get information for the provided TikTok URL.`);
