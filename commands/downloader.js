@@ -590,3 +590,5 @@ cmd({
   } catch (error) {
     console.error('Error:', error);
     await message.reply('An error occurred while processing your request.');
+  }
+ );
