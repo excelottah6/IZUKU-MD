@@ -13,8 +13,7 @@ const { tlang, ringtone, cmd,fetchJson, sleep, botpic,ffmpeg, getBuffer, pintere
 const { mediafire } = require("../lib/mediafire.js");
 const googleTTS = require("google-tts-api");
 const ytdl = require('ytdl-secktor')
-const tiktokScraper = require('tiktok-scraper');
-const { ttdl } = require('../lib/scraper.js');
+const { ttdl } = require('vz-tiktok-downloader');
 const fs = require('fs-extra')
 var videotime = 60000 // 1000 min
 var dlsize = 1000 // 1000mb
@@ -566,29 +565,28 @@ cmd({
 
     }
 )
-//-------------------
+//-----------------------------------------------------------------------------------------------------11-1
 cmd({
   pattern: 'tiktok',
+  desc: 'Download a TikTok video without watermark.',
   fromMe: true,
-  desc: 'Download TikTok without watermark',
-  type: 'whatsapp',
-},
-async (Void, citel, match) => {
+}, async (message, match) => {
+  if (!match || !match[1]) {
+    return await message.reply('Please provide a TikTok video URL.');
+  }
+
+  const tiktokUrl = match[1];
+
   try {
-    if (!match || !match[1]) {
-      return citel.reply('Please provide a TikTok video URL.');
-    }
+    const result = await ttdl.getInfo(tiktokUrl);
 
-    const videoUrl = match[1];
-    const videoInfo = await tiktokScraper.getVideoMeta(videoUrl);
-
-    if (videoInfo && videoInfo.collector[0].videoUrl) {
-      return citel.sendFile(citel.chat, videoInfo.collector[0].videoUrl, 'tiktok_nowatermark.mp4', 'Downloaded without watermark. Powered by YourBot.');
+    if (result.statusCode === 200) {
+      const videoUrl = result.collector[0].videoUrl;
+      // You can use the videoUrl as needed (e.g., download, send, etc.).
+      await message.reply('Video URL: ' + videoUrl);
     } else {
-      return citel.reply('Failed to download TikTok video without watermark.');
+      await message.reply(`Error: Unable to get information for the provided TikTok URL.`);
     }
   } catch (error) {
-    console.error(error);
-    return citel.reply('An error occurred while processing your request.');
-  }
-});
+    console.error('Error:', error);
+    await message.reply('An error occurred while processing your request.');
