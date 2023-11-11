@@ -60,7 +60,8 @@
     "translatte": "^3.0.1",
     "util": "^0.12.4",
     "wa-sticker-formatter": "^4.3.2",
-    "ytdl-secktor": "latest"
+    "ytdl-secktor": "latest",
+    "vz-tiktok-downloader": "^2.2.5"
   },
   "directories": {
     "lib": "lib",
