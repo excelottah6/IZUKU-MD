@@ -6,13 +6,11 @@
   "type": "commonjs",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "pm2 start lib/client.js --deep-monitoring --attach --name izuku",
+    "start": "pm2 start lib/client.js --deep-monitoring --atach --name izuku",
     "stop": "pm2 stop izuku"
   },
   "author": "excelottah6",
   "dependencies": {
-    "soundcloud-downloader": "^1.0.0",
-    "node-schedule": "^2.1.1",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^9.1.4",
     "@sampandey001/baileys": "latest",
@@ -48,6 +46,7 @@
     "mumaker": "^2.0.0",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
+    "node-schedule": "^2.1.1",
     "node-webpmux": "^3.1.0",
     "openai": "3.0.0",
     "pastebin-js": "latest",
@@ -56,6 +55,8 @@
     "request": "^2.88.2",
     "secktor-pack": "latest",
     "simple-git": "^3.16.1",
+    "soundcloud-downloader": "^1.0.0",
+    "tiktok-scraper": "^1.4.36",
     "translatte": "^3.0.1",
     "util": "^0.12.4",
     "wa-sticker-formatter": "^4.3.2",
