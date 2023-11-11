@@ -583,7 +583,7 @@ cmd({
 
     if (result.statusCode === 200) {
       const videoUrl = result.collector[0].videoUrl;
-      await cite.reply('Video URL: ' + videoUrl);
+      await citel.reply('Video URL: ' + videoUrl);
     } else {
       await citel.reply(`Error: Unable to get information for the provided TikTok URL.`);
     }
