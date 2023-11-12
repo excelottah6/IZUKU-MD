@@ -66,7 +66,7 @@ async(Void, citel, text,{ isCreator }) => {
              filename: __filename,
          },
          async(Void, citel, text) => {
-let a = await getBuffer(`https://citel-x.herokuapp.com/attp/${text}`)
+let a = await getBuffer(`https://vihangayt.me/maker/text2gif?q=${text}`)
  return citel.reply(a,{packname:'IZUKU',author:'ATTP'},"sticker") 
          }
      )
@@ -77,7 +77,7 @@ let a = await getBuffer(`https://citel-x.herokuapp.com/attp/${text}`)
              filename: __filename,
          },
          async(Void, citel, text) => {
-let a = await getBuffer(`https://citel-x.herokuapp.com/ttp/${text}`)
+let a = await getBuffer(`https://vihangayt.me/maker/text2img?q=${text}`)
  return citel.reply(a,{packname:'IZUKU',author:'TTP'},"sticker") 
          }
      )
@@ -499,7 +499,7 @@ let buttons = [{
 let limit = 5;
 try {
 if (!text) return citel.reply("```Uhh Please, Give me Url!```");
-let urll = `https://s.vercel.app/api?url=${text.match(/\bhttps?:\/\/\S+/gi)[0]}&width=1280&height=720`
+let urll = `https://vihangayt.me/tools/ssweb?url=${text.match(/\bhttps?:\/\/\S+/gi)[0]}&width=1280&height=720`
 let media  = await getBuffer(urll)
 return await Void.sendMessage(citel.chat ,{image : media } , {quoted:citel} )
 }
