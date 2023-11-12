@@ -13,7 +13,7 @@ const { tlang, ringtone, cmd,fetchJson, sleep, botpic,ffmpeg, getBuffer, pintere
 const { mediafire } = require("../lib/mediafire.js");
 const googleTTS = require("google-tts-api");
 const ytdl = require('ytdl-secktor')
-const ttdl = require('vz-tiktok-downloader');
+const TikTokScraper = require('tiktok-scraper');
 const fs = require('fs-extra')
 var videotime = 60000 // 1000 min
 var dlsize = 1000 // 1000mb
@@ -571,32 +571,28 @@ cmd({
   fromMe: true,
   desc: 'Download TikTok video without watermark',
 },
-async (Void, citel, text) => {
+async (void, citel, text) => {
   const url = text.split(' ')[1];
 
   if (!url) {
     return citel.reply('Please provide a TikTok video URL.');
   }
 
-  // Regular expression to extract video ID from TikTok URL
-  const regex = /(https:\/\/(?:www\.)?tiktok\.com\/(?:\w+\/)?video\/(\d+))/;
-  const matchResult = url.match(regex);
-
-  if (!matchResult || matchResult.length < 3) {
-    return citel.reply('Invalid TikTok video URL. Please provide a valid URL.');
-  }
-
-  const videoId = matchResult[2];
-
   try {
-    const result = await ttdl.getInfo(videoId);
-    const downloadUrl = result.nowatermark;
+    const videoMeta = await TikTokScraper.getVideoMeta(url);
+    
+    if (videoMeta) {
+      // Check if the video has a noWatermark URL
+      const downloadUrl = videoMeta.collector[0].videoUrlNoWaterMark || videoMeta.collector[0].videoUrl;
 
-    if (downloadUrl) {
-      // You can handle the download URL as needed, for example, send it as a reply
-      citel.reply(`Download URL: ${downloadUrl}`);
+      if (downloadUrl) {
+        // You can handle the download URL as needed, for example, send it as a reply
+        citel.reply(`Download URL: ${downloadUrl}`);
+      } else {
+        citel.reply('No download URL found. The video may be private or have restrictions.');
+      }
     } else {
-      citel.reply('No download URL found. The video may be private or have restrictions.');
+      citel.reply('Unable to get information for the provided TikTok URL.');
     }
   } catch (error) {
     citel.reply(`Error: ${error.message}`);
