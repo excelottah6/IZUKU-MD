@@ -65,6 +65,35 @@ cmd({
     }
 
 )
+
+cmd({
+  pattern: 'age',
+  desc: 'Estimate the age based on a given name',
+  catergory'fun',
+  fromMe: true,
+},
+  async (Void, citel, text) => {
+    if (!text) {
+      return Void.reply(citel.chat, 'Please provide a name for age estimation.');
+    }
+
+    try {
+      const response = await axios.get(`https://api.agify.io/?name=${encodeURIComponent(name)}`);
+      
+      const { name: agifyName, age } = response.data;
+      
+      if (age) {
+        return Void.reply(citel.chat, `Based on the name "${agifyName}", the estimated age is ${age} years.`);
+      } else {
+        return Void.reply(citel.chat, `Unable to estimate age for the name "${agifyName}".`);
+      }
+    } catch (error) {
+      console.error(error);
+      return Void.reply(citel.chat, 'Error estimating age. Please try again later.');
+    }
+  }
+);
+
     //---------------------------------------------------------------------------
     cmd({
         pattern: "quotes",
