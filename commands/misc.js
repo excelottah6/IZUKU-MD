@@ -462,7 +462,7 @@ cmd({
 async (Void, citel, text) => {
   const url = text.split(' ')[1];
 
-  if (!url) {
+  if (!text) {
     return citel.reply('Please provide a TikTok video URL.');
   }
 
@@ -478,7 +478,7 @@ async (Void, citel, text) => {
       // Send the video as a reply
       await Void.sendMessage(citel.chat, { video: videoResponse.data }, MessageType.video, { quoted: citel.data });
     } else {
-      citel.reply('Unable to fetch the download URL. The TikTok link may be invalid or the service is down.');
+      citel.reply('Unable to fetch the download . The TikTok link may be invalid or the service is down.');
     }
   } catch (error) {
     citel.reply(`Error: ${error.message}`);
