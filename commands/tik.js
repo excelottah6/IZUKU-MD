@@ -13,7 +13,7 @@ async (Void, citel, text) => {
     return citel.reply('Please provide a TikTok video URL.');
   }
 
-  const apiUrl = `https://vihangayt.me/download/tiktok?url=${encodeURIComponent(url)}`;
+  const apiUrl = `https://vihangayt.me/download/tiktok2?url=${encodeURIComponent(url)}`;
 
   try {
     const response = await axios.get(apiUrl);
