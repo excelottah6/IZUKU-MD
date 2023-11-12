@@ -4,7 +4,7 @@ const { cmd } = require('../lib');
  cmd({
    pattern: "setaza",
    desc: "Store a message as account number",
-  fromme:true
+  fromMe:true,
    category: "utility",
  }, async (Void, citel, text) => {
    // Check if a message is already recorded
