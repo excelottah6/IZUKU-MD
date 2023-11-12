@@ -46,8 +46,8 @@ const quizQuestions = [
         options: ["A. London", "B. Berlin", "C. Paris"],
         correctAnswer: "C"
     },
-    {
-);
+    
+    ];
 let currentQuestionIndex = 0;
 let userScore = 0;
 let quizActive = false; // Add a flag to track if the quiz is active
