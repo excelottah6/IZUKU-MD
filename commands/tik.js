@@ -9,7 +9,7 @@ cmd({
 async (Void, citel, text) => {
   const url = text.split(' ')[1];
 
-  if (!url) {
+  if (!text) {
     return citel.reply('Please provide a TikTok video URL.');
   }
 
