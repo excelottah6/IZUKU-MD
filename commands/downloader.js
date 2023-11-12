@@ -571,7 +571,7 @@ cmd({
   fromMe: true,
   desc: 'Download TikTok video without watermark',
 },
-async (void, citel, text) => {
+async (Void, citel, text) => {
   const url = text.split(' ')[1];
 
   if (!url) {
