@@ -11,7 +11,7 @@ async (Void, citel, text) => {
   const url = text.split(' ')[1];
 
   if (!url) {
-    return citel.reply('Please provide a TikTok video URL.');
+    return citel.reply('Please send a TikTok video URL.');
   }
 
   const apiUrl = `https://vihangayt.me/download/tiktok?url=${encodeURIComponent(url)}`;
