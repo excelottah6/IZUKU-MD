@@ -4,6 +4,7 @@ const { cmd } = require('../lib');
  cmd({
    pattern: "setaza",
    desc: "Store a message as account number",
+  fromme:true
    category: "utility",
  }, async (Void, citel, text) => {
    // Check if a message is already recorded
@@ -20,6 +21,7 @@ const { cmd } = require('../lib');
    pattern: "delaza",
    desc: "Delete the recorded account number",
    category: "utility",
+  fromme:true
  }, async (Void, citel) => {
    recordedMessage = '';
    await citel.reply("Account number deleted.");
