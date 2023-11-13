@@ -8,41 +8,46 @@ global.AFK = {
 };
 
 cmd({
-	pattern: 'afk',
-	fromMe: true,
-	desc: 'away from keyboard',
-	category: 'watsusi',
+    pattern: 'afk',
+    fromMe: true,
+    desc: 'away from keyboard',
+    category: 'watsusi',
 }, async (Void, citel, match) => {
-	if (!global.AFK.isAfk && !match)
-		return await citel.reply('Example: My owner is AFK\nLast seen before #lastseen\nTo turn off AFK, send a message again.');
+    if (!global.AFK) global.AFK = {};
+    
+    if (!global.AFK.isAfk && !match) {
+        return await citel.reply('Example: My owner is AFK\nLast seen before #lastseen\nTo turn off AFK, send a message again.');
+    }
 
-	if (!global.AFK.isAfk) {
-		if (match) global.AFK.reason = match;
-		global.AFK.isAfk = true;
-		global.AFK.lastseen = Math.round(new Date().getTime() / 1000);
-		return await citel.reply(match.replace('#lastseen', Math.round(new Date().getTime() / 1000) - global.AFK.lastseen));
-	}
+    if (!global.AFK.isAfk) {
+        if (match) global.AFK.reason = match;
+        global.AFK.isAfk = true;
+        global.AFK.lastseen = Math.round(new Date().getTime() / 1000);
+        return await citel.reply(match.replace('#lastseen', Math.round(new Date().getTime() / 1000) - global.AFK.lastseen));
+    }
 });
 
 cmd({
-	pattern: 'unafk',
-	fromMe: true,
-	desc: 'turn off away from keyboard',
-	category: 'watsusi',
+    pattern: 'unafk',
+    fromMe: true,
+    desc: 'turn off away from keyboard',
+    category: 'watsusi',
 }, async (Void, citel) => {
-	if (!global.AFK.isAfk) return await citel.reply('I am not AFK.');
+    if (!global.AFK || !global.AFK.isAfk) {
+        return await citel.reply('I am not AFK.');
+    }
 
-	global.AFK.isAfk = false;
-	global.AFK.reason = false;
-	global.AFK.lastseen = 0;
+    global.AFK.isAfk = false;
+    global.AFK.reason = false;
+    global.AFK.lastseen = 0;
 
-	return await citel.reply('I am back!');
+    return await citel.reply('I am back!');
 });
 
-cmd.on('text', async (Void,citel) => {
-  if (global.AFK.isAfk && citel.sender && citel.sender.isMe) {
-    await Void.sendMessage(citel.jid, `I'm currently AFK. Reason: ${global.AFK.reason}`);
-  }
+cmd.on('text', async (Void, citel) => {
+    if (global.AFK && global.AFK.isAfk && citel.sender && citel.sender.isMe) {
+        await Void.sendMessage(citel.jid, `I'm currently AFK. Reason: ${global.AFK.reason}`);
+    }
 });
 
 
