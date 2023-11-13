@@ -44,11 +44,15 @@ cmd({
     return await citel.reply('I am back!');
 });
 
-cmd.on('text', async (Void, citel) => {
-    if (global.AFK && global.AFK.isAfk && citel.sender && citel.sender.isMe) {
-        await Void.sendMessage(citel.jid, `I'm currently AFK. Reason: ${global.AFK.reason}`);
+cmd({
+    on: 'text',
+    fromMe: false,
+}, async (Void, citel, text) => {
+    if (global.AFK && global.AFK.isAfk) {
+        await citel.reply(`I'm currently AFK. Reason: ${global.AFK.reason}`);
     }
 });
+
 
 
 cmd({
