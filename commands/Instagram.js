@@ -3,4 +3,19 @@
 
 
  let cap = `╰┈➤ 𝙶𝙴𝙽𝙴𝚁𝙰𝚃𝙴𝙳 𝙱𝚈 ${Config.botname}`
- const _0x54d944=_0x3ff3;(function(_0x41de50,_0x4a62ac){const _0x41b8b7=_0x3ff3,_0x6bd1c5=_0x41de50();while(!![]){try{const _0x52f4d4=parseInt(_0x41b8b7(0xda))/0x1*(-parseInt(_0x41b8b7(0xdb))/0x2)+parseInt(_0x41b8b7(0xd4))/0x3*(parseInt(_0x41b8b7(0xce))/0x4)+parseInt(_0x41b8b7(0xcd))/0x5+parseInt(_0x41b8b7(0xd9))/0x6+-parseInt(_0x41b8b7(0xd7))/0x7+parseInt(_0x41b8b7(0xd3))/0x8*(-parseInt(_0x41b8b7(0xcf))/0x9)+parseInt(_0x41b8b7(0xd5))/0xa;if(_0x52f4d4===_0x4a62ac)break;else _0x6bd1c5['push'](_0x6bd1c5['shift']());}catch(_0x1c2466){_0x6bd1c5['push'](_0x6bd1c5['shift']());}}}(_0x4394,0x836e0),cmd({'pattern':'insta','alias':['ig'],'desc':'download\x20instagram\x20videos','category':_0x54d944(0xd6),'use':_0x54d944(0xd1)},async(_0x44f78a,_0x24b3a5,_0x4bed5f)=>{const _0x2b8b14=_0x54d944;if(!_0x4bed5f)return _0x24b3a5[_0x2b8b14(0xd2)]('Give\x20me\x20insta\x20video\x20link');let _0x574029=_0x4bed5f?_0x4bed5f['split']('\x20')[0x0]:'';if(!/instagram/['test'](_0x574029))return await _0x24b3a5[_0x2b8b14(0xd2)](_0x2b8b14(0xd0));let _0x5012c7;try{_0x5012c7=await(await fetch(_0x2b8b14(0xd8)+_0x4bed5f))[_0x2b8b14(0xcb)]();}catch{return _0x24b3a5[_0x2b8b14(0xd2)]('An\x20error\x20occurred');}return _0x44f78a[_0x2b8b14(0xcc)](_0x24b3a5['chat'],{'video':{'url':_0x5012c7['result'][0x0]},'caption':cap,'width':0x258,'height':0x1ea},{'quoted':_0x24b3a5});}));function _0x3ff3(_0x48d302,_0x13c16e){const _0x439421=_0x4394();return _0x3ff3=function(_0x3ff350,_0x4abdfd){_0x3ff350=_0x3ff350-0xcb;let _0x1e0c4a=_0x439421[_0x3ff350];return _0x1e0c4a;},_0x3ff3(_0x48d302,_0x13c16e);}function _0x4394(){const _0x199049=['4608aDrHhW','6AjKSgp','6546410maEYqm','downloader','7376838RcdKkp','https://vihangayt.me/download/instagram2?url=','5570088wcoZTv','276074VVoebk','6oXWkBg','json','sendMessage','125915CcXYaL','1725816QuAGyc','792NtFYiv','Please\x20give\x20me\x20valid\x20instagram\x20video\x20link..!','paste\x20insta\x20video\x20link','reply'];_0x4394=function(){return _0x199049;};return _0x4394();}
+ cmd({
+         pattern: "insta",
+         alias: ["ig"],
+         desc: "download instagram videos",
+         category: "downloader",
+         use: "paste insta video link"
+     },
+     async(Void,citel,text) => {
+ if(!text) return citel.reply('Give me insta video link')
+ let txt = text ? text.split(" ")[0]:'';
+ if (!/instagram/.test(txt)) return await citel.reply(`Please give me valid instagram video link..!`);
+ let data;
+ try{ data= await (await fetch(`https://vihangayt.me/download/instagram2?url=${text}`)).json();} 
+ catch { return citel.reply(`An error occurred`);  }
+ return Void.sendMessage(citel.chat, {video : {url : data.result[0] },caption: cap,width: 600,height: 490, },{ quoted: citel })
+})
