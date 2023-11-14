@@ -14,6 +14,7 @@
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^9.1.4",
     "@sampandey001/baileys": "latest",
+    "aptoide-scraper":"^1.0.1",
     "@shineiichijo/marika": "^2.0.3",
     "anime-character-random": "latest",
     "async-g-i-s": "^1.4.0",
