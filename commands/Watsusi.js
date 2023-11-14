@@ -15,9 +15,9 @@ cmd({
     pattern: 'antidelete',
     fromMe: true,
     desc: 'Configure Anti-Delete preferences',
-    category: 'admin',
+    category: "owner",
 }, async (Void, citel, text) => {
-    const args = text[1].split(' | ');
+    const args = text.split(' | ');
 
     if (args.length === 1 && args[0].toLowerCase() === 'off') {
         antideleteOwners.delete(citel.sender.jid);
@@ -29,8 +29,14 @@ cmd({
         antideleteOwners.add(citel.sender.jid);
         antideleteChatEnabled = true;
         return await Void.reply('Anti-Delete turned on. Deleted messages will be sent to you.');
+    }
+
+    if (args.length === 1 && args[0].toLowerCase() === 'chat') {
+        antideleteOwners.delete(citel.sender.jid);
+        antideleteChatEnabled = true;
+        return await Void.reply('Anti-Delete chat mode turned on. Deleted messages will be sent to the chat.');
     } else {
-        return await Void.reply('Invalid format. Example: antidelete on');
+        return await Void.reply('Invalid format. Examples: antidelete on, antidelete chat, antidelete off');
     }
 });
 
@@ -45,6 +51,7 @@ cmd.on('delete', async (Void, citel) => {
         await Void.sendText(citel.chat, 'A message was deleted.');
     }
 });
+
 
 
 cmd({
@@ -75,7 +82,7 @@ cmd({
   pattern: "gjid",
   fromMe: true,
   desc: "Get the JID of the current group",
-  type: "watsusi",
+  category : "watsusi",
 }, async (Void, citel) => {
   if (!citel.isGroup) {
     await citel.reply("This command can only be used in a group.");
@@ -90,7 +97,7 @@ cmd({
   pattern: "groupbroad",
   fromMe: true,
   desc: "Send a broadcast message to the group",
-  catergory: "misc",
+  catergory: "owner",
 }, async (Void, citel, text) => {
   if (!text) return await citel.reply("_Please provide a message to broadcast_");
 
