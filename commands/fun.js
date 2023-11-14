@@ -67,9 +67,9 @@ cmd({
 )
 
 cmd({
-  pattern: 'age',
+  pattern: "age",
   desc: 'Estimate the age based on a given name',
-  catergory'fun',
+  catergory: 'fun',
   fromMe: true,
 },
   async (Void, citel, text) => {
