@@ -22,21 +22,21 @@ cmd({
     if (args.length === 1 && args[0].toLowerCase() === 'off') {
         antideleteOwners.delete(citel.sender.jid);
         antideleteChatEnabled = false;
-        return await Void.reply('Anti-Delete turned off.');
+        return await citel.reply('Anti-Delete turned off.');
     }
 
     if (args.length === 1 && args[0].toLowerCase() === 'on') {
         antideleteOwners.add(citel.sender.jid);
         antideleteChatEnabled = true;
-        return await Void.reply('Anti-Delete turned on. Deleted messages will be sent to you.');
+        return await citel.reply('Anti-Delete turned on. Deleted messages will be sent to you.');
     }
 
     if (args.length === 1 && args[0].toLowerCase() === 'chat') {
         antideleteOwners.delete(citel.sender.jid);
         antideleteChatEnabled = true;
-        return await Void.reply('Anti-Delete chat mode turned on. Deleted messages will be sent to the chat.');
+        return await citel.reply('Anti-Delete chat mode turned on. Deleted messages will be sent to the chat.');
     } else {
-        return await Void.reply('Invalid format. Examples: antidelete on, antidelete chat, antidelete off');
+        return await citel.reply('Invalid format. Examples: antidelete on, antidelete chat, antidelete off');
     }
 });
 
