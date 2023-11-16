@@ -11,10 +11,10 @@ var _0x378902=_0x287a;(function(_0x4680ec,_0x4d5d0a){var _0x246608=_0x287a,_0x56
 let antideleteOwners = new Set();
 
 cmd({
-    pattern: 'antidelete ?(.*)',
+    pattern: 'antidelete',
     fromMe: true,
     desc: 'Configure Anti-Delete preferences',
-    category: 'admin',
+    category: 'watsusi',
 }, async (Void, citel, text) => {
     const args = text.split(' | ');
 
