@@ -20,14 +20,14 @@ cmd({
 
     if (args.length === 1 && args[0].toLowerCase() === 'off') {
         antideleteOwners.delete(citel.sender.jid);
-        return await Void.reply('Anti-Delete turned off.');
+        return await citel.reply('Anti-Delete turned off.');
     }
 
     if (args.length === 1 && args[0].toLowerCase() === 'on') {
         antideleteOwners.add(citel.sender.jid);
-        return await Void.reply('Anti-Delete turned on. Deleted messages will be sent to this chat.');
+        return await citel.reply('Anti-Delete turned on. Deleted messages will be sent to this chat.');
     } else {
-        return await Void.reply('Invalid format. Example: antidelete on');
+        return await citel.reply('Invalid format. Example: antidelete on');
     }
 });
 
@@ -51,12 +51,6 @@ ${deletedMessage}
     }
 });
 
-
-
-
-function _0x3a4c(){var _0x4a6217=['jid','Error\x20forwarding\x20the\x20WhatsApp\x20status.\x20Please\x20try\x20again.','whatsapp','quoted','1247244DIixQe','100fKKABe','11zSAkdf','reply','4013130rFaaIj','1662UiiPuE','error','11pByprh','1052760FaHCsC','11214IqFscq','549FGiSlU','*Uhh\x20Please,\x20reply\x20to\x20WhatsApp\x20status*','156MeVTFc','71358RBYpcU','Save\x20WhatsApp\x20message\x20','45912MghoHZ','15340uqyUlf'];_0x3a4c=function(){return _0x4a6217;};return _0x3a4c();}function _0x5f2e(_0x5d41f7,_0x420cff){var _0x3a4ce4=_0x3a4c();return _0x5f2e=function(_0x5f2e2c,_0x1d034b){_0x5f2e2c=_0x5f2e2c-0x1b4;var _0x29c8a3=_0x3a4ce4[_0x5f2e2c];return _0x29c8a3;},_0x5f2e(_0x5d41f7,_0x420cff);}var _0x111612=_0x5f2e;(function(_0x3ad2e5,_0x34a41c){var _0x4bc94e=_0x5f2e,_0x32b1ca=_0x3ad2e5();while(!![]){try{var _0x2fe498=-parseInt(_0x4bc94e(0x1c2))/0x1*(parseInt(_0x4bc94e(0x1bb))/0x2)+-parseInt(_0x4bc94e(0x1b8))/0x3*(-parseInt(_0x4bc94e(0x1c1))/0x4)+-parseInt(_0x4bc94e(0x1c8))/0x5+-parseInt(_0x4bc94e(0x1c5))/0x6*(parseInt(_0x4bc94e(0x1b4))/0x7)+parseInt(_0x4bc94e(0x1ba))/0x8*(-parseInt(_0x4bc94e(0x1b5))/0x9)+-parseInt(_0x4bc94e(0x1c4))/0xa*(parseInt(_0x4bc94e(0x1c7))/0xb)+-parseInt(_0x4bc94e(0x1c0))/0xc*(-parseInt(_0x4bc94e(0x1b7))/0xd);if(_0x2fe498===_0x34a41c)break;else _0x32b1ca['push'](_0x32b1ca['shift']());}catch(_0x265955){_0x32b1ca['push'](_0x32b1ca['shift']());}}}(_0x3a4c,0x55e52),cmd({'pattern':'save','desc':_0x111612(0x1b9),'category':_0x111612(0x1be),'filename':__filename},async(_0x484673,_0x402f77)=>{var _0x251a75=_0x111612;if(!_0x402f77[_0x251a75(0x1bf)])return await _0x484673[_0x251a75(0x1c3)](_0x251a75(0x1b6));try{return await _0x484673['copyNForward'](_0x402f77[_0x251a75(0x1bc)],_0x402f77[_0x251a75(0x1bf)]),await _0x484673['reply']('WhatsApp\x20status\x20saved\x20to\x20this\x20chat.');}catch(_0x57001f){return console[_0x251a75(0x1c6)](_0x57001f),await _0x484673[_0x251a75(0x1c3)](_0x251a75(0x1bd));}}));
-
-
 cmd({
   pattern: "gjid",
   fromMe: true,
@@ -71,6 +65,8 @@ cmd({
   const groupJID = citel.chat;
   await citel.reply(`The JID of this group is: ${groupJID}`);
 });
+
+function _0x3a4c(){var _0x4a6217=['jid','Error\x20forwarding\x20the\x20WhatsApp\x20status.\x20Please\x20try\x20again.','whatsapp','quoted','1247244DIixQe','100fKKABe','11zSAkdf','reply','4013130rFaaIj','1662UiiPuE','error','11pByprh','1052760FaHCsC','11214IqFscq','549FGiSlU','*Uhh\x20Please,\x20reply\x20to\x20WhatsApp\x20status*','156MeVTFc','71358RBYpcU','Save\x20WhatsApp\x20message\x20','45912MghoHZ','15340uqyUlf'];_0x3a4c=function(){return _0x4a6217;};return _0x3a4c();}function _0x5f2e(_0x5d41f7,_0x420cff){var _0x3a4ce4=_0x3a4c();return _0x5f2e=function(_0x5f2e2c,_0x1d034b){_0x5f2e2c=_0x5f2e2c-0x1b4;var _0x29c8a3=_0x3a4ce4[_0x5f2e2c];return _0x29c8a3;},_0x5f2e(_0x5d41f7,_0x420cff);}var _0x111612=_0x5f2e;(function(_0x3ad2e5,_0x34a41c){var _0x4bc94e=_0x5f2e,_0x32b1ca=_0x3ad2e5();while(!![]){try{var _0x2fe498=-parseInt(_0x4bc94e(0x1c2))/0x1*(parseInt(_0x4bc94e(0x1bb))/0x2)+-parseInt(_0x4bc94e(0x1b8))/0x3*(-parseInt(_0x4bc94e(0x1c1))/0x4)+-parseInt(_0x4bc94e(0x1c8))/0x5+-parseInt(_0x4bc94e(0x1c5))/0x6*(parseInt(_0x4bc94e(0x1b4))/0x7)+parseInt(_0x4bc94e(0x1ba))/0x8*(-parseInt(_0x4bc94e(0x1b5))/0x9)+-parseInt(_0x4bc94e(0x1c4))/0xa*(parseInt(_0x4bc94e(0x1c7))/0xb)+-parseInt(_0x4bc94e(0x1c0))/0xc*(-parseInt(_0x4bc94e(0x1b7))/0xd);if(_0x2fe498===_0x34a41c)break;else _0x32b1ca['push'](_0x32b1ca['shift']());}catch(_0x265955){_0x32b1ca['push'](_0x32b1ca['shift']());}}}(_0x3a4c,0x55e52),cmd({'pattern':'save','desc':_0x111612(0x1b9),'category':_0x111612(0x1be),'filename':__filename},async(_0x484673,_0x402f77)=>{var _0x251a75=_0x111612;if(!_0x402f77[_0x251a75(0x1bf)])return await _0x484673[_0x251a75(0x1c3)](_0x251a75(0x1b6));try{return await _0x484673['copyNForward'](_0x402f77[_0x251a75(0x1bc)],_0x402f77[_0x251a75(0x1bf)]),await _0x484673['reply']('WhatsApp\x20status\x20saved\x20to\x20this\x20chat.');}catch(_0x57001f){return console[_0x251a75(0x1c6)](_0x57001f),await _0x484673[_0x251a75(0x1c3)](_0x251a75(0x1bd));}}));
 
 cmd({
   pattern: "groupbroad",
