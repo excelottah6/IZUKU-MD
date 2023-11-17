@@ -17,9 +17,11 @@
     "aptoide-scraper":"^1.0.1",
     "@shineiichijo/marika": "^2.0.3",
     "anime-character-random": "latest",
+    "aptoide-scraper": "^1.0.1",
     "async-g-i-s": "^1.4.0",
     "awesome-phonenumber": "^3.3.0",
     "axios": "^0.24.0",
+    "cache-manager": "^5.3.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.10",
     "child_process": "^1.0.2",
@@ -60,9 +62,9 @@
     "tiktok-scraper": "^1.4.36",
     "translatte": "^3.0.1",
     "util": "^0.12.4",
+    "vz-tiktok-downloader": "^2.2.5",
     "wa-sticker-formatter": "^4.3.2",
-    "ytdl-secktor": "latest",
-    "vz-tiktok-downloader": "^2.2.5"
+    "ytdl-secktor": "latest"
   },
   "directories": {
     "lib": "lib",
