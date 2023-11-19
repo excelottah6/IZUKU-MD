@@ -157,7 +157,7 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-            pattern: "apk",
+            pattern: "apk1",
             desc: "Downloads apks  .",
             category: "downloader",
             filename: __filename,
@@ -202,6 +202,7 @@ axios.get(url, { responseType: 'stream' })
 	try{ fs.unlink(filePath); }catch{}
     return citel.reply('*_Apk not Found, Sorry_*')//:', error.message);
   });
+	})
 //-------------------------------------------------------------------------------
 cmd({
             pattern: "song",
