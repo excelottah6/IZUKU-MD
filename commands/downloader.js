@@ -8,7 +8,7 @@
  * @description : Secktor,A Multi-functional whatsapp bot.
  * @version 0.0.6
  **/ 
-
+ 
 const { tlang, ringtone, cmd,fetchJson, sleep, botpic,ffmpeg, getBuffer, pinterest, prefix, Config } = require('../lib')
 const { mediafire } = require("../lib/mediafire.js");
 const googleTTS = require("google-tts-api");
