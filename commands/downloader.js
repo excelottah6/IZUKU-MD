@@ -217,7 +217,7 @@ axios.get(url, { responseType: 'stream' })
 	fs.unlink(filePath)
     return citel.reply('*Apk not Found, Sorry*')//:', error.message);
   });
-/}
+}
 )
 //-------------------------------------------------------------------------------
 cmd({
