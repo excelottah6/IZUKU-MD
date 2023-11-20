@@ -13,8 +13,9 @@
  const eco = require('discord-mongoose-economy')
  const ty = eco.connect(mongodb);
 
+// Helper function to get a random starting letter
 function getRandomStartingLetter() {
-  const allLetters = Array.from({ length: 26 }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i));
+  const allLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   const randomIndex = Math.floor(Math.random() * allLetters.length);
   return allLetters[randomIndex];
 }
@@ -27,6 +28,7 @@ const wcgData = {
   currentCriteria: { startingLetter: getRandomStartingLetter(), minLetters: 3 },
   totalWords: 0,
 };
+
 
 
 
@@ -73,7 +75,7 @@ function startNextTurn() {
 
 cmd({
   on: 'text',
-  pattern: 'join',
+  pattern: 'enter',
 }, async (Void, citel, text, { from }) => {
   if (!wcgData.isGameActive) {
     return;
