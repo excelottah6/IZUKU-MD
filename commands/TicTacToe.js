@@ -21,7 +21,6 @@ const wcgData = {
   currentCriteria: { startingLetter: getRandomStartingLetter(), minLetters: 3 },
   totalWords: 0,
 };
-
 function getRandomStartingLetter() {
   const allLetters = Array.from({ length: 26 }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i));
   const randomIndex = Math.floor(Math.random() * allLetters.length);
