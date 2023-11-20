@@ -19,6 +19,7 @@
 const { dare, truth, random_question } = require('../lib/truth-dare.js')
 const axios = require('axios')
 const { cmd } = require('../lib')
+const textpro = require('textpro.me');
     //---------------------------------------------------------------------------
 cmd({
             pattern: "question",
@@ -74,7 +75,7 @@ cmd({
 },
   async (Void, citel, text) => {
     if (!text) {
-      return Void.reply(citel.chat, 'Please provide a name for age estimation.');
+      return citel.reply, 'Please provide a name for age estimation.');
     }
 
     try {
@@ -83,16 +84,42 @@ cmd({
       const { name: agifyName, age } = response.data;
       
       if (age) {
-        return Void.reply(citel.chat, `Based on the name "${agifyName}", the estimated age is ${age} years.`);
+        return citel.reply, `Based on the name "${agifyName}", the estimated age is ${age} years.`);
       } else {
-        return Void.reply(citel.chat, `Unable to estimate age for the name "${agifyName}".`);
+        return await citel.reply, `Unable to estimate age for the name "${agifyName}".`);
       }
     } catch (error) {
       console.error(error);
-      return Void.reply(citel.chat, 'Error estimating age. Please try again later.');
+      return await citel.reply, 'Error estimating age. Please try again later.');
     }
   }
 );
+//-------------------------------------------------------
+cmd({
+    pattern: 'blackpink',
+    fromMe: true,
+    desc: 'Generate text using textpro.me',
+    category: 'fun',
+}, async (Void, citel, text) => {
+    const inputText = text.trim();
+
+    if (!inputText) {
+        return await citel.reply('Please provide text for textpro.me');
+    }
+
+    const inputArray = inputText.split(' '); 
+
+    const url = 'https://textpro.me/blackpink-style-logo-online-generator-free-977.html';
+
+    try {
+        const result = await textpro.get(url, inputArray);
+        console.log(result);
+        return await citel.reply(result);
+    } catch (err) {
+        console.log(err);
+        return await citel.reply('Error generating text using textpro.me');
+    }
+});
 
     //---------------------------------------------------------------------------
     cmd({
