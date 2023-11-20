@@ -13,6 +13,12 @@
  const eco = require('discord-mongoose-economy')
  const ty = eco.connect(mongodb);
 
+function getRandomStartingLetter() {
+  const allLetters = Array.from({ length: 26 }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i));
+  const randomIndex = Math.floor(Math.random() * allLetters.length);
+  return allLetters[randomIndex];
+}
+
 const wcgData = {
   isGameActive: false,
   countdownSeconds: 44,
@@ -21,11 +27,7 @@ const wcgData = {
   currentCriteria: { startingLetter: getRandomStartingLetter(), minLetters: 3 },
   totalWords: 0,
 };
-function getRandomStartingLetter() {
-  const allLetters = Array.from({ length: 26 }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i));
-  const randomIndex = Math.floor(Math.random() * allLetters.length);
-  return allLetters[randomIndex];
-}
+
 
 
 cmd({
