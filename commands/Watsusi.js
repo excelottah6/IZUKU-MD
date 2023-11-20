@@ -50,27 +50,31 @@ cmd({
     }
 });
 
-let badWord = '';
-
 cmd({
-    pattern: 'antiword',
-    fromMe: true,
-    desc: 'Set a bad word for the bot to monitor',
-    category: 'admin',
-}, async (Void, citel, match) => {
-    badWord = match[1].trim();
-    return await citel.reply(`Bad word set to: ${badWord}`);
-});
+    pattern: "antiword",
+    desc: "Set or disable the anti-badword feature.",
+    category: "admin",
+  },
+  async (Void, citel, text, { isCreator }) => {
+    if (!isCreator) return citel.reply(tlang().owner);
 
-cmd({
-    on: 'text',
-    fromMe: false,
-}, async (Void, citel, text) => {
-    if (badWord && text.includes(badWord)) {
-        return await citel.reply('Warning: The use of inappropriate language is not allowed.');
+    const badWord = text.trim();
+
+    if (!badWord) {
+      return citel.reply(
+        "Please provide a bad word or use 'ANTIBADWORD OFF' to disable."
+      );
     }
-});
 
+    if (badWord.toLowerCase() === "off") {
+      delete Config.ANTI_BAD_WORD;
+      return citel.reply("Anti-badword feature disabled.");
+    } else {
+      Config.ANTI_BAD_WORD = badWord;
+      return citel.reply(`Anti-badword feature enabled. Bad word set to: ${badWord}`);
+    }
+  }
+);
 cmd({
   pattern: "gjid",
   fromMe: true,
