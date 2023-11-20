@@ -76,7 +76,6 @@ cmd({
   async (Void, citel, text) => {
     if (!text) {
       return citel.reply, 'Please provide a name for age estimation.');
-    }
 
     try {
       const response = await axios.get(`https://api.agify.io/?name=${encodeURIComponent(name)}`);
