@@ -386,3 +386,60 @@
          })
      }
  )
+//------------------------------------------------------------------------------------
+cmd({
+             pattern: "cat",
+             category: "textpro",
+             desc: "Some text to image feature with various styles."
+         },
+         async(Void, citel, text) => {
+             if (!text) return citel.reply('_Need text._')
+             let anu = await maker.textpro('https://textpro.me/write-text-on-foggy-window-online-free-1015.html#google_vignette', text)
+             Void.sendMessage(citel.chat, {
+                 image: {
+                     url: anu.image
+                 },
+                 caption: `Made by ${tlang().title},For my ${tlang().greet}`
+             }, {
+                 quoted: citel
+             })
+         }
+     )
+//------------------------------------------------------------------------------
+cmd({
+             pattern: "pottery",
+             category: "textpro",
+             desc: "Some text to image feature with various styles."
+         },
+         async(Void, citel, text) => {
+             if (!text) return citel.reply('_Need text._')
+             let anu = await maker.textpro('https://textpro.me/create-3d-pottery-text-effect-online-1088.html', text)
+             Void.sendMessage(citel.chat, {
+                 image: {
+                     url: anu.image
+                 },
+                 caption: `Made by ${tlang().title},For my ${tlang().greet}`
+             }, {
+                 quoted: citel
+             })
+         }
+     )
+//-----------------------------------------------------------------------------------
+cmd({
+             pattern: "slice",
+             category: "textpro",
+             desc: "Some text to image feature with various styles."
+         },
+         async(Void, citel, text) => {
+             if (!text) return citel.reply('_Need text._')
+             let anu = await maker.textpro('https://textpro.me/create-light-glow-sliced-text-effect-online-1068.html', text)
+             Void.sendMessage(citel.chat, {
+                 image: {
+                     url: anu.image
+                 },
+                 caption: `Made by ${tlang().title},For my ${tlang().greet}`
+             }, {
+                 quoted: citel
+             })
+         }
+     )
