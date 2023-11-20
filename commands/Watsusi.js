@@ -51,31 +51,7 @@ cmd({
     }
 });
 
-cmd({
-    pattern: "antiword",
-    desc: "Set or disable the anti-badword feature.",
-    category: "admin",
-  },
-  async (Void, citel, text, { isCreator }) => {
-    if (!isCreator) return citel.reply(tlang().owner);
 
-    const badWord = text.trim();
-
-    if (!badWord) {
-      return citel.reply(
-        "Please provide a bad word or use 'ANTIBADWORD OFF' to disable."
-      );
-    }
-
-    if (badWord.toLowerCase() === "off") {
-      delete Config.ANTI_BAD_WORD;
-      return citel.reply("Anti-badword feature disabled.");
-    } else {
-      Config.ANTI_BAD_WORD = badWord;
-      return citel.reply(`Anti-badword feature enabled. Bad word set to: ${badWord}`);
-    }
-  }
-);
 cmd({
   pattern: "gjid",
   fromMe: true,
