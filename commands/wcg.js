@@ -1,10 +1,11 @@
 const {cmd} = require('../lib');
+const allLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 function getRandomStartingLetter() {
-  const allLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   const randomIndex = Math.floor(Math.random() * allLetters.length);
   return allLetters[randomIndex];
 }
+
 
 const wcgData = {
   isGameActive: false,
