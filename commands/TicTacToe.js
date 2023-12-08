@@ -12,6 +12,8 @@
  const { cmd, parseJid,getAdmin,tlang } = require("../lib/");
  const eco = require('discord-mongoose-economy')
  const ty = eco.connect(mongodb);
+
+
 cmd(
   {
     pattern: "deltic",

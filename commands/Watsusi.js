@@ -1,5 +1,6 @@
 const { cmd } = require('../lib');
 const { updateProfilePicture, forwardMessage } = require("../lib");
+const Config = require('../config')
 
 global.AFK = {
 	isAfk: false,
@@ -50,26 +51,6 @@ cmd({
     }
 });
 
-let badWord = '';
-
-cmd({
-    pattern: 'antiword',
-    fromMe: true,
-    desc: 'Set a bad word for the bot to monitor',
-    category: 'admin',
-}, async (Void, citel, match) => {
-    badWord = match[1].trim();
-    return await citel.reply(`Bad word set to: ${badWord}`);
-});
-
-cmd({
-    on: 'text',
-    fromMe: false,
-}, async (Void, citel, text) => {
-    if (badWord && text.includes(badWord)) {
-        return await citel.reply('Warning: The use of inappropriate language is not allowed.');
-    }
-});
 
 cmd({
   pattern: "gjid",
