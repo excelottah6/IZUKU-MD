@@ -24,6 +24,8 @@ module.exports = {
   autoreaction:  process.env.AUTO_REACTION  === undefined ? false : process.env.AUTO_REACTION ,
   antibadword :  process.env.ANTI_BAD_WORD === undefined ? 'nbwoed' : process.env.ANTI_BAD_WORD,
   alwaysonline:  process.env.ALWAYS_ONLINE === undefined ? false : process.env.ALWAYS_ONLINE,
+  typingprensence:  process.env.TYPING === undefined ? false : process.env.TYPING,
+recordingpresence:  process.env.RECORDING === undefined ? false : process.env.RECORDING,	
   antifake : process.env.FAKE_COUNTRY_CODE === undefined ? '971' : process.env.FAKE_COUNTRY_CODE,
   readmessage:  process.env.READ_MESSAGE === undefined ? false : process.env.READ_MESSAGE,
   auto_status_saver: process.env.AUTO_STATUS_SAVER === undefined ? false : process.env.AUTO_STATUS_SAVER,
