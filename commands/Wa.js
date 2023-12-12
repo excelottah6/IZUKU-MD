@@ -1036,19 +1036,25 @@ cmd({
     }
     message.reply(`Successfully Sent Broadcast to ${anu.length} Group(s).`);
 });
-      cmd({
-          pattern: "leave",
-      }, async (message, chat) => {
-          if (message.groupMetadata.isGroup && message.groupMetadata.isAdmin(message.author)) {
-              await chat.sendStateTyping();
-              await chat.sendMessage("Goodbye, I'm leaving this group. 👋");
-              await chat.sleep(2000);
-              await chat.leave();
-          }
-      });
+//-------------------------------------------
+cmd({
+  pattern: "left",
+  desc: "Leaves the current group",
+  category: "group",
+}, async (Void, citel, text) => {
+  try {
+    const chatId = citel.chat;
+    await Void.groupLeave(chatId);
+    citel.reply("Successfully left the group🙂.");
+  } catch (error) {
+    console.error(error);
+    citel.reply("Failed to leave the group.🤦🏽‍♂️");
+  }
+});
+
 //--------------------------------------------------------------------------
 cmd({
-  pattern: "del",
+  pattern: "dlt",
   alias: ["delete"],
   desc: "Deletes your own message",
   category: "misc",
