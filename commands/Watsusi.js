@@ -65,6 +65,26 @@ cmd({
   await citel.reply(`The JID of this group is: ${groupJID}`);
 });
 
+cmd({
+  pattern: "archive",
+  desc: "Archives a chat to hide it from your chat list",
+  category: "watsusi",
+  use: "<reply to chat>",
+}, async (Void, citel, text) => {
+  if (!citel.quoted) return citel.reply("Please reply to the chat you want to archive.");
+  const chatId = citel.quoted.chat;
+  try {
+    const lastMessage = await getLastMessageInChat(chatId);
+    await Void.chatModify({
+      archive: true,
+      lastMessages: [lastMessage],
+    }, chatId);
+    citel.reply("Chat successfully archived!");
+  } catch (error) {
+    console.error(error);
+    citel.reply("Failed to archive chat.");
+  }
+});
 
 
 cmd({
