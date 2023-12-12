@@ -1021,8 +1021,6 @@ cmd({
   }
   citel.reply(`Successfully broadcasted to ${activeGroups.length} group(s).`);
 });
-
-});
 //-------------------------------------------
 cmd({
   pattern: "left",
