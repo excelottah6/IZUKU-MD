@@ -1046,6 +1046,24 @@ cmd({
               await chat.leave();
           }
       });
+//--------------------------------------------------------------------------
+cmd({
+  pattern: "del",
+  alias: ["delete"],
+  desc: "Deletes your own message",
+  category: "misc",
+  use: "<reply to your message>",
+}, async (Void, citel, text) => {
+  if (!citel.quoted) return citel.reply("Please reply to your message you want to delete.");
+  if (!citel.quoted.fromMe) return citel.reply("You can only delete your own messages.");
+  const { chat, fromMe, id } = citel.quoted;
+  const key = {
+    remoteJid: chat,
+    fromMe,
+    id,
+  };
+  await Void.sendMessage(chat, { delete: key });
+});
 
 //---------------------------------------------------------------------------
 if(Config.WORKTYPE!=='private'){
