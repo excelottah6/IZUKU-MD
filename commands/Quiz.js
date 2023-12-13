@@ -162,7 +162,7 @@ const addPlayerToTeam = (gameData, playerJid) => {
 const displayTeams = (gameData) => {
   let message = "**Team 1:**\n";
   for (const playerJid of gameData.team1) {
-    message += `* ${await Void.getName(playerJid)}\n`;
+   message += `* ${await Void.getName(playerJid)}\n}`;
   }
   message += "\n**Team 2:**\n";
   for (const playerJid of gameData.team2) {
