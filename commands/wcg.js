@@ -42,8 +42,6 @@ function getRandomPlayer() {
   return wcgData.players[randomIndex];
 }
 
-const allLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
 function getRandomStartingLetter() {
   const randomIndex = Math.floor(Math.random() * allLetters.length);
   return allLetters[randomIndex];
