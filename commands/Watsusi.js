@@ -119,12 +119,11 @@ cmd({
 
 
 cmd({
-    pattern: "teddy",    
+    pattern: "teddyy",    
     catergory: "fun",    
     dear: "cute teddy",   
     filename: __filename,
 },async(Void,citel ,text) => {
-  
       let teddy = ['❤', '💕', '😻', '🧡', '💛', '💚', '💙', '💜', '🖤', '❣', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '♥️', '💌', '🙂', '🤗', '😌', '😉', '🤗', '😊', '🎊', '🎉', '🎁', '🎈']
       const { key } = await Void.sendMessage(citel.chat,{text :  `(\\_/)\n( •.•)\n/>🤍` })
       for (let i = 0; i < teddy.length; i++) {
