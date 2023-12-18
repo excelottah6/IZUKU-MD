@@ -116,3 +116,20 @@ cmd({
 
   return await citel.reply("_Broadcast sent successfully_");
 });
+
+
+cmd({
+    pattern: "teddy",    
+    catergory: "fun",    
+    dear: "cute teddy",   
+    filename: __filename,
+},async(Void,citel ,text) => {
+  
+      let teddy = ['❤', '💕', '😻', '🧡', '💛', '💚', '💙', '💜', '🖤', '❣', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '♥️', '💌', '🙂', '🤗', '😌', '😉', '🤗', '😊', '🎊', '🎉', '🎁', '🎈']
+      const { key } = await Void.sendMessage(citel.chat,{text :  `(\\_/)\n( •.•)\n/>🤍` })
+      for (let i = 0; i < teddy.length; i++) {
+        await sleep(500);
+        await Void.sendMessage(citel.chat,{text:`(\\_/)\n( •.•)\n/>${teddy[i]}`,  edit: key })             
+      }
+
+})
