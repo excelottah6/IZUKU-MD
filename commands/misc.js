@@ -462,7 +462,7 @@ cmd({
   react:'🔥',
   desc: 'Download fb video without watermark',
 },
-async (citel, text,{Void}) => {
+async (Void,citel, text) => {
   let url = text.split(' ')[1];
 
   if (!text) {
