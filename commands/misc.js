@@ -454,13 +454,15 @@ let buttons = [{
 }
 })   
 //-------------------------------------------------111
-
 cmd({
   pattern: 'fb',
-  fromMe: true,
+  alias:'facebook',
+  fromMe: false,
+  catergory:'downloader',
+  react:'🔥',
   desc: 'Download fb video without watermark',
 },
-async (Void, citel, text) => {
+async (citel, text,{Void}) => {
   let url = text.split(' ')[1];
 
   if (!text) {
@@ -468,7 +470,7 @@ async (Void, citel, text) => {
   }
 
   try {
-    let videoUrl = await getBuffer(`https://api-smd.vercel.app/api/fb?url=${encodeURIComponent(url)}`);
+    let {data } = await getBuffer(`https://api-smd.vercel.app/api/fb?url=${encodeURIComponent(url)}`);
 
     let media = await getBuffer(videoUrl);
 
@@ -478,7 +480,6 @@ Void.sendMessage(citel.chat, {video : { url :data.result.urls[1].url } , },)
     citel.reply(`Error: ${error.message}`);
   }
 });
-
      //---------------------------------------------------------------------------
  cmd({
              pattern: "antilink",
