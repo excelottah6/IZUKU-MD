@@ -454,37 +454,31 @@ let buttons = [{
 }
 })   
 //-------------------------------------------------111
+$
+
 cmd({
-  pattern: 'tiktok',
+  pattern: 'fb',
   fromMe: true,
-  desc: 'Download TikTok video without watermark',
+  desc: 'Download fb video without watermark',
 },
 async (Void, citel, text) => {
-  const url = text.split(' ')[1];
+  let url = text.split(' ')[1];
 
   if (!text) {
-    return citel.reply('Please provide a TikTok video URL.');
+    return citel.reply('Please provide a fb video URL.');
   }
 
-  const apiUrl = `https://vihangayt.me/download/tiktok?url=${encodeURIComponent(url)}`;
-
   try {
-    const response = await axios.get(apiUrl);
+    let videoUrl = await getBuffer(`https://api-smd.vercel.app/api/fb?url=${encodeURIComponent(url)}`);
 
-    if (response.data && response.data.video_url) {
-      // Download the video
-      const videoResponse = await axios.get(response.data.video_url, { responseType: 'arraybuffer' });
+    let media = await getBuffer(videoUrl);
 
-      // Send the video as a reply
-      await Void.sendMessage(citel.chat, { video: videoResponse.data }, MessageType.video, { quoted: citel.data });
-    } else {
-      citel.reply('Unable to fetch the download . The TikTok link may be invalid or the service is down.');
-    }
+    await 
+Void.sendMessage(citel.chat, {video : { url :data.result.urls[1].url } , },)
   } catch (error) {
     citel.reply(`Error: ${error.message}`);
   }
 });
-
 
      //---------------------------------------------------------------------------
  cmd({
