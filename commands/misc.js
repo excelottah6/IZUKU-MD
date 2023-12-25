@@ -462,22 +462,22 @@ cmd({
   react:'🔥',
   desc: 'Download fb video without watermark',
 },
-async (Void,citel, text) => {
-  let url = text.split(' ')[1];
+async (Void,citel, text,) => {
+  let url = text.split(' ')[0];
 
   if (!text) {
     return citel.reply('Please provide a fb video URL.');
   }
 
   try {
-    let {data } = await getBuffer(`https://api-smd.vercel.app/api/fb?url=${encodeURIComponent(url)}`);
+    let {data}= await axios.get(`https://api-smd.vercel.app/api/fb?url=${encodeURIComponent(url)}`);
 
-    let media = await getBuffer(videoUrl);
+   if(! data || !data.result ) return citel.reply("no results found")
 
     await 
 Void.sendMessage(citel.chat, {video : { url :data.result.urls[1].url } , },)
   } catch (error) {
-    citel.reply(`Error: ${error.message}`);
+    citel.reply(`Error: ${error.message || error}`);
   }
 });
      //---------------------------------------------------------------------------
