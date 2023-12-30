@@ -67,32 +67,7 @@ cmd({
 
 )
 
-cmd({
-  pattern: "age",
-  desc: 'Estimate the age based on a given name',
-  catergory: "fun",
-  fromMe: true,
-},
-  async (Void, citel, text) => {
-    if (!text) {
-      return citel.reply, 'Please provide a name for age estimation.')
-    };
-    try {
-      const response = await axios.get(`https://api.agify.io/?name=${encodeURIComponent(name)}`);
-      
-      const { name: agifyName, age } = response.data;
-      
-      if (age) {
-        return citel.reply, `Based on the name "${agifyName}", the estimated age is ${age} years.`);
-      } else {
-        return await citel.reply, `Unable to estimate age for the name "${agifyName}".`);
-      }
-    } catch (error) {
-      console.error(error);
-      return await citel.reply, 'Error estimating age. Please try again later.');
-    }
-  }
-);
+
 //-------------------------------------------------------
 cmd({
     pattern: 'blackpink',
@@ -159,3 +134,105 @@ return citel.reply(replyf)
                     }
     }
 )
+//------------------------------------------------------------------
+cmd({
+  pattern: 'chatgpt',
+  desc: 'Ask the AI a question',
+  category: "AI",
+  
+},
+async (Void, citel, text) => {
+  let question = encodeURIComponent(text.trim());
+
+  if (!question) {
+    return citel.reply('Please provide a question to ask the AI.');
+  }
+
+  try {
+    let response = await axios.get(`https://api.akuari.my.id/ai/chat-ai-v2?chat=${question}`);
+    let data = response.data;
+
+    if (!data.respon) {
+      return citel.reply('Sorry, I couldn\'t retrieve a response from the AI.');
+    }
+
+    await Void.sendMessage(citel.chat, { text: data.respon }, { quoted: citel });
+  } catch (error) {
+    citel.reply(`Error: ${error.message || error}`);
+  }
+});
+//----------------------------------COPY AND GIVE CREDIT-------
+cmd({
+  pattern: 'rizz',
+  category: "fun",
+  desc: 'Get a random pickup line',
+  react: '🙈',
+},
+async (Void, citel) => {
+  try {
+    let response = await axios.get('https://vinuxd.vercel.app/api/pickup');
+    let data = response.data;
+
+    if (!data || !data.pickup) {
+      return citel.reply('Unable to retrieve a pickup line. Please try again later.');
+    }
+
+    let pickupLine = data.pickup;
+
+    return citel.reply(`*Pickup Line:* ${pickupLine}`);
+  } catch (error) {
+    citel.reply(`Error: ${error.message || error}`);
+  }
+});
+//--------------------COPY AND GIVE  CREDIT------------
+cmd({
+  pattern: 'bible',
+  desc: 'Get a Bible verse',
+  category: "RELIGION",
+  react: '🧎‍♂️',
+},
+async (Void, citel, text) => {
+  let verseReference = text.trim();
+
+  if (!verseReference) {
+    return citel.reply('Please provide a valid Bible verse reference.');
+  }
+
+  try {
+    let response = await axios.get(`https://bible-api.com/${encodeURIComponent(verseReference)}`);
+    let data = response.data;
+
+    if (!data || !data.verses || data.verses.length === 0) {
+      return citel.reply('Unable to retrieve the Bible verse. Please check the reference and try again.');
+    }
+
+    let verseText = data.verses[0].text;
+    let translationName = data.translation_name;
+
+    return citel.reply(`*${verseReference} (${translationName}):*\n${verseText}`);
+  } catch (error) {
+    citel.reply(`Error: ${error.message || error}`);
+  }
+});
+//-----------------COPY AND GIVE CREDIT------------------//
+cmd({
+  pattern: 'insult',
+  desc: 'Get a random insult',
+  category: "fun",
+  react: '🤥',
+},
+async (Void, citel) => {
+  try {
+    let response = await axios.get('https://evilinsult.com/generate_insult.php?lang=en&type=json');
+    let data = response.data;
+
+    if (!data || !data.insult) {
+      return citel.reply('Unable to retrieve an insult. Please try again later.');
+    }
+
+    let insult = data.insult;
+    return citel.reply(`*Insult:* ${insult}`);
+  } catch (error) {
+    citel.reply(`Error: ${error.message || error}`);
+  }
+});
