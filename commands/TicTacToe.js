@@ -14,8 +14,7 @@
  const ty = eco.connect(mongodb);
 
 
-cmd(
-  {
+cmd({
     pattern: "deltic",
     desc: "deletes TicTacToe running session.",
     filename: __filename,
@@ -320,7 +319,7 @@ cmd(
 
 cmd({
  on: "text",
-  { fromMe: false },
+  fromMe: 'false',
   async (Void, citel, text) => {
     if (!citel.isGroup) return;
 
