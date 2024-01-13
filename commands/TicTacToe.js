@@ -293,8 +293,7 @@ function startNextTurn(citel) {
   citel.reply(`🌀Turn: ${wcgData.currentTurn}\n⏭Next: @${wcgData.currentTurn}\n🈴Your word must start with *${wcgData.currentCriteria.startingLetter}* and include at least *${wcgData.currentCriteria.minLetters}* letters\n🤾Players remaining: ${wcgData.players.length}/${wcgData.players.length}\n⏳You have *40s* to answer\n📝Total words: ${wcgData.totalWords}`);
 }
 
-cmd(
-  {
+cmd({
     pattern: 'startwcg',
     desc: 'Starts a Word Chain Game.',
     category: 'games',
@@ -319,8 +318,8 @@ cmd(
 
 cmd({
  on: "text",
-  fromMe: 'false',
-  async (Void, citel, text) => {
+  fromMe: false,
+}, async (Void, citel, text) => {
     if (!citel.isGroup) return;
 
     if (/^join$/i.test(text) && !wcgData.isGameActive) {
@@ -333,10 +332,8 @@ cmd({
 
 cmd({
   on:"text",
-
-
-  { fromMe: false },
-  async (Void, citel, text) => {
+fromMe: false,
+}, async (Void, citel, text) => {
     if (!citel.isGroup) return;
 
     if (wcgData.isGameActive && wcgData.currentTurn && wcgData.currentTurn.id === citel.sender) {
