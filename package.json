@@ -13,7 +13,7 @@
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^9.1.4",
-    "maher-zubair-baileys": "^6.5.5",
+    "@sampandey001/baileys": "latest",
     "aptoide-scraper":"^1.0.1",
     "@shineiichijo/marika": "^2.0.3",
     "anime-character-random": "latest",
