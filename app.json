@@ -84,7 +84,7 @@
   },
   "MONGODB_URI": {
     "description": "A secret String for Mongodb Connection.(Required),change for better experience",
-    "value": "mongodb://uwrr2obvrb4kbwnrvimy:rbgieh8nfk7EylXCh2D@byg4ii8uzy5rro8bcdfu-mongodb.services.clever-cloud.com:2008/byg4ii8uzy5rro8bcdfu"
+    "value": "mongodb://u1qzbdirbx0okbbilxd9:1AyhrLOOjUtNCUkXtt7@b1lm8egbyxopkmgawxie-mongodb.services.clever-cloud.com:2891/b1lm8egbyxopkmgawxie"
   },
     "THEME": {
     "description": "Put the theme name you want to use. Avilable themes are IZUKU,ZEROTWO,NEZUKO,LUFFY,GOKU and many more..",
