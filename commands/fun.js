@@ -123,7 +123,7 @@ async (Void, citel, text) => {
   }
 
   try {
-    let response = await axios.get(`https://api.akuari.my.id/ai/chat-ai-v2?chat=${question}`);
+    let response = await axios.get(`https://rest-api.akuari.my.id/ai/gbard?chat=${question}`);
     let data = response.data;
 
     if (!data.respon) {
