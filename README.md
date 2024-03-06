@@ -33,7 +33,7 @@
 ---
 # ```Scan QR Code```
 
-1. ***Get [SESSION-ID](https://webqr-1-7982a39c6cfb.herokuapp.com) by scanning QR code. OR USE THIS  [SESSION-ID-2](www.izuku.rf.gd)`Whatapp>Three dots>Linked Devices`***
+1. ***Get [SESSION-ID](https://izukutech-837fa7246181.herokuapp.com) by scanning QR code. OR USE THIS  [SESSION-ID-2](https://www.izuku.rf.gd)`Whatapp>Three dots>Linked Devices`***
 --- 
 # ```Fork Repo```
 2. ***Click [FORK](https://github.com/excelottah6/IZUKU-MD/fork)***
