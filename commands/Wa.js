@@ -780,7 +780,7 @@ async (Void, citel, text, match) => {
         text: taggedMessage,
         mentions: participants.map((participant) => participant.id),
     }, {
-        quoted: citel.quoted,
+        quoted: citel,
     });
 });
 
