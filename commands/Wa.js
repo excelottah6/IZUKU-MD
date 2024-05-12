@@ -754,8 +754,8 @@ cmd({
     )
     //---------------------------------------------------------------------------
 cmd({
-    pattern: "hidetag",
-    alias: ["htag"],
+    pattern: "tag",
+    alias: ['htag','totag','hidetag'],
     desc: "Tags every person of group without mentioning their numbers",
     category: "group",
     filename: __filename,
@@ -766,22 +766,17 @@ async (Void, citel, text, match) => {
     
     const groupMetadata = citel.isGroup ? await Void.groupMetadata(citel.chat).catch((e) => {}) : "";
     const participants = citel.isGroup ? await groupMetadata.participants : "";
-    const groupAdmins = await getAdmin(Void, citel);
-    const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
-    
-    if (!isAdmins) return citel.reply(tlang().admin);
 
     let taggedMessage = text ? text : "";
     if (!text && citel.quoted && citel.quoted.text) {
         taggedMessage = citel.quoted.text;
     }
 
+    // Send the tagged message with mentions
     Void.sendMessage(citel.chat, {
         text: taggedMessage,
         mentions: participants.map((participant) => participant.id),
-    }, {
-        quoted: citel,
-    });
+    }, { quoted: citel });
 });
 
     //---------------------------------------------------------------------------
