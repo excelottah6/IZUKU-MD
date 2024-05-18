@@ -14,8 +14,8 @@ const {fetchJson,cmd, tlang } = require('../lib')
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
-const path = require('path')
-const fs = require('fs')
+const { writeFileSync, unlinkSync } = require('fs');
+const { jidDecode } = require('@whiskeysockets/baileys');
 const { tlang, Config, prefix, cmd } = require('../lib')
 
     //---------------------------------------------------------------------------
@@ -241,37 +241,41 @@ cmd({
     }
 )
 
-function createVCard(contact) {
-    return `BEGIN:VCARD
-VERSION:3.0
-FN:${contact.name}
-TEL;TYPE=CELL:${contact.number}
-END:VCARD`
-}
-
 cmd({
     pattern: "savecontacts",
-    desc: "Save all group contacts to a VCF file",
-    category: "group",
+    desc: "Saves all group contacts to a VCF file.",
+    category: "utility",
     filename: __filename
 },
-async (Void, citel) => {
-    if (!citel.isGroup) return citel.reply('This command can only be used in groups.')
-    // if (!citel.isAdmin && !citel.isCreator) return citel.reply('You need to be an admin to use this command.')
-    const groupMetadata = await Void.groupMetadata(citel.chat)
-    const participants = groupMetadata.participants
-    let vCards = participants.map(participant => {
-        const contact = {
-            name: participant.notify || participant.vname || participant.id.split('@')[0],
-            number: participant.id.split('@')[0]
-        }
-        return createVCard(contact)
-    }).join('\n')
-    const vcfPath = path.join(__dirname, 'group_contacts.vcf')
-    fs.writeFileSync(vcfPath, vCards, 'utf8')
-    await Void.sendMessage(citel.chat, {
-        document: { url: vcfPath },
-        mimetype: 'text/x-vcard',
-        fileName: 'group_contacts.vcf'
-    }, { quoted: citel })
-})
+async (Void, citel, text, { isGroup, participants, chatId }) => {
+    if (!isGroup) return citel.reply("This command can only be used in groups.");
+
+    try {
+        const groupMetadata = await Void.groupMetadata(chatId);
+        const participants = groupMetadata.participants;
+
+        let vcfContacts = participants.map(participant => {
+            let contact = jidDecode(participant.id);
+            return `
+BEGIN:VCARD
+VERSION:3.0
+FN:${contact.user}
+TEL;type=CELL;type=VOICE;waid=${contact.user}:${contact.user}
+END:VCARD`;
+        }).join('\n');
+
+        const filePath = './group_contacts.vcf';
+        writeFileSync(filePath, vcfContacts);
+
+        await Void.sendMessage(chatId, {
+            document: { url: filePath },
+            mimetype: 'text/x-vcard',
+            fileName: 'group_contacts.vcf'
+        }, { quoted: citel });
+
+        unlinkSync(filePath); // Clean up the file after sending
+    } catch (error) {
+        console.error(error);
+        citel.reply("An error occurred while saving the contacts.");
+    }
+});
