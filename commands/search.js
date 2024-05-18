@@ -239,48 +239,39 @@ cmd({
     }
 )
 
-// Function to fetch a random trivia question
-async function fetchTriviaQuestion() {
-    const response = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple');
-    const questionData = response.data.results[0];
-    return {
-        question: questionData.question,
-        correct_answer: questionData.correct_answer,
-        incorrect_answers: questionData.incorrect_answers
-    };
-}
-
-// Command definition
-cmd({
-    pattern: "trivia",
-    desc: "Fetches a random trivia question.",
-    category: "fun",
-    filename: __filename
+#
+events.cmd({
+  pattern: 'ly',
+  desc: 'Get lyrics for a song.',
+  category: 'music',
+  use: '<song>',
+  filename: __filename
 },
-async (Void, citel, text, { isGroup, chatId }) => {
-    // Ensure the command is used in a group
-    if (!isGroup) return citel.reply("This command can only be used in groups.");
+async (Void, citel, song) => {
+  try {
+    let apiUrl = https://api.popcat.xyz/lyrics?song=${encodeURIComponent(song)};
+    console.log('Fetching lyrics from API...');
+    
+    let response = await axios.get(apiUrl);
 
-    try {
-        // Fetch a random trivia question
-        const trivia = await fetchTriviaQuestion();
+    if (response && response.data) {
+      let { title, image, artist, lyrics } = response.data;
 
-        // Prepare the message with the question and multiple choices
-        const choices = [...trivia.incorrect_answers, trivia.correct_answer].sort(() => Math.random() - 0.5);
-        let message = `*Trivia Question:*\n${trivia.question}\n\n`;
-        choices.forEach((choice, index) => {
-            message += `${index + 1}. ${choice}\n`;
-        });
-
-        // Send the trivia question to the group
-        await Void.sendMessage(chatId, { text: message }, { quoted: citel });
-
-        // Optionally, store the correct answer in a database or memory for later verification
-        // For this example, we will just log it to the console
-        console.log(`Correct answer: ${trivia.correct_answer}`);
-    } catch (error) {
-        console.error(error);
-        citel.reply("An error occurred while fetching the trivia question.");
+      console.log('Sending lyrics and thumbnail...');
+      await Void.sendMessage(citel.chat, {
+        text: *${title}*\n\n*Artist:* ${artist}\n\n${lyrics},
+        image: { url: image },
+        contextInfo: {
+          forwardingScore: 2,
+          isForwarded: true
+        }
+      });
+    } else {
+      console.error('Empty or invalid response from the API');
+      await Void.sendMessage(citel.chat, { text: 'An error occurred while fetching lyrics.' });
     }
+  } catch (error) {
+    console.error('Error in lyrics command:', error);
+    await Void.sendMessage(citel.chat, { text: An error occurred: ${error.message} });
+  }
 });
-
