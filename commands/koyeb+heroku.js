@@ -72,7 +72,7 @@ cmd(
 cmd(
   {
     pattern: "getvar",
-    desc: "get desired var from koyeb.",
+    desc: "get desired var from koyeb and Heroku.",
     filename: __filename,
     category: "misc",
   },
@@ -98,7 +98,7 @@ cmd(
 cmd(
   {
     pattern: "getallvar",
-    desc: "get all vars from koyeb.",
+    desc: "get all vars from koyeb and Heroku",
     filename: __filename,
     category: "misc",
   },
@@ -124,7 +124,7 @@ citel.reply(str)
 cmd(
   {
     pattern: "setvar",
-    desc: "set var in koyeb.",
+    desc: "set var in koyeb and Heroku",
     filename: __filename,
     category: "misc",
   },
@@ -154,7 +154,7 @@ cmd(
 cmd(
   {
     pattern: "delvar",
-    desc: "delete var from koyeb.",
+    desc: "delete var from koyeb and Heroku",
     filename: __filename,
     category: "misc",
   },
