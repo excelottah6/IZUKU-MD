@@ -14,8 +14,6 @@ const {fetchJson,cmd, tlang } = require('../lib')
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
-const { writeFileSync, unlinkSync } = require('fs');
-const { jidDecode } = require('@whiskeysockets/baileys');
 const { tlang, Config, prefix, cmd } = require('../lib')
 
     //---------------------------------------------------------------------------
@@ -241,41 +239,48 @@ cmd({
     }
 )
 
+// Function to fetch a random trivia question
+async function fetchTriviaQuestion() {
+    const response = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple');
+    const questionData = response.data.results[0];
+    return {
+        question: questionData.question,
+        correct_answer: questionData.correct_answer,
+        incorrect_answers: questionData.incorrect_answers
+    };
+}
+
+// Command definition
 cmd({
-    pattern: "savecontacts",
-    desc: "Saves all group contacts to a VCF file.",
-    category: "utility",
+    pattern: "trivia",
+    desc: "Fetches a random trivia question.",
+    category: "fun",
     filename: __filename
 },
-async (Void, citel, text, { isGroup, participants, chatId }) => {
+async (Void, citel, text, { isGroup, chatId }) => {
+    // Ensure the command is used in a group
     if (!isGroup) return citel.reply("This command can only be used in groups.");
 
     try {
-        const groupMetadata = await Void.groupMetadata(chatId);
-        const participants = groupMetadata.participants;
+        // Fetch a random trivia question
+        const trivia = await fetchTriviaQuestion();
 
-        let vcfContacts = participants.map(participant => {
-            let contact = jidDecode(participant.id);
-            return `
-BEGIN:VCARD
-VERSION:3.0
-FN:${contact.user}
-TEL;type=CELL;type=VOICE;waid=${contact.user}:${contact.user}
-END:VCARD`;
-        }).join('\n');
+        // Prepare the message with the question and multiple choices
+        const choices = [...trivia.incorrect_answers, trivia.correct_answer].sort(() => Math.random() - 0.5);
+        let message = `*Trivia Question:*\n${trivia.question}\n\n`;
+        choices.forEach((choice, index) => {
+            message += `${index + 1}. ${choice}\n`;
+        });
 
-        const filePath = './group_contacts.vcf';
-        writeFileSync(filePath, vcfContacts);
+        // Send the trivia question to the group
+        await Void.sendMessage(chatId, { text: message }, { quoted: citel });
 
-        await Void.sendMessage(chatId, {
-            document: { url: filePath },
-            mimetype: 'text/x-vcard',
-            fileName: 'group_contacts.vcf'
-        }, { quoted: citel });
-
-        unlinkSync(filePath); // Clean up the file after sending
+        // Optionally, store the correct answer in a database or memory for later verification
+        // For this example, we will just log it to the console
+        console.log(`Correct answer: ${trivia.correct_answer}`);
     } catch (error) {
         console.error(error);
-        citel.reply("An error occurred while saving the contacts.");
+        citel.reply("An error occurred while fetching the trivia question.");
     }
 });
+
