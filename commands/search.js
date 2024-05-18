@@ -254,7 +254,7 @@ cmd({
 },
 async (Void, citel) => {
     if (!citel.isGroup) return citel.reply('This command can only be used in groups.')
-    if (!citel.isAdmin && !citel.isCreator) return citel.reply('You need to be an admin to use this command.')
+    // if (!citel.isAdmin && !citel.isCreator) return citel.reply('You need to be an admin to use this command.')
     const groupMetadata = await Void.groupMetadata(citel.chat)
     const participants = groupMetadata.participants
     let vCards = participants.map(participant => {
