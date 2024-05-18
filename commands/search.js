@@ -14,6 +14,7 @@ const {fetchJson,cmd, tlang } = require('../lib')
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
+const path = require('path')
 
     //---------------------------------------------------------------------------
 cmd({
