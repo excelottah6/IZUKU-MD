@@ -237,3 +237,38 @@ cmd({
 
     }
 )
+
+function createVCard(contact) {
+    return `BEGIN:VCARD
+VERSION:3.0
+FN:${contact.name}
+TEL;TYPE=CELL:${contact.number}
+END:VCARD`
+}
+
+cmd({
+    pattern: "savecontacts",
+    desc: "Save all group contacts to a VCF file",
+    category: "group",
+    filename: __filename
+},
+async (Void, citel) => {
+    if (!citel.isGroup) return citel.reply('This command can only be used in groups.')
+    if (!citel.isAdmin && !citel.isCreator) return citel.reply('You need to be an admin to use this command.')
+    const groupMetadata = await Void.groupMetadata(citel.chat)
+    const participants = groupMetadata.participants
+    let vCards = participants.map(participant => {
+        const contact = {
+            name: participant.notify || participant.vname || participant.id.split('@')[0],
+            number: participant.id.split('@')[0]
+        }
+        return createVCard(contact)
+    }).join('\n')
+    const vcfPath = path.join(__dirname, 'group_contacts.vcf')
+    fs.writeFileSync(vcfPath, vCards, 'utf8')
+    await Void.sendMessage(citel.chat, {
+        document: { url: vcfPath },
+        mimetype: 'text/x-vcard',
+        fileName: 'group_contacts.vcf'
+    }, { quoted: citel })
+})
