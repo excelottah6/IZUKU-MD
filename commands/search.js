@@ -15,6 +15,8 @@ let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
 const path = require('path')
+const fs = require('fs')
+const { tlang, Config, prefix, cmd } = require('../lib')
 
     //---------------------------------------------------------------------------
 cmd({
