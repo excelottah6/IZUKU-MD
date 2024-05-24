@@ -729,6 +729,7 @@ cmd({
                 return citel.reply(`Group Mode:\n${prefix}group open- to open\n${prefix}group close- to close`);
             }
         }
+    )
   
     //---------------------------------------------------------------------------
 cmd({
