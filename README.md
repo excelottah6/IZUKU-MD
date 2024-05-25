@@ -96,7 +96,7 @@
 </p>
 
 <p align="center" >
-    <a href="https://heroku.com/new?button-url=https%3A%2F%2Fizuku-web.onrender.com%2F&template=https%3A%2F%2Fgithub.com%2Fexcelottah6%2FIZUKU-MD">
+    <a href="https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fizuku-web.onrender.com%2F&template=https%3A%2F%2Fgithub.com%2Fexcelottah6%2FIZUKU-MD">
     <img src="https://www.herokucdn.com/deploy/button.png" width="170px" alt="Deploy on Heroku" >
     </a>
 
