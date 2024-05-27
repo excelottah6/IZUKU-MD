@@ -33,7 +33,7 @@
 ---
 # ```Scan QR Code```
 
-1. ***Get [SESSION-ID](https://izuku-connect-41eec915ec35.herokuapp.com/) by scanning QR code.***
+1. ***Get [SESSION-ID](https://izuku-web.onrender.com/) by scanning QR code.***
 --- 
 # ```Fork Repo```
 2. ***Click [FORK](https://github.com/excelottah6/IZUKU-MD/fork)***
