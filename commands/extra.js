@@ -40,6 +40,7 @@ const axios = require('axios');
 
 cmd({
     pattern: "wabetainfo",
+ category: "tech",
     desc: "Get details about the latest WhatsApp beta news.",
 },
 async (Void, citel) => {
