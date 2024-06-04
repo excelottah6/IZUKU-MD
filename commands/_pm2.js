@@ -18,6 +18,7 @@
 
 //---------------------------------------------------------------------------
 const {cmd,tlang,sleep} = require('../lib')
+const fetch = require('node-fetch')
 cmd({
         pattern: "restart",
         desc: "To restart bot",
