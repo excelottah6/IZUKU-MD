@@ -19,6 +19,8 @@
 //---------------------------------------------------------------------------
 const {cmd,tlang,sleep} = require('../lib')
 const fetch = require('node-fetch')
+const axios = require("axios");
+
 cmd({
         pattern: "restart",
         desc: "To restart bot",
@@ -650,11 +652,12 @@ cmd({
     }
     )
 
-    const axios = require("axios");
+  
 
 cmd({
   pattern: 'ascii',
   desc: 'Generate ASCII art for the given text.',
+  category: "tools",
 },
 async (Void, citel, text) => {
   try {
@@ -682,6 +685,7 @@ async (Void, citel, text) => {
 cmd({
     pattern: "technews",
     desc: "Get details about the latest news.",
+    category: "News",
 },
 async (Void, citel) => {
     try {
