@@ -132,6 +132,40 @@ async(Void, citel, text,{ isCreator }) => {
     } catch(e) { return await Void.sendMessage(users , {text :"Error While Updating Group Description\nReason : " + e, } ,{quoted : citel})   }
 }
 )
+
+cmd({
+    pattern: "tagadmin",
+        desc: "Tags only Admin numbers",
+        category: "group",
+        filename: __filename,
+        use: '<text>',
+    },
+    async(Void, citel, text , {isCreator}) => {
+        if (!citel.isGroup) return citel.reply(tlang().group);
+        const groupMetadata = citel.isGroup ? await Void.groupMetadata(citel.chat).catch((e) => {}) : "";
+        const participants = citel.isGroup ? await groupMetadata.participants : "";
+        const groupAdmins = participants.filter(p => p.admin)
+        const isAdmins = citel.isGroup ? groupAdmins.includes(citel.sender) : false;
+        if (!isAdmins ) return citel.reply(tlang().admin);
+        if (!isAdmins && !isCreator) return citel.reply(tlang().admin);
+        const listAdmin = groupAdmins.map((v, i) => ` |  @${v.id.split('
+    
+    let tag = `
+    Tag by : @${citel.sender.split("@")[0]}
+    ${text ? "≡ Message :" + text : ""}
+    
+    ┌─⊷ ADMINS
+    ${listAdmin}
+    └───────────
+    `.trim()
+    return await Void.sendMessage(citel.chat,{text : tag ,mentions: [citel.sender, ...groupAdmins.map(v => v.id) ,]} ,)
+    
+    
+    
+    }
+    )
+
+
 //———————————————————————————————————
 
 cmd({
@@ -1080,6 +1114,25 @@ cmd({
 
   await Void.sendMessage(chat, { delete: key });
 });
+
+cmd({
+        pattern: "blck",
+        desc: "blocks that person",
+        fromMe: true,
+        category: "owner",
+        filename: __filename,
+        use: '<quote/reply user.>'
+    },
+    async(Void, citel, text,{isCreator}) => {
+        if (!isCreator) citel.reply(tlang().owner);
+        let users = citel.quoted ? citel.quoted.sender : citel.mentionedJid[0] ? citel.mentionedJid[0] : "";
+        if(!users)  return await citel.reply("Uhh dear, reply/mention an User")
+        await Void.updateBlockStatus(users, "block")
+            .then((res) => { return Void.sendMessage(citel.chat, { react: { text: '✨', key: citel.key }});    })		    //console.log(jsonformat(res))
+            .catch((err) => console.log(jsonformat(err)));
+
+    }
+)
 
 
 //---------------------------------------------------------------------------
