@@ -36,91 +36,10 @@ cmd({
     }
 );
 
-cmd({
-    pattern: "setsudo",
-    desc: "Makes wa me of quoted or mentioned user.",
-    category: "tools",
-    filename: __filename
-},
-async(Void, citel, text) => {
-if(!citel.quoted) return await citel.reply(*Please Reply A User*);
-let user = citel.quoted.sender.split('@')[0]
-if (global.sudo.includes(user)) return citel.reply("Number Already Exist In Sudo");
-global.sudo += ',' + user ;
-const headers = 
-{
-       'Accept': 'application/vnd.heroku+json; version=3',
-        'Authorization': Bearer ${authToken},
-        'Content-Type': 'application/json'
-};
-const varName = 'SUDO'
-const newVarValue = global.sudo        
-fetch(https://api.heroku.com/apps/${appName}/config-vars,
-{
-         method: 'PATCH',
-         headers,
-         body: JSON.stringify({ [varName]: newVarValue })
-})
-.then(response => response.json())
-.then(data => { return citel.reply(*${user} Added Succesfully.*\nSudo Numbers : ${newVarValue}); })
-.catch(error => citel.reply('Error While Adding new Sudo :'+ error));
 
-})
 
+ 
 cmd({
-    pattern: "cpu",
-    desc: "To check bot status",
-    category: "general",
-    filename: __filename,
-  },
-  async(Void, citel) => {
-    const os = require('os')
-    const speed = require('performance-now')
-        const used = process.memoryUsage()
-        const cpus = os.cpus().map(cpu => {
-            cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
-            return cpu
-        })
-        const cpu = cpus.reduce((last, cpu, _, { length }) => 
-        {
-            last.total += cpu.total
-            last.speed += cpu.speed / length
-            last.times.user += cpu.times.user
-            last.times.nice += cpu.times.nice
-            last.times.sys += cpu.times.sys
-            last.times.idle += cpu.times.idle
-            last.times.irq += cpu.times.irq
-            return last
-        },{ speed: 0,total: 0,times: {user: 0,nice: 0,sys: 0,idle: 0,irq: 0 } }
-        )
-      let timestamp = speed()
-      let latensi = speed() - timestamp
-      neww = performance.now()
-      oldd = performance.now()
-                    
-      respon = `
-    Response Speed ${latensi.toFixed(1)}Sec / ${(oldd - neww).toFixed(1)}ms
-    Runtime : ${runtime(process.uptime())}`
-    
-  
-    let resp2 = `💻 Info Server
-    RAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}
-    
-    NodeJS Memory Usaage
-    ${Object.keys(used).map((key, _, arr) => ${key.padEnd(Math.max(...arr.map(v=>v.length)),' ')}: ${formatp(used[key])}).join('\n')}
-    
-    ${cpus[0] ? `Total CPU Usage
-    ${cpus[0].model.trim()} (${cpu.speed} MHZ)
-    ${Object.keys(cpu.times).map(type => - ${(type + '').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%).join('\n')}
-    CPU Core(s) Usage (${cpus.length} Core CPU)
-    ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)
-    ${Object.keys(cpu.times).map(type => - ${(type + '').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%).join('\n')}).join('\n\n')} : ''}
-        `.trim()
-  
-        return await citel.reply(respon+resp2 )
-  })
-  
-  cmd({
               pattern: "whois",
               desc: "Makes photo of replied sticker.",
               category: "user",
@@ -162,227 +81,14 @@ cmd({
           }
       )
   
-  cmd({
-               pattern: "getpp",
-               desc: "Get Profile Pic For Given User",
-               category: "user",
-               filename: __filename
-           },
-           async(Void, citel, text) => {
-  
-  if (!citel.quoted) return citel.reply (*Please Reply To A User*)
-      let pfp;
-       try  {  pfp = await Void.profilePictureUrl(citel.quoted.sender, "image"); } 
-       catch (e) {  return citel.reply("Profile Pic Not Fetched") } 
-  //const ppUrl = await Void.profilePictureUrl(citel.quoted.sender, 'image')
-    
-                  let buttonMessaged = {
-  
-                              quoted: "2347039570336@s.whatsapp.net", 
-                              contextInfo: { forwardingScore: 1999999, isForwarded: false },
-                              image: { url: pfp },
-                              caption: '  ---Profile Pic Is Here---\n'+Config.caption,
-                              footer: tlang().footer,
-                              headerType: 4,
-                     
-                  };
-                  return await Void.sendMessage(citel.chat, buttonMessaged,{quoted:citel});
-  
-  
-           }
-       )
-  
-  cmd({
-          pattern: "blocklist",
-          desc: "get list of all Blocked Numbers",
-          category: "user",
-          filename: __filename,
-          use: '<text>',
-      },
-      async(Void, citel, text , {isCreator}) => {
-          if(!isCreator) return await citel.reply(tlang().owner);
-          try {
-              const data = await Void.fetchBlocklist();
-              if (data.length === 0) return await citel.reply(Uhh Dear, You don't have any Blocked Numbers.);
-              let txt = \n*≡ List*\n\n*_Total Users:* ${data.length}_\n\n┌─⊷ \t*BLOCKED USERS*\n;
-              for (let i = 0; i < data.length; i++) {      txt += ▢ ${i + 1}:- wa.me/${data[i].split("@")[0]}\n;    }
-              txt += "└───────────";
-              return await Void.sendMessage(citel.chat, { text: txt });
-            } catch (err) {
-              console.error(err);
-              return await citel.reply('*Error while getting Blocked Numbers.\nError: *' + err);
-            }
-      }
-      )
-  
-  
-  
-  cmd({
-    pattern: 'ascii',
-    desc: 'Generate ASCII art for the given text.',
-  category:"fun",
-  },
-  async (Void, citel, text) => {
-    try {
-      if (!text) {
-        await citel.reply('Please provide text for ASCII art.');
-        return;
-      }
-  
-      const url = https://asciified.thelicato.io/api/v2/ascii?text=${encodeURIComponent(text)};
-      const response = await axios.get(url);
-  
-      if (response.data && response.data.trim() !== '') {
-        await Void.sendMessage(citel.chat, { text: \\\${response.data}\\\`` });
-      } else {
-        await Void.sendMessage(citel.chat, 'Failed to generate ASCII art for the given text.');
-      }
-    } catch (error) {
-      console.error('Error in ASCII art command:', error);
-      await citel.reply(An error occurred while generating ASCII art: ${error.message});
-    }
-  });
-  
-  cmd({
-      pattern: "vcf",
-      desc: "Saves contacts of all group members in a VCF file and sends it in the group.",
-      category: "group",
-      filename: __filename,
-  },
-  async (Void, citel, text, { isCreator }) => {
-      try {
-          if (!citel.isGroup) return citel.reply(tlang().group);
-  const fs = require('fs');
-          const groupMetadata = await Void.groupMetadata(citel.chat).catch((e) => null);
-  
-          if (!groupMetadata || !groupMetadata.participants) {
-              return citel.reply('Failed to fetch group metadata or participants list.');
-          }
-  
-          const participants = groupMetadata.participants;
-  
-          const vcfData = [];
-          for (const participant of participants) {
-              const number = participant.id.split('@')[0];
-              vcfData.push(BEGIN:VCARD\nVERSION:3.0\nFN:${number}\nTEL;TYPE=CELL:${number}\nEND:VCARD);
-          }
-  
-          const groupName = groupMetadata.subject || Group ${citel.chat};
-          const vcfFileName = group_contacts_${groupName}.vcf;
-          const vcfFilePath = ./${vcfFileName};
-          
-          fs.writeFileSync(vcfFilePath, vcfData.join('\n'));
-  
-          const message = *ALL MEMBERS CONTACT SAVED*\nGroup: *${groupName}*\nContact: *${participants.length}*;
-  
-          
-          const vcfFile = fs.readFileSync(vcfFilePath);
-  
-          
-          await Void.sendMessage(citel.chat, { document: vcfFile, mimetype: 'text/vcard', filename: vcfFileName, caption: message });
-  
-          fs.unlinkSync(vcfFilePath); 
-  
-      } catch (error) {
-          console.error('Error processing vcf command:', error);
-          return citel.reply('An error occurred while processing the vcf command.');
-      }
-  });
 
-  cmd({
-  pattern: "cpu",
-  desc: "To check bot status",
-  category: "general",
-  filename: __filename,
-},
-async(Void, citel) => {
-  const os = require('os')
-  const speed = require('performance-now')
-      const used = process.memoryUsage()
-      const cpus = os.cpus().map(cpu => {
-          cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
-          return cpu
-      })
-      const cpu = cpus.reduce((last, cpu, _, { length }) => 
-      {
-          last.total += cpu.total
-          last.speed += cpu.speed / length
-          last.times.user += cpu.times.user
-          last.times.nice += cpu.times.nice
-          last.times.sys += cpu.times.sys
-          last.times.idle += cpu.times.idle
-          last.times.irq += cpu.times.irq
-          return last
-      },{ speed: 0,total: 0,times: {user: 0,nice: 0,sys: 0,idle: 0,irq: 0 } }
-      )
-    let timestamp = speed()
-    let latensi = speed() - timestamp
-    neww = performance.now()
-    oldd = performance.now()
-                  
-    respon = `
-  Response Speed ${latensi.toFixed(1)}Sec / ${(oldd - neww).toFixed(1)}ms
-  Runtime : ${runtime(process.uptime())}`
+  
+  
+  
   
 
-  let resp2 = `💻 Info Server
-  RAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}
-  
-  NodeJS Memory Usaage
-  ${Object.keys(used).map((key, _, arr) => ${key.padEnd(Math.max(...arr.map(v=>v.length)),' ')}: ${formatp(used[key])}).join('\n')}
-  
-  ${cpus[0] ? `Total CPU Usage
-  ${cpus[0].model.trim()} (${cpu.speed} MHZ)
-  ${Object.keys(cpu.times).map(type => - ${(type + '').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%).join('\n')}
-  CPU Core(s) Usage (${cpus.length} Core CPU)
-  ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)
-  ${Object.keys(cpu.times).map(type => - ${(type + '').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%).join('\n')}).join('\n\n')} : ''}
-      `.trim()
 
-      return await citel.reply(respon+resp2 )
-})
 
-cmd({
-            pattern: "whois",
-            desc: "Makes photo of replied sticker.",
-            category: "user",
-            use: '<reply to any person>',
-            filename: __filename
-        },
-async(Void, citel, text) => {
-            if (!citel.quoted) return citel.reply(Please Reply To A Person);
-            var bio = await Void.fetchStatus(citel.quoted.sender);
-            var bioo = bio.status;
-            var setAt = bio.setAt.toString();
-            
-            var words = setAt.split(" ");
-            if(words.length > 3){ setAt= words.slice(0, 5).join(' ') ; }
-             
-            var num = citel.quoted.sender.split('@')[0];
-            let pfp;
-            try  {  pfp = await Void.profilePictureUrl(citel.quoted.sender, "image"); } 
-            catch (e) { pfp = await Void.profilePictureUrl(citel.sender, "image") ||  'https://telegra.ph/file/29a8c892a1d18fdb26028.jpg' ; }    //|| 'https://telegra.ph/file/29a8c892a1d18fdb26028.jpg' ;  }
-            
-            let username = await sck1.findOne({ id: citel.quoted.sender });
-            var tname = username.name;
-
-            
-         return await Void.sendMessage(citel.chat, {
-                image: {   url: pfp  },
-                caption: `
-╔════◇
-║ 『Person's  Information』
-║ 
-║ 🚹Name : ${tname}
-║ 👤Num : ${num}
-║ 💻Bio    :  ${bioo}
-║ 🕡SetAt : ${setAt}
-╚════════════════╝
-`,
-            },{quoted:citel});
-
-        }
-    )
 
 cmd({
              pattern: "getpp",
@@ -414,28 +120,6 @@ if (!citel.quoted) return citel.reply (*Please Reply To A User*)
          }
      )
 
-cmd({
-        pattern: "blocklist",
-        desc: "get list of all Blocked Numbers",
-        category: "user",
-        filename: __filename,
-        use: '<text>',
-    },
-    async(Void, citel, text , {isCreator}) => {
-        if(!isCreator) return await citel.reply(tlang().owner);
-        try {
-            const data = await Void.fetchBlocklist();
-            if (data.length === 0) return await citel.reply(Uhh Dear, You don't have any Blocked Numbers.);
-            let txt = \n*≡ List*\n\n*_Total Users:* ${data.length}_\n\n┌─⊷ \t*BLOCKED USERS*\n;
-            for (let i = 0; i < data.length; i++) {      txt += ▢ ${i + 1}:- wa.me/${data[i].split("@")[0]}\n;    }
-            txt += "└───────────";
-            return await Void.sendMessage(citel.chat, { text: txt });
-          } catch (err) {
-            console.error(err);
-            return await citel.reply('*Error while getting Blocked Numbers.\nError: *' + err);
-          }
-    }
-    )
 
 
 
@@ -465,94 +149,7 @@ async (Void, citel, text) => {
   }
 });
 
-cmd({
-    pattern: "vcf",
-    desc: "Saves contacts of all group members in a VCF file and sends it in the group.",
-    category: "group",
-    filename: __filename,
-},
-async (Void, citel, text, { isCreator }) => {
-    try {
-        if (!citel.isGroup) return citel.reply(tlang().group);
-const fs = require('fs');
-        const groupMetadata = await Void.groupMetadata(citel.chat).catch((e) => null);
 
-        if (!groupMetadata || !groupMetadata.participants) {
-            return citel.reply('Failed to fetch group metadata or participants list.');
-        }
-
-        const participants = groupMetadata.participants;
-
-        const vcfData = [];
-        for (const participant of participants) {
-            const number = participant.id.split('@')[0];
-            vcfData.push(BEGIN:VCARD\nVERSION:3.0\nFN:${number}\nTEL;TYPE=CELL:${number}\nEND:VCARD);
-        }
-
-        const groupName = groupMetadata.subject || Group ${citel.chat};
-        const vcfFileName = group_contacts_${groupName}.vcf;
-        const vcfFilePath = ./${vcfFileName};
-        
-        fs.writeFileSync(vcfFilePath, vcfData.join('\n'));
-
-        const message = *ALL MEMBERS CONTACT SAVED*\nGroup: *${groupName}*\nContact: *${participants.length}*;
-
-        
-        const vcfFile = fs.readFileSync(vcfFilePath);
-
-        
-        await Void.sendMessage(citel.chat, { document: vcfFile, mimetype: 'text/vcard', filename: vcfFileName, caption: message });
-
-        fs.unlinkSync(vcfFilePath); 
-
-    } catch (error) {
-        console.error('Error processing vcf command:', error);
-        return citel.reply('An error occurred while processing the vcf command.');
-    }
-});
-
-cmd({
-  pattern: "insta",
-  desc: "Download Instagram video",
-  category: "downloader",
-  filename: __filename
-},
-async (Void, citel, match) => {
-  try {
-    let instaUrl = match.trim();
-    if (!instaUrl) {
-      return citel.reply('Please provide an Instagram video URL to download.');
-    }
-
-    let apiUrl = https://api.maher-zubair.tech/download/instagram?url=${encodeURIComponent(instaUrl)};
-    let response = await axios.get(apiUrl);
-    let data = response.data;
-
-    if (data && data.result && data.result.length > 0) {
-      let { thumbnail, url } = data.result[0];
-
-      await Void.sendMessage(citel.chat, {
-        video: { url: url },
-        caption: Here is your Instagram video download link.,
-        contextInfo: {
-          externalAdReply: {
-            title: "Instagram Video",
-            body: 'Touch here to download.',
-            renderLargerThumbnail: true,
-            thumbnailUrl: thumbnail,
-            mediaType: 2,
-            mediaUrl: url,
-            sourceUrl: url
-          }
-        }
-      });
-    } else {
-      await Void.sendMessage(citel.chat, { text: 'No result found.', options: { isBold: true } });
-    }
-  } catch (error) {
-    await Void.sendMessage(citel.chat, { text: *An error occurred:* ${error.message || error}, options: { isBold: true } });
-  }
-});
 
 cmd({
              pattern: "cal",
@@ -599,35 +196,7 @@ return citel.reply(`Give me Query Like :  ${prefix}calc add;10;50 `);
          }
      )
 
-     cmd({
-             pattern: "getp",
-             desc: "Get Profile Pic For Given User",
-             category: "user",
-             filename: __filename
-         },
-         async(Void, citel, text) => {
-
-if (!citel.quoted) return citel.reply (*Please Reply To A User*)
-    let pfp;
-     try  {  pfp = await Void.profilePictureUrl(citel.quoted.sender, "image"); } 
-     catch (e) {  return citel.reply("Profile Pic Not Fetched") } 
-//const ppUrl = await Void.profilePictureUrl(citel.quoted.sender, 'image')
-  
-                let buttonMessaged = {
-
-                            quoted: "923184474176@s.whatsapp.net", 
-                            contextInfo: { forwardingScore: 1999999, isForwarded: false },
-                            image: { url: pfp },
-                            caption: '  ---Profile Pic Is Here---\n'+Config.caption,
-                            footer: tlang().footer,
-                            headerType: 4,
-                   
-                };
-                return await Void.sendMessage(citel.chat, buttonMessaged,{quoted:citel});
-
-
-         }
-     )
+     
 
 cmd({
         pattern: "blocklist",
@@ -654,31 +223,7 @@ cmd({
 
   
 
-cmd({
-  pattern: 'ascii',
-  desc: 'Generate ASCII art for the given text.',
-  category: "tools",
-},
-async (Void, citel, text) => {
-  try {
-    if (!text) {
-      await citel.reply('Please provide text for ASCII art.');
-      return;
-    }
 
-    const url = https://asciified.thelicato.io/api/v2/ascii?text=${encodeURIComponent(text)};
-    const response = await axios.get(url);
-
-    if (response.data && response.data.trim() !== '') {
-      await Void.sendMessage(citel.chat, { text: \\\${response.data}\\\`` });
-    } else {
-      await Void.sendMessage(citel.chat, 'Failed to generate ASCII art for the given text.');
-    }
-  } catch (error) {
-    console.error('Error in ASCII art command:', error);
-    await citel.reply(An error occurred while generating ASCII art: ${error.message});
-  }
-});
 
 
 
@@ -761,9 +306,9 @@ async (Void, citel, match) => {
 
 
 cmd({
-  pattern: "genimage",
+  pattern: "photoleap",
   desc: "Fetch AI generated image",
-  category: "ai",
+  category: "AI",
   filename: __filename
 },
 async (Void, citel, match) => {
@@ -847,3 +392,55 @@ async (Void, citel, match) => {
   }
 });
 
+cmd({
+  pattern: "cpu",
+  desc: "To check bot status",
+  category: "general",
+  filename: __filename,
+},
+async(Void, citel) => {
+  const os = require('os')
+  const speed = require('performance-now')
+      const used = process.memoryUsage()
+      const cpus = os.cpus().map(cpu => {
+          cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
+          return cpu
+      })
+      const cpu = cpus.reduce((last, cpu, _, { length }) => 
+      {
+          last.total += cpu.total
+          last.speed += cpu.speed / length
+          last.times.user += cpu.times.user
+          last.times.nice += cpu.times.nice
+          last.times.sys += cpu.times.sys
+          last.times.idle += cpu.times.idle
+          last.times.irq += cpu.times.irq
+          return last
+      },{ speed: 0,total: 0,times: {user: 0,nice: 0,sys: 0,idle: 0,irq: 0 } }
+      )
+    let timestamp = speed()
+    let latensi = speed() - timestamp
+    neww = performance.now()
+    oldd = performance.now()
+                  
+    respon = `
+  Response Speed ${latensi.toFixed(1)}Sec / ${(oldd - neww).toFixed(1)}ms
+  Runtime : ${runtime(process.uptime())}`
+  
+
+  let resp2 = `💻 Info Server
+  RAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}
+  
+  NodeJS Memory Usaage
+  ${Object.keys(used).map((key, _, arr) => `${key.padEnd(Math.max(...arr.map(v=>v.length)),' ')}: ${formatp(used[key])}`).join('\n')}
+  
+  ${cpus[0] ? `Total CPU Usage
+  ${cpus[0].model.trim()} (${cpu.speed} MHZ)
+  ${Object.keys(cpu.times).map(type => `- ${(type + '').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}
+  CPU Core(s) Usage (${cpus.length} Core CPU)
+  ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)
+  ${Object.keys(cpu.times).map(type => `- ${(type + '').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}
+      `.trim()
+
+      return await citel.reply(respon+resp2 )
+})
