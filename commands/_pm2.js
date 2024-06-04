@@ -47,7 +47,7 @@ cmd({
          },
          async(Void, citel, text) => {
 
-if (!citel.quoted) return citel.reply (*Please Reply To A User*)
+if (!citel.quoted) return citel.reply ('Please Reply To A User')
     let pfp;
      try  {  pfp = await Void.profilePictureUrl(citel.quoted.sender, "image"); } 
      catch (e) {  return citel.reply("Profile Pic Not Fetched") } 
