@@ -14,7 +14,7 @@ const {fetchJson,cmd, tlang } = require('../lib')
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
-const { tlang, Config, prefix, cmd } = require('../lib')
+const { Config, prefix } = require('../lib')
 
     //---------------------------------------------------------------------------
 cmd({
@@ -239,39 +239,44 @@ cmd({
     }
 )
 
-#
-events.cmd({
-  pattern: 'ly',
-  desc: 'Get lyrics for a song.',
-  category: 'music',
-  use: '<song>',
+cmd({
+  pattern: "lyrics",
+  desc: "Fetch song lyrics",
+  category: "search",
   filename: __filename
 },
-async (Void, citel, song) => {
+async (Void, citel, match) => {
   try {
-    let apiUrl = https://api.popcat.xyz/lyrics?song=${encodeURIComponent(song)};
-    console.log('Fetching lyrics from API...');
-    
+    let songName = match.trim();
+    if (!songName) {
+      return citel.reply('Please provide a song name to fetch the lyrics.');
+    }
+
+    let apiUrl = `https://api.popcat.xyz/lyrics?song=${encodeURIComponent(songName)}`;
     let response = await axios.get(apiUrl);
+    let data = response.data;
 
-    if (response && response.data) {
-      let { title, image, artist, lyrics } = response.data;
+    if (data && data.lyrics) {
+      let { title, image, artist, lyrics } = data;
 
-      console.log('Sending lyrics and thumbnail...');
       await Void.sendMessage(citel.chat, {
-        text: *${title}*\n\n*Artist:* ${artist}\n\n${lyrics},
-        image: { url: image },
+        text: `*Title:* ${title}\n*Artist:* ${artist}\n\n${lyrics}`,
         contextInfo: {
-          forwardingScore: 2,
-          isForwarded: true
+          externalAdReply: {
+            title: title,
+            body: `Artist: ${artist}\nPowered by IZUKU-MD`,
+            renderLargerThumbnail: true,
+            thumbnailUrl: image,
+            mediaType: 1,
+            mediaUrl: image,
+            sourceUrl: image
+          }
         }
       });
     } else {
-      console.error('Empty or invalid response from the API');
-      await Void.sendMessage(citel.chat, { text: 'An error occurred while fetching lyrics.' });
+      await Void.sendMessage(citel.chat, { text: '*No lyrics found.*', options: { isBold: true } });
     }
   } catch (error) {
-    console.error('Error in lyrics command:', error);
-    await Void.sendMessage(citel.chat, { text: An error occurred: ${error.message} });
+    await Void.sendMessage(citel.chat, { text: `*An error occurred:* ${error.message || error}`, options: { isBold: true } });
   }
 });

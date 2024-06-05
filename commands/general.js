@@ -145,7 +145,51 @@ cmd({
 
     }
 )
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------
+cmd({
+  pattern: "photoleap",
+  desc: "Fetch AI generated image",
+  category: "AI",
+  filename: __filename
+},
+async (Void, citel, match) => {
+  try {
+    let query = match.trim();
+    if (!query) {
+      return citel.reply('Please provide a query for the AI.');
+    }
+
+    let apiUrl = `https://api.maher-zubair.tech/ai/photoleap?q=${encodeURIComponent(query)}`;
+    let response = await axios.get(apiUrl);
+    let data = response.data;
+
+    if (data && data.result) {
+      let imageUrl = data.result;
+
+      await Void.sendMessage(citel.chat, {
+        image: { url: imageUrl },
+        caption: `*Generated Image for:* ${query}`,
+        contextInfo: {
+          externalAdReply: {
+            title: "AI Generated Image",
+            body: "Powered by IZUKU-MD",
+            renderLargerThumbnail: true,
+            thumbnailUrl: "https://telegra.ph/file/4acb84ceefff1c9410aca.jpg",
+            mediaType: 1,
+            mediaUrl: imageUrl,
+            sourceUrl: imageUrl
+          }
+        }
+      });
+    } else {
+      await Void.sendMessage(citel.chat, { text: '*No result found.*', options: { isBold: true } });
+    }
+  } catch (error) {
+    await Void.sendMessage(citel.chat, { text: `*An error occurred:* ${error.message || error}`, options: { isBold: true } });
+  }
+});
+
+//------------------------------------
 cmd({
         pattern: "status",
         alias: ["about"],
@@ -208,3 +252,45 @@ return citel.reply(str)
     
 }
 )
+//----------------------------------------------------------------
+cmd({
+  pattern: "gpt4",
+  desc: "Interact with CHATGPT4",
+  category: "AI",
+  filename: __filename,
+},
+async (Void, citel, match) => {
+  try {
+    let query = match.trim();
+    if (!query) {
+      return citel.reply('Please provide a query for the AI.');
+    }
+
+    let apiUrl = `https://api.maher-zubair.tech/ai/chatgpt4?q=${encodeURIComponent(query)}`;
+    let response = await axios.get(apiUrl);
+    let data = response.data;
+
+    if (data && data.result) {
+      let aiResponse = data.result;
+      let imageUrl = "https://telegra.ph/file/500f5ad11c3c31060fd01.jpg";
+
+      await Void.sendMessage(citel.chat, {
+        text: aiResponse,
+        contextInfo: {
+          externalAdReply: {
+            title: "AI Response",
+            body: aiResponse,
+            renderLargerThumbnail: true,
+            thumbnail: await (await axios.get(imageUrl, { responseType: 'arraybuffer' })).data,
+            mediaType: 1,
+            sourceUrl: '',
+          }
+        }
+      });
+    } else {
+      await Void.sendMessage(citel.chat, { text: '*No response from AI.*', options: { isBold: true } });
+    }
+  } catch (error) {
+    await Void.sendMessage(citel.chat, { text: `*An error occurred:* ${error.message || error}`, options: { isBold: true } });
+  }
+});
