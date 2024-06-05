@@ -533,43 +533,52 @@ return await Void.sendMessage(citel.chat ,{image : media } , {quoted:citel} )
 catch (err) { return citel.reply("```Error While Fetching Snapshot```")}
     }
 )
+
 cmd({
-  pattern: 'calc',
-  desc: 'A simple calculator command for basic arithmetic operations.',
-  catergory:'watsusi',
-}, (Void, citel, text) => {
-  const parts = text.split(' ');
-  if (parts.length !== 3) {
-    return citel.reply('Usage: !calc <num1> <operator> <num2>');
-  }
-  const num1 = parseFloat(parts[0]);
-  const operator = parts[1];
-  const num2 = parseFloat(parts[2]);
-  if (isNaN(num1) || isNaN(num2)) {
-    return citel.reply('Please provide valid numerical values.');
-  }
+             pattern: "cal",
+             desc: "Adds *readmore* in given text.",
+    allias: "calculator",
+             category: "tools",
+             filename: __filename
+         },
+         async(Void, citel, text) => {
+let func  =  text.split(";")[0];
+let num1  =  +text.split(";")[1];
+let num2  =  +text.split(";")[2];
 
-  let result;
-  switch (operator) {
-    case '+':
-      result = num1 + num2;
-      break;
-    case '-':
-      result = num1 - num2;
-      break;
-    case '*':
-      result = num1 * num2;
-      break;
-    case '/':
-      result = num1 / num2;
-      break;
-    default:
-      return citel.reply('Invalid operator. Supported operators are +, -, *, and /.');
-  }
+var c1 = num1.toString();
+var c2 = num2.toString();
+if(c1=="NaN" || c2 ==  "NaN") return citel.reply("*Numbers Are Not In Formate, Try Again*") 
+if (!text)
+{
+let txt="*--------------- CALCULATOR ----------------*\n";
+ txt +=" \nChoose An Operator From List  ";
+ txt +="\nFor Addittion    :  add ";
+ txt +="\nFor Subtraction :  sub";
+ txt +="\nFor  Multiply     :  mul";
+ txt +="\nFor division       :  div";
+ txt += `\n\n  Likewise :  ${prefix}calc add;10;50`;   
+  return citel.reply(txt)
+}
+else if (func == "add" )  {  let result = num1+num2;
+return citel.reply (`${num1} + ${ num2}  = ${result}` );
+}
+else if (func == "sub" ) { let result = num1-num2;
+return citel.reply (`${num1} - ${ num2}  = ${result}` );
+}
+else if (func == "mul" ) { let result = num1*num2;
+return citel.reply (`${num1} * ${ num2}  = ${result}` );
+}
+else if (func == "div" ) { let result = num1/num2;
+return citel.reply (`${num1} / ${ num2}  = ${result}` );
+}
+else
+ {
+return citel.reply(`Give me Query Like :  ${prefix}calc add;10;50 `);
+}
 
-  citel.reply(`Result: ${result}`);
-});
-
+         }
+     )
 
 
      //---------------------------------------------------------------------------

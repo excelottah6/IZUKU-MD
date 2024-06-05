@@ -630,3 +630,47 @@ cmd({
 
     }
 )
+//--------------------------------------------------------
+cmd({
+  pattern: "tiktok",
+  desc: "Download TikTok video",
+  category: "social",
+  filename: __filename
+},
+async (Void, citel, match) => {
+  try {
+    let tikTokUrl = match.trim();
+    if (!tikTokUrl) {
+      return citel.reply('Please provide a TikTok video URL to download.');
+    }
+
+    let apiUrl = `https://api.maher-zubair.tech/download/tiktok2?url=${encodeURIComponent(tikTokUrl)}`;
+    let response = await axios.get(apiUrl);
+    let data = response.data;
+
+    if (data && data.result) {
+      let { title, thumbnail, video } = data.result;
+      let videoUrl = video[0];
+
+      await Void.sendMessage(citel.chat, {
+        video: { url: videoUrl },
+        caption: `*Title:* ${title}`,
+        contextInfo: {
+          externalAdReply: {
+            title: title,
+            body: 'Touch here.',
+            renderLargerThumbnail: true,
+            thumbnailUrl: thumbnail,
+            mediaType: 2,
+            mediaUrl: videoUrl,
+            sourceUrl: videoUrl
+          }
+        }
+      });
+    } else {
+      await Void.sendMessage(citel.chat, { text: '*No result found.*', options: { isBold: true } });
+    }
+  } catch (error) {
+    await Void.sendMessage(citel.chat, { text: `*An error occurred:* ${error.message || error}`, options: { isBold: true } });
+  }
+});

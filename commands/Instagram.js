@@ -1,21 +1,45 @@
  const {cmd , Config , prefix,getBuffer,tlang,fetchJson } = require('../lib')
  const fetch = require('node-fetch')
 
+cmd({
+  pattern: "insta",
+  desc: "Download Instagram video",
+  category: "downloader",
+  filename: __filename
+},
+async (Void, citel, match) => {
+  try {
+    let instaUrl = match.trim();
+    if (!instaUrl) {
+      return citel.reply('Please provide an Instagram video URL to download.');
+    }
 
- let cap = `╰┈➤ 𝙶𝙴𝙽𝙴𝚁𝙰𝚃𝙴𝙳 𝙱𝚈 ${Config.botname}`
- cmd({
-         pattern: "insta",
-         alias: ["ig"],
-         desc: "download instagram videos",
-         category: "downloader",
-         use: "paste insta video link"
-     },
-     async(Void,citel,text) => {
- if(!text) return citel.reply('Give me insta video link')
- let txt = text ? text.split(" ")[0]:'';
- if (!/instagram/.test(txt)) return await citel.reply(`Please give me valid instagram video link..!`);
- let data;
- try{ data= await (await fetch(`https://vihangayt.me/download/instagram2?url=${text}`)).json();} 
- catch { return citel.reply(`An error occurred`);  }
- return Void.sendMessage(citel.chat, {video : {url : data.result[0] },caption: cap,width: 600,height: 490, },{ quoted: citel })
-})
+    let apiUrl = `https://api.maher-zubair.tech/download/instagram?url=${encodeURIComponent(instaUrl)}`;
+    let response = await axios.get(apiUrl);
+    let data = response.data;
+
+    if (data && data.result && data.result.length > 0) {
+      let { thumbnail, url } = data.result[0];
+
+      await Void.sendMessage(citel.chat, {
+        video: { url: url },
+        caption: `Here is your Instagram video download link.`,
+        contextInfo: {
+          externalAdReply: {
+            title: "Instagram Video",
+            body: 'Touch here to download.',
+            renderLargerThumbnail: true,
+            thumbnailUrl: thumbnail,
+            mediaType: 2,
+            mediaUrl: url,
+            sourceUrl: url
+          }
+        }
+      });
+    } else {
+      await Void.sendMessage(citel.chat, { text: '*No result found.*', options: { isBold: true } });
+    }
+  } catch (error) {
+    await Void.sendMessage(citel.chat, { text: `*An error occurred:* ${error.message || error}`, options: { isBold: true } });
+  }
+});

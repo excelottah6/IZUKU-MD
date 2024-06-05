@@ -210,3 +210,43 @@ async (Void, citel) => {
     citel.reply(`Error: ${error.message || error}`);
   }
 });
+//-----------------------------------_---------------------#
+
+cmd({
+  pattern: "wouldyourather",
+  alias: "wyr",
+  desc: "Would You Rather question",
+  category: "fun",
+  filename: __filename
+},
+async (Void, citel, match) => {
+  try {
+    let apiUrl = 'https://api.popcat.xyz/wyr';
+    let response = await axios.get(apiUrl);
+    let data = response.data;
+
+    if (data && data.ops1 && data.ops2) {
+      let { ops1, ops2 } = data;
+      let imageUrl = 'https://telegra.ph/file/b7861f3b2d9136fb78295.jpg';
+
+      await Void.sendMessage(citel.chat, {
+        text: `*Would You Rather:*\n1. ${ops1}\n2. ${ops2}`,
+        contextInfo: {
+          externalAdReply: {
+            title: "Would You Rather",
+            body: 'Powered by IZUKU-MD',
+            renderLargerThumbnail: true,
+            thumbnail: { url: imageUrl },
+            mediaType: 1,
+            mediaUrl: '',
+            sourceUrl: ''
+          }
+        }
+      });
+    } else {
+      await Void.sendMessage(citel.chat, { text: '*No question found.*', options: { isBold: true } });
+    }
+  } catch (error) {
+    await Void.sendMessage(citel.chat, { text: `*An error occurred:* ${error.message || error}`, options: { isBold: true } });
+  }
+});
