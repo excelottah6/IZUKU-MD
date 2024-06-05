@@ -14,7 +14,7 @@ const {fetchJson,cmd, tlang } = require('../lib')
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
-const { Config, prefix } = require('../lib')
+const { tlang, Config, prefix, cmd } = require('../lib')
 
     //---------------------------------------------------------------------------
 cmd({
@@ -239,8 +239,9 @@ cmd({
     }
 )
 
-cmd({
-  pattern: 'lyrics',
+#
+events.cmd({
+  pattern: 'ly',
   desc: 'Get lyrics for a song.',
   category: 'music',
   use: '<song>',
