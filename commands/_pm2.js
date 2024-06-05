@@ -1,6 +1,5 @@
-/*
- *
- ██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
+/**
+██╗███████╗██╗   ██╗██╗  ██╗██╗   ██╗    ███╗   ███╗██████╗ 
 ██║╚══███╔╝██║   ██║██║ ██╔╝██║   ██║    ████╗ ████║██╔══██╗
 ██║  ███╔╝ ██║   ██║█████╔╝ ██║   ██║    ██╔████╔██║██║  ██║
 ██║ ███╔╝  ██║   ██║██╔═██╗ ██║   ██║    ██║╚██╔╝██║██║  ██║
@@ -11,25 +10,25 @@
  Licensed under the  GPL-3.0 License;
  You may not use this file except in compliance with the License.
  It is supplied in the hope that it may be useful.
- * @project_name : Secktor-Md
- * @author : SamPandey001 <https://github.com/SamPandey001>
- * @description : Secktor,A Multi-functional whatsapp bot.
+ * @project_name : Izuku-Md
+ * @author : excel <https://github.com/excelottah6>
+ * @description : Izuku,A Multi-functional whatsapp bot.
  * @version 0.0.6
- *
- */
+ **/
 
-const {cmd} = require('../lib')
-const PastebinAPI = require("pastebin-js");
-pastebin = new PastebinAPI("EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL");
+//---------------------------------------------------------------------------
+const {cmd,tlang,sleep} = require('../lib')
 cmd({
-        pattern: "pastebin",
-        desc: "To check ping",
-        category: "extra",
-        filename: __filename,
+        pattern: "restart",
+        desc: "To restart bot",
+        category: "tools",
+        filename: __filename
     },
-    async(Void, citel) => {
-        if(!citel.quoted) return citel.reply('Please quote any text to get link.')
-        let data = await pastebin.createPaste(citel.quoted.text, "Secktor-Pastebin")
-        citel.reply('_Here is your link._\n'+data)
+    async(Void, citel,text,{ isCreator }) => {
+   if (!isCreator) return citel.reply(tlang().owner)
+            const { exec } = require("child_process")
+            citel.reply('Restarting')
+            await sleep(2000)
+            exec('pm2 restart all')
     }
 );
