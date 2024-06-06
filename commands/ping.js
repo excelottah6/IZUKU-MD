@@ -48,7 +48,7 @@ async (Void, citel) => {
 });
 //---------------------------------------------------------
 
-cmd({
+Secktor.cmd({
   pattern: "cpu",
   desc: "To check bot status",
   category: "general",
