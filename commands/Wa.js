@@ -107,6 +107,7 @@ cmd({
 )
 
 //---------------------------------------------------------------------------
+
 cmd({
     pattern: "gdesc",
     alias : ['setgdesc','setdesc'],
@@ -129,14 +130,9 @@ async(Void, citel, text,{ isCreator }) => {
         await Void.groupUpdateDescription(citel.chat, text);
         citel.reply('*_Group description Updated Successfuly!_*') 
         return await Void.sendMessage(citel.chat, { react: { text: '', key: citel.key }});
-    } catch(e) { return await groupAdmins.map(v => v.id) ,]}
-    
-    
-    
-   )
+    } catch(e) { return await Void.sendMessage(users , {text :"Error While Updating Group Description\nReason : " + e, } ,{quoted : citel})   }
 }
-
-
+)
 //———————————————————————————————————
 
 cmd({
