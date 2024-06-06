@@ -35,7 +35,7 @@ cmd({
         citel.reply('_Here is your link._\n'+data)
     }
 );
-<<<<<<< HEAD
+
 
 
  
@@ -85,6 +85,6 @@ async (Void, citel) => {
         citel.reply(`*An error occurred while processing your request:* ${error.message || error}`);
     }
 });
-=======
+
 //---------------------------------------------------------------------------
->>>>>>> 0060bfb0 (IZUKU V2.0.0)
+
