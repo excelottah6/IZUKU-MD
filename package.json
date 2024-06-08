@@ -3,6 +3,10 @@
   "version": "0.0.7",
   "description": "Multi device whatsapp bot by excelottah6.",
   "main": "lib/client.js",
+    "engines" : { 
+    "npm" : ">=9.7.2",
+    "node" : ">=20.0.0"
+    },
   "type": "commonjs",
   "license": "GPL-3.0",
   "scripts": {
